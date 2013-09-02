@@ -8,6 +8,7 @@ public class BoardState {
 	// add something with players.
 	
 	public BoardState(){
+		//sets up empty board and adds all pieces to unused list
 		for (int i = 0 ; i < 4 ; i++){
 			for (int j = 0 ; j < 4 ; j++){
 				board[j][i] = null;
@@ -46,6 +47,7 @@ public class BoardState {
 	}
 	
 	
+	//returns a 10-by-4 list of all the 10 possible rows to win
 	private Piece[][] getRowsAndColumns(){
 		Piece[][] returnList = new Piece[10][4];
 		//
@@ -67,30 +69,45 @@ public class BoardState {
 		return returnList;
 	}
 	
-	
+	//checks winning conditions or a draw (all pieces used)
 	public boolean isGameOver(){
 		if ( remainingPieces.isEmpty() ){
 			return true;
 		}
 		Piece[][] checkList = getRowsAndColumns();
 		
-		
-		
-		
-		
-		
+		for (int i = 0 ; i < 10 ; i++){
+			if (compareRow(checkList[i])) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
+	//check if a row of pieces has atleast one feature in common
 	public boolean compareRow(Piece[] row){
+		
+        boolean color = true;
+        boolean size = true;
+        boolean squareness = true;
+        boolean structure = true;
+		
 		if (row == null) {
 			return false;
 		}
 		for (int i = 0 ; i < row.length ; i++){
+			if (row[i] == null){
+				return false;
+			}
 			
+			color = color && 			row[0].getFeatures()[0] == row[i].getFeatures()[0];
+			size = size && 				row[0].getFeatures()[1] == row[i].getFeatures()[1];
+			squareness = squareness && 	row[0].getFeatures()[2] == row[i].getFeatures()[2];
+			structure = structure && 	row[0].getFeatures()[3] == row[i].getFeatures()[3];		
 		}
 		
-		
-		return false;
+		return color || size || squareness || structure;
+	
 	}
 	
 	

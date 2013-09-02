@@ -9,6 +9,7 @@ public class Piece {
 		feature[3] = round;
 	}
 	
+	//unused so far
 	public boolean sameFeature(Piece other){
 		for (int i = 0; i < 4; i++){
 			if (this.feature[i]==other.feature[i]){
@@ -16,6 +17,10 @@ public class Piece {
 			}
 		}
 		return false;
+	}
+	
+	public boolean[] getFeatures(){
+		return feature;
 	}
 	
 	
