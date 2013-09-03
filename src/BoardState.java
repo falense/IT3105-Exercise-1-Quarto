@@ -5,6 +5,7 @@ public class BoardState {
 
 	private Piece[][] board = new Piece[4][4];
 	private ArrayList<Piece> remainingPieces;
+	private Piece currentPiece = null;
 	// add something with players.
 	
 	public BoardState(){
@@ -44,6 +45,9 @@ public class BoardState {
 	
 	private boolean hasPiece(int x, int y){
 		return board[y][x]!=null;
+	}
+	private boolean isEmpty(int x, int y){
+		return board[y][x]==null;
 	}
 	
 	
@@ -109,6 +113,49 @@ public class BoardState {
 		return color || size || squareness || structure;
 	
 	}
+	
+	//should probably be rewritten to a void and handle exceptions elsewhere.
+	public boolean placePiece(Piece piece, int x, int y){
+		if (x < 0 || 3 < x || y < 0 || 3 < y ){			//making sure coords are ok
+			return false;
+		} else if (isEmpty(x,y)) {	//making sure slot is empty
+			return false;
+		} else if (!currentPiece.equals(piece))	{		//making sure the chosen piece is being used
+			
+		} else {
+			board[y][x] = piece;
+		}
+		return true;
+	}
+	
+	public boolean pickPiece(Piece piece){
+		if (remainingPieces.isEmpty()) {
+			return false;
+		}
+		if (remainingPieces.contains(piece)){
+			currentPiece = piece;
+			remainingPieces.remove(piece);
+			return true;
+		}
+		return false;
+	}
+	
+	public ArrayList<Piece> getRemainingPieces(){
+		//think a shallow copy is sufficient here
+		ArrayList<Piece> remList = new ArrayList<Piece>(remainingPieces);	
+		return remList;
+	}
+	
+	public Piece[][] getBoard(){
+            Piece[][] boardCopy = new Piece[board.length][board[0].length];
+            for(int i = 0; i < board.length; i++) {
+                    for(int j = 0; j < board[i].length; j++) {
+                    	boardCopy[i][j] = board[i][j];
+                    }
+            }
+            return boardCopy;
+	}
+	
 	
 	
 	
