@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import board.BoardState;
+
 
 public class GUI {
 	JFrame frame;
