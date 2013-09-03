@@ -19,7 +19,7 @@ public class GUI {
 	BufferedImage loadImage(String filename){
 		BufferedImage pict = null;
 		try {
-			pict = ImageIO.read(new File(filename));
+			pict = ImageIO.read(new File("./Resources/" + filename));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
