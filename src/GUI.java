@@ -1,10 +1,12 @@
 import java.awt.Component;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,8 +33,10 @@ public class GUI {
         g.setHgap(5);
         g.setVgap(5);
 		boardPanel = new JPanel(g);
+		JPanel layout = new JPanel(new GridBagLayout());
+		layout.add(boardPanel);
 		
-		frame.add(boardPanel);
+		frame.add(layout);
 		boardPanel.add(new JLabel());
 		boardPanel.add(new JLabel());
 		boardPanel.add(new JLabel());

@@ -21,7 +21,7 @@ public class Piece {
 		feature[1] = small;			//small or large
 		feature[2] = round;			//round or square
 		feature[3] = hollow;		//hollow or solid
-		String name = "";
+		name = "";
 		if (red) name += "R";
 		else name += "B";
 
