@@ -1,9 +1,7 @@
 import players.BasePlayer;
-import players.HumanPlayer;
 import players.ai.RandomAI;
 import board.BoardState;
 import board.Move;
-import board.StaticPieces;
 
 
 public class GM implements Runnable {
@@ -12,7 +10,7 @@ public class GM implements Runnable {
 	private GUI g;
 	private BasePlayer p1,p2;
 	
-	private int winner = -1;
+	public int winner = -1;
 	public GM(){
 
 		g = new GUI();
@@ -27,6 +25,15 @@ public class GM implements Runnable {
 	}
 	private void printError(String str){
 		System.err.println("GameMaster: " + str);
+	}
+	private void sleep(long time){
+
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public void run(){
 		Move p1move  = new Move(null,null,-1,-1);
@@ -56,7 +63,7 @@ public class GM implements Runnable {
 		System.out.println("************* END OF PLAYER 1 TURN *************");
 		
 		while (!state.isGameOver()){
-
+			sleep(500);
 			System.out.println("************* PLAYER 2 TURN *************");
 			p2move = p2.getNextMove(state, p1move.pieceToGiveOpponent);
 			r = state.placePiece(p2move.pieceToPlace, p2move.x,p2move.y);
@@ -79,6 +86,7 @@ public class GM implements Runnable {
 			}
 
 
+			sleep(500);
 			System.out.println("************* PLAYER 1 TURN *************");
 			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
 			System.out.println(state);
@@ -101,11 +109,20 @@ public class GM implements Runnable {
 				winner = 1;
 			}
 		}
+		g.cleanup();
 	}
 	public static void main(String[] args)
     {
-		GM g = new GM();
-		Thread t = new Thread(g, "Quarto 1");
-		t.start();
+
+		GM g,g2;
+		while(true){
+			g = new GM();
+			Thread t = new Thread(g, "Quarto 1");
+			t.start();
+			t = new Thread(g, "Quarto 1");
+			t.start();
+
+			while(g.winner == -1);
+		}
 	}
 }

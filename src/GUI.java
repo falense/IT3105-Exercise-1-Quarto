@@ -1,6 +1,7 @@
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +23,9 @@ public class GUI {
 	JPanel boardPanel;
 	JPanel remainingPanel;
 	JPanel currentStatus;
-	
+	public void cleanup(){
+		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+	}
 
 	public GUI(){
 		frame = new JFrame("QUARTO");
