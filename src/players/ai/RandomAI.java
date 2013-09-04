@@ -35,7 +35,7 @@ public class RandomAI extends BaseAI {
 		System.out.println(BaseAI.class.getName() + " Picking a piece for the opponent");
 		Piece give = remaining.get(r.nextInt(remaining.size()));
 		
-		
+		System.out.println(b.isEmpty(x, y));
 		System.out.println(BaseAI.class.getName() + ": Piece " + place.getName() + " was placed at (" + x + "," + y + "). Chose " + give.getName() + " for the opponent.");
 		return new Move(place,give,x,y);
 	}

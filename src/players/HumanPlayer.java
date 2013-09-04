@@ -13,7 +13,6 @@ import board.StaticPieces;
 
 
 public class HumanPlayer implements BasePlayer{
-
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
 		
@@ -43,33 +42,38 @@ public class HumanPlayer implements BasePlayer{
 				}
 			}
 		}
-		System.out.println("Please place piece: " + place.getName());
-		int x = -1, y = -1;
-		
-		while (x == -1){
 
-			System.out.print("X-coordinate (0-indexed): ");
-			String xstr;
-			try {
-				xstr = in.readLine();
-				x = Integer.parseInt(xstr);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				xstr = "";
+		int x = -1, y = -1;
+		while ((x == -1 || y == -1) || !state.isEmpty(x,y)){
+			x = -1; 
+			y = -1;
+			System.out.println("Please place piece: " + place.getName());
+	
+			while (x == -1){
+	
+				System.out.print("X-coordinate (0-indexed): ");
+				String xstr;
+				try {
+					xstr = in.readLine();
+					x = Integer.parseInt(xstr);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					xstr = "";
+				}
 			}
-		}
-		
-		while (y == -1){
-			System.out.print("Y-coordinate (0-indexed): ");
-			String ystr;
-			try {
-				ystr = in.readLine();
-				y = Integer.parseInt(ystr);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				ystr = "";
+			
+			while (y == -1){
+				System.out.print("Y-coordinate (0-indexed): ");
+				String ystr;
+				try {
+					ystr = in.readLine();
+					y = Integer.parseInt(ystr);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					ystr = "";
+				}
 			}
 		}
 		
@@ -100,9 +104,9 @@ public class HumanPlayer implements BasePlayer{
 		}
 		
 
-		return new Move(StaticPieces.RLCH,StaticPieces.RLSH,0,0);
+		//return new Move(StaticPieces.RLCH,StaticPieces.RLSH,0,0);
 		
-		//return new Move(place,give,x,y);
+		return new Move(place,give,x,y);
 	}
 
 }

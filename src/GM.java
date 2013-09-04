@@ -8,9 +8,9 @@ import board.StaticPieces;
 
 public class GM implements Runnable {
 	
-	private final BoardState state;
-	private final GUI g;
-	private final BasePlayer p1,p2;
+	private BoardState state;
+	private GUI g;
+	private BasePlayer p1,p2;
 	
 	private int winner = -1;
 	public GM(){
@@ -23,7 +23,7 @@ public class GM implements Runnable {
 		System.out.println(state.getPiece(1, 1));*/
 		g.updateBoard(state);
 		p1 = (BasePlayer) new RandomAI();
-		p2 = (BasePlayer) new RandomAI();
+		p2 = (BasePlayer) new HumanPlayer();
 	}
 	private void printError(String str){
 		System.err.println("GameMaster: " + str);
@@ -83,6 +83,7 @@ public class GM implements Runnable {
 			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
 			System.out.println(state);
 			r = state.placePiece(p1move.pieceToPlace, p1move.x,p1move.y);
+			System.out.println(state.isEmpty(p1move.x, p1move.y));
 			if (!r){
 				printError(" Player 1s placing of the piece was invalid.");
 				return;

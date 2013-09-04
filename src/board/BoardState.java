@@ -161,9 +161,16 @@ public class BoardState {
 			printError("Player tried to use a different piece than the one supplied");
 			return false;
 		} else {
-			board[y][x] = piece;
+			if (piece == null){
+
+				printError("Player tried to place a null piece");
+				
+				return false;
+			}
+			else System.out.println(piece);
+			board[x][y] = piece;
+			return true;
 		}
-		return true;
 	}
 	
 	public boolean pickPiece(Piece piece){
