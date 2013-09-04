@@ -13,7 +13,7 @@ public class BoardState {
 		//sets up empty board and adds all pieces to unused list
 		for (int i = 0 ; i < 4 ; i++){
 			for (int j = 0 ; j < 4 ; j++){
-				board[j][i] = null;
+				board[i][j] = null;
 			}
 		}
 		remainingPieces = new ArrayList<Piece>();
@@ -41,6 +41,7 @@ public class BoardState {
 		
 		remainingPieces.add(StaticPieces.BSSH);
 		remainingPieces.add(StaticPieces.BSSN);
+		
 		
 /*		//all true
 		remainingPieces.add(new Piece(true, true, true, true));
@@ -71,11 +72,11 @@ public class BoardState {
 	public Piece getPiece(int x, int y){
 		return board[x][y];
 	}
-	private boolean hasPiece(int x, int y){
-		return board[y][x]!=null;
+	public boolean hasPiece(int x, int y){
+		return !isEmpty(x,y);
 	}
-	private boolean isEmpty(int x, int y){
-		return board[y][x]==null;
+	public boolean isEmpty(int x, int y){
+		return board[x][y] == null;
 	}
 	
 	
@@ -153,14 +154,12 @@ public class BoardState {
 			printError("Coordinates out of bounds when placing piece");
 			return false;
 			
-		/**
-		 * This code is not working as intended
-		 */
-		} else if (isEmpty(x,y) && false) {	//making sure slot is empty
+		} else if (!isEmpty(x,y)) {	//making sure slot is empty
 			printError("Slot not empty when placing piece");
 			return false;
 		} else if (!currentPiece.equals(piece))	{		//making sure the chosen piece is being used
-			
+			printError("Player tried to use a different piece than the one supplied");
+			return false;
 		} else {
 			board[y][x] = piece;
 		}
