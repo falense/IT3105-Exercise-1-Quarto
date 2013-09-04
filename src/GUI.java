@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,59 +11,78 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import board.BoardState;
+import board.Piece;
+import board.StaticPieces;
 
 
 public class GUI {
 	JFrame frame;
 	JPanel p;
 	
-	BufferedImage loadImage(String filename){
-		BufferedImage pict = null;
-		try {
-			pict = ImageIO.read(new File("./Resources/" + filename));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			pict = null;
-		}
-		return pict;
-		
-	}
+
 	public GUI(){
 		frame = new JFrame("QUARTO");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
         
-        
-		p = new JPanel(new GridLayout(4,4));
+        GridLayout g = new GridLayout(4,4);
+        g.setHgap(5);
+        g.setVgap(5);
+		p = new JPanel(g);
 		
 		frame.add(p);
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
+		p.add(new JLabel());
 		updateBoard(null);
-		updateBoard(null);
-        //Display the window.
         frame.pack();
+        //Display the window.
         frame.setVisible(true);
 	}
+	public void updatePiece(Piece i, int x, int y){
+		if (x+y*4 >= 16 || x+y*4 < 0){
+			System.err.println("Index out of bounds");
+			return;
+		}
+		JLabel t = (JLabel) p.getComponent(x+y*4);
+		if (i == null){
+			try {
+				BufferedImage b = ImageIO.read(new File("./Resources/Template.jpg"));
+				ImageIcon j = new ImageIcon(b);
+				t.setIcon(j);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else{
+			t.setIcon(i.getIcon());
+			t.invalidate();
+		}
+	}
 	public void updateBoard(BoardState b){
-		if (b == null){
-			p.invalidate();
-			p.add(new JLabel(new ImageIcon(loadImage("RLSN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("RLSH.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("RLCN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("RLCH.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("RSSN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("RSSH.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("RSCN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("RSCH.jpg"))));
-
-			p.add(new JLabel(new ImageIcon(loadImage("BLSN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("BLSH.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("BLCN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("BLCH.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("BSSN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("BSSH.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("BSCN.jpg"))));
-			p.add(new JLabel(new ImageIcon(loadImage("BSCH.jpg"))));
+		if (b != null){
+			for (int i = 0; i < 4; i++)
+				for (int j = 0; j < 4;j++)
+					updatePiece(b.getPiece(i, j),i,j);
+		}
+		else{
+			for (int i = 0; i < 4; i++)
+				for (int j = 0; j < 4;j++)
+					updatePiece(null,i,j);
 		}
 	}
 }

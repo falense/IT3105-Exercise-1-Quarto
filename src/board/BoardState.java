@@ -17,7 +17,32 @@ public class BoardState {
 			}
 		}
 		remainingPieces = new ArrayList<Piece>();
-		//all true
+
+		remainingPieces.add(StaticPieces.RLCH);
+		remainingPieces.add(StaticPieces.RLCN);
+		
+		remainingPieces.add(StaticPieces.RSCH);
+		remainingPieces.add(StaticPieces.RSCN);
+
+		remainingPieces.add(StaticPieces.RLSH);
+		remainingPieces.add(StaticPieces.RLSN);
+		
+		remainingPieces.add(StaticPieces.RSSH);
+		remainingPieces.add(StaticPieces.RSSN);
+
+		remainingPieces.add(StaticPieces.BLCH);
+		remainingPieces.add(StaticPieces.BLCN);
+		
+		remainingPieces.add(StaticPieces.BSCH);
+		remainingPieces.add(StaticPieces.BSCN);
+
+		remainingPieces.add(StaticPieces.BLSH);
+		remainingPieces.add(StaticPieces.BLSN);
+		
+		remainingPieces.add(StaticPieces.BSSH);
+		remainingPieces.add(StaticPieces.BSSN);
+		
+/*		//all true
 		remainingPieces.add(new Piece(true, true, true, true));
 		//3x true
 		remainingPieces.add(new Piece(true, true, true, false));
@@ -39,11 +64,13 @@ public class BoardState {
 		// all false
 		remainingPieces.add(new Piece(false, false, false, false));
 		//done (i hope)
-		
+*/		
 		
 	}
 	
-	
+	public Piece getPiece(int x, int y){
+		return board[x][y];
+	}
 	private boolean hasPiece(int x, int y){
 		return board[y][x]!=null;
 	}

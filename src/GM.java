@@ -14,6 +14,7 @@ public class GM {
 		
 		g = new GUI();
 		state = new BoardState();
+		g.updateBoard(state);
 		p1 = (BasePlayer) new AlphaBetaAI();
 	}
 	public static void main(String[] args)
