@@ -14,7 +14,7 @@ public class RandomAI extends BaseAI {
 		// TODO Auto-generated method stub
 		ArrayList<Piece> remaining = b.getRemainingPieces();
 		
-		Random r = new Random(0);
+		Random r = new Random(System.currentTimeMillis());
 		
 		if (place == null){
 			System.out.println(BaseAI.class.getName() + " First round picking a piece");

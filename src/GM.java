@@ -23,7 +23,7 @@ public class GM implements Runnable {
 		System.out.println(state.getPiece(1, 1));*/
 		g.updateBoard(state);
 		p1 = (BasePlayer) new RandomAI();
-		p2 = (BasePlayer) new HumanPlayer();
+		p2 = (BasePlayer) new RandomAI();
 	}
 	private void printError(String str){
 		System.err.println("GameMaster: " + str);

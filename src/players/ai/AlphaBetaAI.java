@@ -30,12 +30,18 @@ public class AlphaBetaAI extends BaseAI {
 						if (best == null || score > alpha){
 							alpha = score;
 							best = new Move(place,give,i,j);
+							if (alpha > beta){
+								return alpha;
+							}
 						}
 					}
 					else{
 						if (best == null || score < beta){
 							beta = score;
 							best = new Move(place,give,i,j);
+							if (beta < alpha){
+								return beta;
+							}
 						}
 					}
 				}
@@ -51,13 +57,23 @@ public class AlphaBetaAI extends BaseAI {
 
 		ArrayList<Piece> remaining = state.getRemainingPieces();
 		double alpha = Double.MAX_VALUE;
-		double beta = Double.MAX_VALUE;
+		double beta = -Double.MAX_VALUE;
+
+		Move best = null;
+		double bestScore = 0;
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 4; j++){
 				for (int g = 0; g < remaining.size(); g++){
 					BoardState b = state.deepCopy();
 					Piece give = remaining.get(g);
-					searchAlphaBeta(b,give,alpha,beta,true,maxDepth);
+					double score = searchAlphaBeta(b,give,alpha,beta,true,maxDepth);
+					
+					
+					if (best == null || score > alpha){
+						alpha = score;
+						best = new Move(place,give,i,j);
+					}
+				
 				}
 				
 			}

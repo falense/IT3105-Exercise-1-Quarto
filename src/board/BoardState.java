@@ -99,13 +99,14 @@ public class BoardState {
 		Piece[][] returnList = new Piece[10][4];
 		//
 		for (int x = 0 ; x < 4 ; x++){
-			//Rows:
-			returnList[4+x] = board[x];
-			
 			for (int y = 0 ; y < 4 ; y++){
 				//Cols
 				returnList[x][y] = board[y][x];
-
+				
+				//Rows:
+				returnList[4+x][y] = board[x][y];
+				
+				
 				//Diags
 				if (x==y){
 					returnList[8][x] = board[x][x];
@@ -125,6 +126,7 @@ public class BoardState {
 		
 		for (int i = 0 ; i < 10 ; i++){
 			if (compareRow(checkList[i])) {
+				System.err.println("Winning row:" + i);
 				return true;
 			}
 		}
@@ -146,13 +148,12 @@ public class BoardState {
 			if (row[i] == null){
 				return false;
 			}
-			
-			color = color && 			row[0].getFeatures()[0] == row[i].getFeatures()[0];
-			size = size && 				row[0].getFeatures()[1] == row[i].getFeatures()[1];
-			squareness = squareness && 	row[0].getFeatures()[2] == row[i].getFeatures()[2];
-			structure = structure && 	row[0].getFeatures()[3] == row[i].getFeatures()[3];		
+			color = color && 			(row[0].getFeatures()[0] == row[i].getFeatures()[0]);
+			size = size && 				(row[0].getFeatures()[1] == row[i].getFeatures()[1]);
+			squareness = squareness && 	(row[0].getFeatures()[2] == row[i].getFeatures()[2]);
+			structure = structure && 	(row[0].getFeatures()[3] == row[i].getFeatures()[3]);		
 		}
-		
+		System.err.println(color + " " + size + " " + squareness + " " + structure);
 		return color || size || squareness || structure;
 	
 	}

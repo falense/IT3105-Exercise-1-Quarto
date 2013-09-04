@@ -38,16 +38,16 @@ public class Piece {
 	}
 	
 	public Piece (String strFeatures){
-		if (strFeatures.indexOf(0) == 'R')	feature[0] = true;
+		if (strFeatures.substring(0, 1).equals("R"))	feature[0] = true;
 		else feature[0] = false;
 		
-		if (strFeatures.indexOf(1) == 'S')	feature[1] = true;
+		if (strFeatures.substring(1, 2).equals("S"))	feature[1] = true;
 		else feature[1] = false;
 		
-		if (strFeatures.indexOf(2) == 'C')	feature[2] = true;
+		if (strFeatures.substring(2, 3).equals("C"))	feature[2] = true;
 		else feature[2] = false;
 
-		if (strFeatures.indexOf(3) == 'H')	feature[3] = true;
+		if (strFeatures.substring(3, 4).equals("H"))	feature[3] = true;
 		else feature[3] = false;
 		
 		img = loadImage(strFeatures + ".jpg");
