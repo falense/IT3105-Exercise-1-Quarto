@@ -69,6 +69,20 @@ public class BoardState {
 		
 	}
 	
+	public BoardState(BoardState old) {
+		//sets up empty board and adds all pieces to unused list
+		for (int i = 0 ; i < 4 ; i++){
+			for (int j = 0 ; j < 4 ; j++){
+				board[i][j] = old.board[i][j];
+			}
+		}
+		remainingPieces = new ArrayList<Piece>();
+		
+		for (int i = 0; i < old.remainingPieces.size(); i++){
+			remainingPieces.add(old.remainingPieces.get(i));
+		}
+	}
+
 	public Piece getPiece(int x, int y){
 		return board[x][y];
 	}
@@ -202,7 +216,11 @@ public class BoardState {
 	}
 	
 	
-	
+	public BoardState deepCopy(){
+		BoardState r = new BoardState(this);
+		return r;
+		
+	}
 	
 	
 	
