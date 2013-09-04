@@ -10,26 +10,31 @@ import javax.swing.ImageIcon;
 public class Piece {
 	boolean[] feature = new boolean[4];
 	ImageIcon img;
+	String name;
+	
+	public String getName(){
+		return name;
+	}
 	
 	public Piece (boolean red, boolean small, boolean round, boolean hollow){
 		feature[0] = red;			//red or blue
 		feature[1] = small;			//small or large
 		feature[2] = round;			//round or square
 		feature[3] = hollow;		//hollow or solid
-		String graphicsFile = "";
-		if (red) graphicsFile += "R";
-		else graphicsFile += "B";
+		String name = "";
+		if (red) name += "R";
+		else name += "B";
 
-		if (small) graphicsFile += "L";
-		else graphicsFile += "S";
+		if (small) name += "L";
+		else name += "S";
 
-		if (round) graphicsFile += "C";
-		else graphicsFile += "S";
+		if (round) name += "C";
+		else name += "S";
 		
-		if (hollow) graphicsFile += "H";
-		else graphicsFile += "N";
+		if (hollow) name += "H";
+		else name += "N";
 		
-		img = loadImage(graphicsFile + ".jpg");
+		img = loadImage(name + ".jpg");
 	}
 	
 	public Piece (String strFeatures){
@@ -46,6 +51,7 @@ public class Piece {
 		else feature[3] = false;
 		
 		img = loadImage(strFeatures + ".jpg");
+		name = strFeatures;
 	}
 	public ImageIcon getIcon(){
 		return img;

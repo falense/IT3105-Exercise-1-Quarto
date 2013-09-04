@@ -17,7 +17,9 @@ import board.StaticPieces;
 
 public class GUI {
 	JFrame frame;
-	JPanel p;
+	JPanel boardPanel;
+	JPanel remainingPanel;
+	JPanel currentStatus;
 	
 
 	public GUI(){
@@ -28,25 +30,25 @@ public class GUI {
         GridLayout g = new GridLayout(4,4);
         g.setHgap(5);
         g.setVgap(5);
-		p = new JPanel(g);
+		boardPanel = new JPanel(g);
 		
-		frame.add(p);
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
-		p.add(new JLabel());
+		frame.add(boardPanel);
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
+		boardPanel.add(new JLabel());
 		updateBoard(null);
         frame.pack();
         //Display the window.
@@ -57,7 +59,7 @@ public class GUI {
 			System.err.println("Index out of bounds");
 			return;
 		}
-		JLabel t = (JLabel) p.getComponent(x+y*4);
+		JLabel t = (JLabel) boardPanel.getComponent(x+y*4);
 		if (i == null){
 			try {
 				BufferedImage b = ImageIO.read(new File("./Resources/Template.jpg"));

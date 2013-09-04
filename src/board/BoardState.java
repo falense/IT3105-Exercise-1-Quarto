@@ -142,11 +142,22 @@ public class BoardState {
 	
 	}
 	
+	
+	void printError(String error){
+		
+		System.err.println(BoardState.class.getName()+ ": " + error);
+	}
 	//should probably be rewritten to a void and handle exceptions elsewhere.
 	public boolean placePiece(Piece piece, int x, int y){
-		if (x < 0 || 3 < x || y < 0 || 3 < y ){			//making sure coords are ok
+		if (x < 0 || x > 3 || y < 0 || y > 3 ){			//making sure coords are ok
+			printError("Coordinates out of bounds when placing piece");
 			return false;
-		} else if (isEmpty(x,y)) {	//making sure slot is empty
+			
+		/**
+		 * This code is not working as intended
+		 */
+		} else if (isEmpty(x,y) && false) {	//making sure slot is empty
+			printError("Slot not empty when placing piece");
 			return false;
 		} else if (!currentPiece.equals(piece))	{		//making sure the chosen piece is being used
 			
