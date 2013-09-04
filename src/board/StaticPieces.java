@@ -1,5 +1,7 @@
 package board;
 
+import java.util.List;
+
 public final class StaticPieces {
 	public static final Piece RLSN = new Piece("RLSN");
 	public static final Piece RLSH = new Piece("RLSH");
@@ -24,5 +26,15 @@ public final class StaticPieces {
 	
 	public static final Piece BSCN = new Piece("BSCN");
 	public static final Piece BSCH = new Piece("BSCH");
+	
+	public static final Piece[] list = {RLSN,RLSH,RLCN,RLCH,RSSN,RSSH,RSCN,RSCH,BLSN,BLSH,BLCN,BLCH,BSSN,BSSH,BSCN,BSCH};
+	
+	public static final boolean isPiece(String i){
+		for (int j = 0; j < list.length;j++){
+			if (list[j].getName().equals(j))
+				return true;
+		}
+		return false;
+	}
 	
 }
