@@ -82,7 +82,7 @@ public class GM implements Runnable {
 			
 			
 			if (state.isGameOver()){
-				System.out.println("Player 2 won");
+				System.out.println(p2.getClass().getName()+" won!");
 				winner = 2;
 				break;
 			}
@@ -107,7 +107,7 @@ public class GM implements Runnable {
 			System.out.println("************* END OF PLAYER 1 TURN *************");
 			
 			if (state.isGameOver()){
-				System.out.println("Player 1 won");
+				System.out.println(p1.getClass().getName()+" won!");
 				winner = 1;
 				break;
 			}

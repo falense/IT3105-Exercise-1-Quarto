@@ -144,20 +144,20 @@ public class BoardState {
                 return moves;
     }
 	
-    /*needs some work...
-	public ArrayList<Integer> getOpenSlots(){
-		ArrayList<Integer> openSlots = new ArrayList<Integer>();
-		for (int x = 0 ; x < 4 ; x++){	
-			for (int y = 0 ; y < 4 ; y++){
-				if (isEmpty(x,y))   {
-					openSlots.add(x);
-					openSlots.add(y);
-				}
-			}
-		}
-	return openSlots;
+    
+	public ArrayList<int[]> getOpenSlots(){
+		 ArrayList<int[]> openSlots = new ArrayList<int[]>();
+	        for (int i = 0; i < 4; i++) {
+	            for (int j = 0; j < 4; j++) {
+	                if (isEmpty(j, i)) {
+	                    int[] coords = { j, i };
+	                    openSlots.add(coords);
+	                }
+	            }
+	        }
+	        return openSlots;
 	}
-	*/
+	
 	
 	//checks winning conditions or a draw (all pieces used)
 	public boolean isGameOver(){
@@ -230,6 +230,16 @@ public class BoardState {
 		}
 	}
 	
+	public boolean isWinnablePiece(Piece p){	
+		for (int[] coord : this.getOpenSlots()){
+			BoardState testBoard = this.deepCopy();
+			testBoard.simulatePlacement(p, coord[0], coord[1]);
+			if (testBoard.isGameOver()){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public void simulatePlacement(Piece piece, int x, int y){
 				board[x][y] = piece;
