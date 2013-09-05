@@ -11,4 +11,22 @@ public class Move {
 		x = i;
 		y = j;
 	}
+
+	public Piece getPieceToGiveOpponent() {
+		return pieceToGiveOpponent;
+	}
+
+	public Piece getPieceToPlace() {
+		return pieceToPlace;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+	
+	
 }

@@ -1,4 +1,5 @@
 import players.BasePlayer;
+import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import board.BoardState;
 import board.Move;
@@ -21,7 +22,7 @@ public class GM implements Runnable {
 		System.out.println(state.getPiece(1, 1));*/
 		g.updateBoard(state);
 		p1 = (BasePlayer) new RandomAI();
-		p2 = (BasePlayer) new RandomAI();
+		p2 = (BasePlayer) new NoviceAI();
 	}
 	private void printError(String str){
 		System.err.println("GameMaster: " + str);
@@ -63,7 +64,7 @@ public class GM implements Runnable {
 		System.out.println("************* END OF PLAYER 1 TURN *************");
 		
 		while (!state.isGameOver()){
-			sleep(500);
+			sleep(50);
 			System.out.println("************* PLAYER 2 TURN *************");
 			p2move = p2.getNextMove(state, p1move.pieceToGiveOpponent);
 			r = state.placePiece(p2move.pieceToPlace, p2move.x,p2move.y);
@@ -83,10 +84,11 @@ public class GM implements Runnable {
 			if (state.isGameOver()){
 				System.out.println("Player 2 won");
 				winner = 2;
+				break;
 			}
 
 
-			sleep(500);
+			sleep(50);
 			System.out.println("************* PLAYER 1 TURN *************");
 			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
 			System.out.println(state);
@@ -107,6 +109,7 @@ public class GM implements Runnable {
 			if (state.isGameOver()){
 				System.out.println("Player 1 won");
 				winner = 1;
+				break;
 			}
 		}
 		g.cleanup();

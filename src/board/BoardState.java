@@ -117,6 +117,48 @@ public class BoardState {
 		return returnList;
 	}
 	
+	/* not needed (i think)
+    public ArrayList<Move> getAllMoves() {
+        ArrayList<Move> moves = new ArrayList<Move>();;
+        if(currentPiece==null) {
+                for(Piece p : remainingPieces)
+                        moves.add(new Move(null, p, -1, -1));
+        } else {
+                for(int x = 0; x < board.length; x++)
+                        for(int y = 0; y < board[x].length; y++)
+                                if(board[y][x] == null)
+                                        for(Piece p : remainingPieces)
+                                                	moves.add(new Move(currentPiece, p, x, y));
+        }
+                return moves;
+    }
+    */
+    
+    public ArrayList<Move> getAllMoves(BoardState b, Piece myPiece) {
+        ArrayList<Move> moves = new ArrayList<Move>();;
+                for(int x = 0; x < 4 ; x++)
+                        for(int y = 0; y < 4; y++)
+                                if(b.isEmpty(x, y))
+                                        for(Piece p : b.getRemainingPieces())
+                                                	moves.add(new Move(myPiece, p, x, y));  
+                return moves;
+    }
+	
+    /*needs some work...
+	public ArrayList<Integer> getOpenSlots(){
+		ArrayList<Integer> openSlots = new ArrayList<Integer>();
+		for (int x = 0 ; x < 4 ; x++){	
+			for (int y = 0 ; y < 4 ; y++){
+				if (isEmpty(x,y))   {
+					openSlots.add(x);
+					openSlots.add(y);
+				}
+			}
+		}
+	return openSlots;
+	}
+	*/
+	
 	//checks winning conditions or a draw (all pieces used)
 	public boolean isGameOver(){
 		if ( remainingPieces.isEmpty() ){
@@ -188,6 +230,11 @@ public class BoardState {
 		}
 	}
 	
+	
+	public void simulatePlacement(Piece piece, int x, int y){
+				board[x][y] = piece;
+	}
+	
 	public boolean pickPiece(Piece piece){
 		if (remainingPieces.isEmpty()) {
 			return false;
@@ -222,8 +269,16 @@ public class BoardState {
 		return r;
 		
 	}
-	
-	
+	/* not working yet
+	public BoardState simulateMove(Move move){
+		BoardState simBoard = this.deepCopy();
+		simBoard.placePiece(move.getPieceToPlace(), move.getX(), move.getY());
+		if (simBoard.pickPiece(move.getPieceToGiveOpponent())){
+			return simBoard;
+		} else
+			return this;
+	}
+	*/
 	
 
 }
