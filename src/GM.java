@@ -1,4 +1,5 @@
 import players.BasePlayer;
+import players.HumanPlayer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import board.BoardState;
@@ -21,8 +22,8 @@ public class GM implements Runnable {
 		System.out.println("Place piece result: " + state.placePiece(StaticPieces.BLCH, 1,1));
 		System.out.println(state.getPiece(1, 1));*/
 		g.updateBoard(state);
-		p1 = (BasePlayer) new RandomAI();
-		p2 = (BasePlayer) new NoviceAI();
+		p1 = new RandomAI();
+		p2 = new NoviceAI();
 	}
 	private void printError(String str){
 		System.err.println("GameMaster: " + str);
@@ -36,6 +37,7 @@ public class GM implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	@Override
 	public void run(){
 		Move p1move  = new Move(null,null,-1,-1);
 		Move p2move = new Move(null,null,-1,-1);
@@ -64,7 +66,7 @@ public class GM implements Runnable {
 		System.out.println("************* END OF PLAYER 1 TURN *************");
 		
 		while (!state.isGameOver()){
-			sleep(50);
+			sleep(2500);
 			System.out.println("************* PLAYER 2 TURN *************");
 			p2move = p2.getNextMove(state, p1move.pieceToGiveOpponent);
 			r = state.placePiece(p2move.pieceToPlace, p2move.x,p2move.y);
@@ -88,7 +90,7 @@ public class GM implements Runnable {
 			}
 
 
-			sleep(50);
+			sleep(2500);
 			System.out.println("************* PLAYER 1 TURN *************");
 			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
 			System.out.println(state);
