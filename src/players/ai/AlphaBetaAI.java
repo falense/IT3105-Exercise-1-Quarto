@@ -102,7 +102,7 @@ public class AlphaBetaAI extends BaseAI {
 			}
 			//System.out.println(score);
 		}
-		System.out.println("Counter " + counter );
+		//System.out.println("Counter " + counter );
 		counter = 0;
 		return best;
 	}

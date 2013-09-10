@@ -62,7 +62,8 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s = new StatisticsRunner( new AlphaBetaAI(false,3),new NoviceAI(false), 100);
+		StatisticsRunner s = new StatisticsRunner( new AlphaBetaAI(false,2),new NoviceAI(false), 10);
+		s.run();
 
 		
 	}

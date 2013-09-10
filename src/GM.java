@@ -132,7 +132,7 @@ public class GM implements Runnable {
     {
 
 
-		GM g = new GM(true,false,0,new RandomAI(false),new RecursiveAI(false,1));
+		GM g = new GM(true,false,0,new RandomAI(false),new RecursiveAI(false,2));
 		Thread t = new Thread(g, "Quarto ");
 		t.start();
 	}

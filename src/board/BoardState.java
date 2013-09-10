@@ -268,6 +268,12 @@ public class BoardState {
 		this.remainingPieces.remove(piece);
 	}
 	
+	public void simMove(Move move){
+		simulateRemovePiece(move.getPieceToGiveOpponent());
+		simulateUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
+	}
+
+	
 	public void simulateRemovePiece(Piece piece){
 		this.remainingPieces.remove(piece);
 	}
