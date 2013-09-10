@@ -169,7 +169,7 @@ public class BoardState {
 		
 		for (int i = 0 ; i < 10 ; i++){
 			if (compareRow(checkList[i])) {
-				System.err.println("Winning row:" + i);
+				printError("Winning row:" + i);
 				return true;
 			}
 		}
@@ -196,7 +196,7 @@ public class BoardState {
 			squareness = squareness && 	(row[0].getFeatures()[2] == row[i].getFeatures()[2]);
 			structure = structure && 	(row[0].getFeatures()[3] == row[i].getFeatures()[3]);		
 		}
-		System.err.println(color + " " + size + " " + squareness + " " + structure);
+		printError(color + " " + size + " " + squareness + " " + structure);
 		return color || size || squareness || structure;
 	
 	}
@@ -204,7 +204,7 @@ public class BoardState {
 	
 	void printError(String error){
 		if (debug)
-		System.err.println(BoardState.class.getName()+ ": " + error);
+			System.err.println(BoardState.class.getName()+ ": " + error);
 	}
 	//should probably be rewritten to a void and handle exceptions elsewhere.
 	public boolean placePiece(Piece piece, int x, int y){

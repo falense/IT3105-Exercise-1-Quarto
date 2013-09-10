@@ -19,17 +19,20 @@ import board.StaticPieces;
 
 
 public class GUI {
-	JFrame frame;
-	JPanel boardPanel;
-	JPanel remainingPanel;
-	JPanel currentStatus;
+	private JFrame frame;
+	private JPanel boardPanel;
+	private JPanel remainingPanel;
+	private JPanel currentStatus;
 	public void cleanup(){
 		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
 
 	public GUI(){
+		createWindow();
+	}
+	private void createWindow(){
 		frame = new JFrame("QUARTO");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
         
         GridLayout g = new GridLayout(4,4);
@@ -60,6 +63,7 @@ public class GUI {
         frame.pack();
         //Display the window.
         frame.setVisible(true);
+		
 	}
 	public void updatePiece(Piece i, int x, int y){
 		if (x+y*4 >= 16 || x+y*4 < 0){

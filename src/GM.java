@@ -1,5 +1,4 @@
 import players.BasePlayer;
-import players.HumanPlayer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import board.BoardState;
@@ -7,25 +6,30 @@ import board.Move;
 
 
 public class GM implements Runnable {
-	
+	private boolean verboseOutput;
+	private long delay;
 	private BoardState state;
 	private GUI g;
 	private BasePlayer p1,p2;
 	
 	public int winner = -1;
-	public GM(boolean guiEnabled){
+	public GM(boolean guiEnabled,boolean verboseOutput,long delay,BasePlayer p1, BasePlayer p2){
+		this.verboseOutput = verboseOutput;
+		this.delay = delay;
 		if (guiEnabled)
 			g = new GUI();
 		else
 			g = null;
 		state = new BoardState();
-		/*
-		System.out.println("Pick piece result: " + state.pickPiece(StaticPieces.BLCH));
-		System.out.println("Place piece result: " + state.placePiece(StaticPieces.BLCH, 1,1));
-		System.out.println(state.getPiece(1, 1));*/
 		if (g != null)  g.updateBoard(state);
-		p1 = new RandomAI();
-		p2 = new NoviceAI();
+		if (p1 == null)
+			this.p1 = new RandomAI();
+		else
+			this.p1 = p1;
+		if (p2 == null)
+			this.p2 = new NoviceAI();
+		else
+			this.p2 = p2;
 	}
 	private void printError(String str){
 		System.err.println("GameMaster: " + str);
@@ -39,15 +43,18 @@ public class GM implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	private void printMessage(String msg){
+		if (verboseOutput) System.out.println(msg);
+	}
 	@Override
 	public void run(){
 		Move p1move  = new Move(null,null,-1,-1);
 		Move p2move = new Move(null,null,-1,-1);
 		boolean r  = false;
 
-		System.out.println("************* PLAYER 1 TURN *************");
+		printMessage("************* PLAYER 1 TURN *************");
 		p1move = p1.getNextMove(state, null);
-		System.out.println(state);
+		printMessage(state.toString());
 		r = state.pickPiece(p1move.pieceToPlace);
 		if (!r){
 			printError(" Player 1 picked an invalid piece to place in first round.");
@@ -65,11 +72,11 @@ public class GM implements Runnable {
 		}
 		if (g != null) g.updateBoard(state);
 
-		System.out.println("************* END OF PLAYER 1 TURN *************");
+		printMessage("************* END OF PLAYER 1 TURN *************");
 		
 		while (!state.isGameOver()){
-			sleep(500);
-			System.out.println("************* PLAYER 2 TURN *************");
+			sleep(delay);
+			printMessage("************* PLAYER 2 TURN *************");
 			p2move = p2.getNextMove(state, p1move.pieceToGiveOpponent);
 			r = state.placePiece(p2move.pieceToPlace, p2move.x,p2move.y);
 			if (!r){
@@ -82,22 +89,21 @@ public class GM implements Runnable {
 				return;
 			}
 			if (g != null) g.updateBoard(state);
-			System.out.println("************* END OF PLAYER 2 TURN *************");
+			printMessage("************* END OF PLAYER 2 TURN *************");
 			
 			
 			if (state.isGameOver()){
-				System.out.println(p2.getClass().getName()+" won!");
+				printMessage(p2.getClass().getName()+" won!");
 				winner = 2;
 				break;
 			}
 
 
-			sleep(500);
-			System.out.println("************* PLAYER 1 TURN *************");
+			sleep(delay);
+			printMessage("************* PLAYER 1 TURN *************");
 			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
-			System.out.println(state);
+			printMessage(state.toString());
 			r = state.placePiece(p1move.pieceToPlace, p1move.x,p1move.y);
-			System.out.println(state.isEmpty(p1move.x, p1move.y));
 			if (!r){
 				printError(" Player 1s placing of the piece was invalid.");
 				return;
@@ -108,43 +114,16 @@ public class GM implements Runnable {
 				return;
 			}
 			if (g != null) g.updateBoard(state);
-			System.out.println("************* END OF PLAYER 1 TURN *************");
+			printMessage("************* END OF PLAYER 1 TURN *************");
 			
 			if (state.isGameOver()){
-				System.out.println(p1.getClass().getName()+" won!");
+				printMessage(p1.getClass().getName()+" won!");
 				winner = 1;
 				break;
 			}
 		}
+		if (winner == -1) winner = 0;
 		if (g != null) g.cleanup();
 	}
-	public static void main(String[] args)
-    {
 
-		GM g,g2;
-		while(true){
-			System.out.println("Starting first");
-			g = new GM(false);
-			Thread t = new Thread(g, "Quarto 1");
-			t.start();
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			/*
-			System.out.println("Starting second");
-			g = new GM(true);
-			t = new Thread(g, "Quarto 1");
-			t.start();
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-
-		}
-	}
 }
