@@ -12,7 +12,7 @@ public class RecursiveAI extends BaseRecursiveAI{
 	final String name =  RecursiveAI.class.getName();
 	
 	public RecursiveAI(boolean verboseOutput, int maxDepth) {
-		super(verboseOutput);
+		super(verboseOutput,maxDepth);
 	}
 	
 	public String getName(){

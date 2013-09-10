@@ -6,13 +6,13 @@ import board.Piece;
 import evaluation.Evaluator;
 import evaluation.CloseToQuarto;
 
-public class AlphaBetaAI extends BaseRecursiveAI {
+public class MinMaxAI extends BaseRecursiveAI {
 
-	final String name = AlphaBetaAI.class.getName();
+	final String name = MinMaxAI.class.getName();
 	private Evaluator eval;
 
-	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
-		super(verboseOutput);
+	public  MinMaxAI(boolean verboseOutput, int maxDepth) {
+		super(verboseOutput,maxDepth);
 		eval = new CloseToQuarto();
 	}
 

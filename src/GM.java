@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import players.BasePlayer;
-import players.ai.AlphaBetaAI;
+import players.HumanPlayer;
+import players.ai.MinMaxAI;
 //import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
@@ -69,7 +70,6 @@ public class GM implements Runnable {
 		while (!state.isGameOver()){
 			printMessage("************* PLAYER 1 TURN *************");
 			p1move = p1.getNextMove(state, p2move.getPieceToGiveOpponent());
-			printMessage(state.toString());
 			r = state.placePiece(p1move.getPieceToPlace(), p1move.getX(),p1move.getY());
 			if (!r){
 				printError(" Player 1s placing of the piece was invalid.");
@@ -81,7 +81,6 @@ public class GM implements Runnable {
 				return;
 			}
 			if (g != null) g.updateBoard(state);
-			sequence.add(new BoardState(state));
 			printMessage("************* END OF PLAYER 1 TURN *************");
 			
 			if (state.isGameOver()){
@@ -111,7 +110,6 @@ public class GM implements Runnable {
 				return;
 			}
 			if (g != null) g.updateBoard(state);
-			sequence.add(new BoardState(state));
 			printMessage("************* END OF PLAYER 2 TURN *************");
 			
 			
@@ -137,7 +135,7 @@ public class GM implements Runnable {
 	}
 	public static void main(String[] args)
     {
-
-
+		GM g = new GM(true,true,500,new MinMaxAI(false, 4),new RandomAI(false));
+		g.run();
 	}
 }

@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 import players.BasePlayer;
-import players.ai.AlphaBetaAI;
-import players.ai.AlphaBetaAI2;
+import players.ai.MinMaxAI;
+import players.ai.MinMaxAI2;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 
@@ -66,7 +66,7 @@ public class StatisticsRunner {
     {
 	//	StatisticsRunner s = new StatisticsRunner( new RandomAI(false),new RandomAI(false), 10000);
 		//for (int i = 0; i < 100; i++)s.run();
-		StatisticsRunner s2 = new StatisticsRunner( new AlphaBetaAI(false,3),new NoviceAI(false), 20);
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new NoviceAI(false), 200);
 		s2.run();
 		
 		
