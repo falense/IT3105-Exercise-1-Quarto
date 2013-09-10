@@ -4,6 +4,7 @@ import java.util.Random;
 import players.BasePlayer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
+import players.ai.RecursiveAI;
 import board.BoardState;
 import board.Move;
 import board.Piece;
@@ -113,5 +114,12 @@ public class GM implements Runnable {
 		if (winner == -1) winner = 0;
 		if (g != null) g.cleanup();
 	}
+	public static void main(String[] args)
+    {
 
+
+		GM g = new GM(true,false,0,new RandomAI(false),new RecursiveAI(false,1));
+		Thread t = new Thread(g, "Quarto ");
+		t.start();
+	}
 }

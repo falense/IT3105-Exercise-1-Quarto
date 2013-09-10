@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import players.BasePlayer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
+import players.ai.RecursiveAI;
 
 
 public class StatisticsRunner {
@@ -45,7 +46,7 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s = new StatisticsRunner(new NoviceAI(false), new RandomAI(false), 100);
+		StatisticsRunner s = new StatisticsRunner(new RecursiveAI(false,1), new NoviceAI(false), 100);
 		s.run();
 
 		
