@@ -1,7 +1,5 @@
 package players.ai;
 
-import java.util.ArrayList;
-
 import board.BoardState;
 import board.Move;
 import board.Piece;
@@ -10,16 +8,78 @@ public class AlphaBetaAI extends BaseAI {
 
 	final String name = "AlphaBetaAI";
 	int maxDepth = 2;
+
+	NoviceAI randomizer;
 	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
 		this.maxDepth = maxDepth;
+		randomizer = new NoviceAI(verboseOutput);
 		// TODO Auto-generated constructor stub
 	}
 
 
-	private double evaluateState(BoardState state, boolean max){
-		
+	/*private double evaluateState(BoardState state, boolean max){
+		String key = state.toHash();
+		if (AlphaBetaTrainer.learning.containsKey(key)) {
+			int d = (int) AlphaBetaTrainer.learning.get(key);
+			System.out.println("Successfull lookup" + d);
+			if (max)
+				return d;
+			else
+				return -d;
+		}
 		return 0;	
+	}*/
+	private int rowSameFeatureCount(Piece[] row){
+		int features[] = new int[4];
+		for (int k = 0; k < 4; k++)
+			features[k] = 0;
+        int empty = 0;
+		
+		for (int j = 0 ; j < 4 ; j++){
+			if (row[j] == null) empty++;
+			else{
+				for (int k = 0; k < 4; k++){
+					if (row[j].getFeatures()[k]){
+						features[k]++;
+					}
+				}
+			}
+		}
+		int max = 0;
+		for (int k = 0; k < 4; k++){
+			if (features[k]> max){
+				max = features[k];
+			}
+			else if(4-features[k]-empty > max){
+				max = 4-features[k]-empty;
+			}
+		}
+		return max;
+	}
+	private double evaluateState(BoardState state, boolean max){
+		Piece[][] checkList = state.getRowsAndColumns();
+		double r = 0;
+		for (int i = 0 ; i < 10 ; i++){
+			int t = rowSameFeatureCount(checkList[i]);
+			switch (t){
+			case 0:
+				break;
+			case 1:
+				r += 0.1*0.1;
+				break;
+			case 2:
+				r += 0.1*0.4;
+				break;
+			case 3:
+				r += 0.1;
+				break;
+			}
+		}
+		if (max)
+			return r;
+		else
+			return -r;
 	}
 	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
 		counter ++;
@@ -84,6 +144,11 @@ public class AlphaBetaAI extends BaseAI {
 	int counter = 0;
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
+		
+		if(state.getRemainingPieces().size()>=12){
+			return randomizer.getNextMove(state, place);
+		}
+		
 		// TODO Auto-generated method stub
 		Move best = null;
 		double bestScore = 0;

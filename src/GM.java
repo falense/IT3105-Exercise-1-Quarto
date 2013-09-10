@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import players.BasePlayer;
+import players.ai.AlphaBetaAI;
+import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.RecursiveAI;
@@ -57,6 +59,7 @@ public class GM implements Runnable {
 		ArrayList<Piece> p = state.getRemainingPieces();
 		Random rand = new Random(System.currentTimeMillis());
 		Piece randomPiece = p.get(0);//rand.nextInt(16));
+		ArrayList<BoardState> sequence = new ArrayList<BoardState>();
 				
 		Move p1move  = new Move(null,null,-1,-1);
 		Move p2move = new Move(null,randomPiece,-1,-1);
@@ -78,6 +81,7 @@ public class GM implements Runnable {
 				return;
 			}
 			if (g != null) g.updateBoard(state);
+			sequence.add(new BoardState(state));
 			printMessage("************* END OF PLAYER 1 TURN *************");
 			
 			if (state.isGameOver()){
@@ -107,6 +111,7 @@ public class GM implements Runnable {
 				return;
 			}
 			if (g != null) g.updateBoard(state);
+			sequence.add(new BoardState(state));
 			printMessage("************* END OF PLAYER 2 TURN *************");
 			
 			
@@ -126,14 +131,40 @@ public class GM implements Runnable {
 			sleep(delay);
 		}
 		if (winner == -1) winner = 0;
+		
+		
+		boolean t;
+		if (winner != 0){
+			if (winner == 1)
+				t = true;
+			
+			else 
+				t = false;
+			
+			for (BoardState s : sequence){
+				int e;
+				if (t){
+					e = 1;
+				}
+				else
+					e = -1;
+				String key = s.toHash();
+				if (AlphaBetaTrainer.learning.containsKey(key)){
+					int g = (int) AlphaBetaTrainer.learning.get(key);
+					e = g + e;
+				}
+				
+				AlphaBetaTrainer.learning.put(key,e);
+				
+			}
+		}
+		
+		
 		if (g != null) g.cleanup();
 	}
 	public static void main(String[] args)
     {
 
 
-		GM g = new GM(true,false,0,new RandomAI(false),new RecursiveAI(false,2));
-		Thread t = new Thread(g, "Quarto ");
-		t.start();
 	}
 }
