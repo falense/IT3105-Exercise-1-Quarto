@@ -250,6 +250,11 @@ public class BoardState {
 				board[x][y] = piece;
 	}
 	
+	public void simulateUsePiece(Piece piece, int x, int y){
+		simulatePlacement(piece,  x,  y);
+		this.remainingPieces.remove(piece);
+	}
+	
 	public boolean pickPiece(Piece piece){
 		if (remainingPieces.isEmpty()) {
 			return false;
