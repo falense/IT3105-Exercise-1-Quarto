@@ -255,6 +255,10 @@ public class BoardState {
 		this.remainingPieces.remove(piece);
 	}
 	
+	public void simulateRemovePiece(Piece piece){
+		this.remainingPieces.remove(piece);
+	}
+	
 	public boolean pickPiece(Piece piece){
 		if (remainingPieces.isEmpty()) {
 			return false;
