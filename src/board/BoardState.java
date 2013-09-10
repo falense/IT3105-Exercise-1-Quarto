@@ -101,7 +101,7 @@ public class BoardState {
 	
 	
 	//returns a 10-by-4 list of all the 10 possible rows to win
-	private Piece[][] getRowsAndColumns(){
+	public Piece[][] getRowsAndColumns(){
 		Piece[][] returnList = new Piece[10][4];
 		//
 		for (int x = 0 ; x < 4 ; x++){

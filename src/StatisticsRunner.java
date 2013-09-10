@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 import players.BasePlayer;
 import players.ai.AlphaBetaAI;
+import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.RecursiveAI;
@@ -59,11 +60,16 @@ public class StatisticsRunner {
 	public void run(){
 		doTest(false);
 		doTest(true);
+
+		System.out.println("Learning table: " + AlphaBetaTrainer.learning.size());
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s = new StatisticsRunner( new AlphaBetaAI(false,3),new NoviceAI(false), 100);
-
+	//	StatisticsRunner s = new StatisticsRunner( new RandomAI(false),new RandomAI(false), 10000);
+		//for (int i = 0; i < 100; i++)s.run();
+		StatisticsRunner s2 = new StatisticsRunner( new AlphaBetaAI(false,3),new RecursiveAI(false,2), 100);
+		s2.run();
+		
 		
 	}
 }
