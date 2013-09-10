@@ -1,5 +1,8 @@
 package players.ai;
 
+import evaluation.Evaluator;
+import evaluation.EvenWinningPieces;
+import evaluation.FirstEva;
 import board.BoardState;
 import board.Move;
 import board.Piece;
@@ -8,12 +11,14 @@ public class AlphaBetaAI extends BaseAI {
 
 	final String name = "AlphaBetaAI";
 	int maxDepth = 2;
+	private Evaluator eval;
 
 	NoviceAI randomizer;
 	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
 		this.maxDepth = maxDepth;
-		randomizer = new NoviceAI(verboseOutput);	
+		randomizer = new NoviceAI(verboseOutput);
+		eval = new FirstEva();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -30,75 +35,9 @@ public class AlphaBetaAI extends BaseAI {
 		}
 		return 0;	
 	}*/
-	private int rowSameFeatureCount(Piece[] row){
-		int features[] = new int[4];
-		for (int k = 0; k < 4; k++)
-			features[k] = 0;
-        int empty = 0;
-		
-		for (int j = 0 ; j < 4 ; j++){
-			if (row[j] == null) empty++;
-			else{
-				for (int k = 0; k < 4; k++){
-					if (row[j].getFeatures()[k]){
-						features[k]++;
-					}
-				}
-			}
-		}
-		int max = 0;
-		for (int k = 0; k < 4; k++){
-			if (features[k]> max){
-				max = features[k];
-			}
-			else if(4-features[k]-empty > max){
-				max = 4-features[k]-empty;
-			}
-		}
-		return max;
-	}
-	private double evaluateState(BoardState state, boolean max){
-		Piece[][] checkList = state.getRowsAndColumns();
-		double r = 0;
-		for (int i = 0 ; i < 10 ; i++){
-			int t = rowSameFeatureCount(checkList[i]);
-			switch (t){
-			case 0:
-				break;
-			case 1:
-				r += 0.1*0.1;
-				break;
-			case 2:
-				r += 0.1*0.4;
-				break;
-			case 3:
-				r += 0.1;
-				break;
-			}
-		}
-		if (max)
-			return r;
-		else
-			return -r;
-	}
 	
-	private double evaluateState1(BoardState state){
-		Piece[][] checkList = state.getRowsAndColumns();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		return 0;
-	}
 	
+		
 	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
 		counter ++;
 
@@ -110,7 +49,7 @@ public class AlphaBetaAI extends BaseAI {
 		if (state.isDraw())
 			return 0;
 		if (depth <= 0){
-			return evaluateState(state,max);
+			return eval.evaluate(state,max);
 		}
 		if (max){
 			alpha = -Double.MAX_VALUE;
