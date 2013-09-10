@@ -170,6 +170,18 @@ public class BoardState {
 		if ( getOpenSlots().isEmpty() ){
 			return true;
 		}
+		
+		if (haveAWinner())
+			return true;
+		
+		return false;
+	}
+	
+	public boolean isDraw(){
+		return getOpenSlots().isEmpty() && !haveAWinner();
+	}
+	
+	public boolean haveAWinner(){
 		Piece[][] checkList = getRowsAndColumns();
 		
 		for (int i = 0 ; i < 10 ; i++){
@@ -179,10 +191,6 @@ public class BoardState {
 			}
 		}
 		return false;
-	}
-	
-	public boolean isDraw(){
-		return getOpenSlots().isEmpty();
 	}
 	
 	
