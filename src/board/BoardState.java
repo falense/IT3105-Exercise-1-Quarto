@@ -140,7 +140,7 @@ public class BoardState {
     }
     */
     
-    public ArrayList<Move> getAllMoves(BoardState b, Piece myPiece) {
+    public static ArrayList<Move> getAllMoves(BoardState b, Piece myPiece) {
         ArrayList<Move> moves = new ArrayList<Move>();;
                 for(int x = 0; x < 4 ; x++)
                         for(int y = 0; y < 4; y++)
