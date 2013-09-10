@@ -8,84 +8,80 @@ import board.Piece;
 
 public class AlphaBetaAI extends BaseAI {
 
-	int maxDepth = 4;
-	public AlphaBetaAI(boolean verboseOutput, int maxDepth) {
+	int maxDepth = 2;
+	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
 		this.maxDepth = maxDepth;
 		// TODO Auto-generated constructor stub
 	}
 
 
-	private double evaluateState(BoardState state){
+	private double evaluateState(BoardState state, boolean max){
+		
 		return 0;	
 	}
-	private double searchAlphaBeta(BoardState state, Piece place,double alpha, double beta,boolean max,int depth){
-		if (depth == 0){
-			return evaluateState(state);
+	private double searchAlphaBeta(BoardState state, final Piece place,final boolean max,final int depth){
+		counter ++;
+		if(state.haveAWinner()){
+			if (max) return -1;
+			else return 1;
 		}
-		ArrayList<Piece> remaining = state.getRemainingPieces();
+		if (state.isDraw())
+			return 0;
+		if (depth <= 0 || counter > 200000){
+			return evaluateState(state,max);
+		}
 		Move best = null;
 		double bestScore = 0;
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 4; j++){
-				for (int g = 0; g < remaining.size(); g++){
-					BoardState newState = state.deepCopy();
-					Piece give = remaining.get(g);
-					double score = searchAlphaBeta(newState,give,alpha,beta,!max,depth-1);
-					
-					if (max){
-						if (best == null || score > alpha){
-							alpha = score;
-							best = new Move(place,give,i,j);
-							if (alpha > beta){
-								return alpha;
-							}
-						}
-					}
-					else{
-						if (best == null || score < beta){
-							beta = score;
-							best = new Move(place,give,i,j);
-							if (beta < alpha){
-								return beta;
-							}
-						}
-					}
+		for (Move m : BoardState.getAllMoves(state, place)){
+			BoardState newState = state.deepCopy();
+			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
+			newState.pickPiece(m.getPieceToGiveOpponent());
+			if(newState.haveAWinner()){
+
+				if (max) return 1;
+				else return -1;
+			}
+			if (state.isDraw())
+				return 0;
+			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),!max,depth-1);
+			
+			if (max){
+				if (best == null || score > bestScore){
+					bestScore = score;
+					best = m;
+				}
+			}
+			else{
+				if (best == null || score < bestScore){
+					bestScore = score;
+					best = m;
 				}
 			}
 		}
-		return 0;
+		return bestScore;
 	}
 	
-	
+	int counter = 0;
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
 		// TODO Auto-generated method stub
-
-		ArrayList<Piece> remaining = state.getRemainingPieces();
-		double alpha = Double.MAX_VALUE;
-		double beta = -Double.MAX_VALUE;
-
 		Move best = null;
 		double bestScore = 0;
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 4; j++){
-				for (int g = 0; g < remaining.size(); g++){
-					BoardState b = state.deepCopy();
-					Piece give = remaining.get(g);
-					double score = searchAlphaBeta(b,give,alpha,beta,true,maxDepth);
-					
-					
-					if (best == null || score > alpha){
-						alpha = score;
-						best = new Move(place,give,i,j);
-					}
-				
-				}
-				
+		for (Move m : BoardState.getAllMoves(state, place)){
+			BoardState newState = state.deepCopy();
+			newState.placePiece(place, m.getX(),m.getY());
+			newState.pickPiece(m.getPieceToGiveOpponent());
+			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),false,maxDepth-1);
+			if (best == null || score > bestScore){
+				bestScore = score;
+				best = m;
 			}
+			//System.out.println(score);
 		}
-		return null;
+		//System.out.println("Counter " + counter );
+		counter = 0;
+		return best;
 	}
 	
 

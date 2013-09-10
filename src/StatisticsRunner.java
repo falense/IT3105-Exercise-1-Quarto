@@ -14,11 +14,15 @@ public class StatisticsRunner {
 		this.p2 = p2;
 		this.numMatches = numMatches;
 	}
-	public void run(){
+	public void doTest(boolean reverse){
 		ArrayList<GM> gameMasters = new ArrayList<GM>();
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 		for (int i = 0; i < numMatches; i++){
-			GM g = new GM(false,false,0,p1,p2);
+			GM g;
+			if (!reverse)
+				g = new GM(false,false,0,p1,p2);
+			else 
+				g = new GM(false,false,0,p2,p1);
 			Thread t = new Thread(g, "Quarto " + i);
 			t.start();
 			gameMasters.add(g);
@@ -39,14 +43,25 @@ public class StatisticsRunner {
 			results[index]++;
 		}
 		System.out.println(numMatches + " was played, the results are:");
-		System.out.println("Player 1 won: " + results[1]);
-		System.out.println("Player 2 won: " + results[2]);
+		if (!reverse){
+			System.out.println("Player 1 won: " + results[1]);
+			System.out.println("Player 2 won: " + results[2]);
+		}
+		else{
+			System.out.println("Player 1 won: " + results[2]);
+			System.out.println("Player 2 won: " + results[1]);
+			
+		}
 		System.out.println("Draws: " + results[0] );
-		
+
+	}
+	public void run(){
+		doTest(false);
+		doTest(true);
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s = new StatisticsRunner(new RecursiveAI(false,2), new NoviceAI(false), 10);
+		StatisticsRunner s = new StatisticsRunner( new NoviceAI(false),new RecursiveAI(false,2), 100);
 		s.run();
 
 		

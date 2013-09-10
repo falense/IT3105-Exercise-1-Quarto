@@ -56,7 +56,7 @@ public class GM implements Runnable {
 
 		ArrayList<Piece> p = state.getRemainingPieces();
 		Random rand = new Random(System.currentTimeMillis());
-		Piece randomPiece = p.get(rand.nextInt(16));
+		Piece randomPiece = p.get(0);//rand.nextInt(16));
 				
 		Move p1move  = new Move(null,null,-1,-1);
 		Move p2move = new Move(null,randomPiece,-1,-1);
@@ -103,8 +103,14 @@ public class GM implements Runnable {
 			
 			
 			if (state.isGameOver()){
-				printMessage(p2.getClass().getName()+" won!");
-				winner = 2;
+				if (state.isDraw()){
+					winner = 0;
+					printMessage("Game was a draw.");
+				}
+				else{
+					printMessage(p2.getClass().getName()+" won!");
+					winner = 2;
+				}
 				break;
 			}
 

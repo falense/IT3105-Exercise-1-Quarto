@@ -24,10 +24,13 @@ public class RecursiveAI extends BaseAI{
 	}
 	private double searchAlphaBeta(BoardState state, final Piece place,final boolean max,final int depth){
 		counter ++;
-		if(state.isGameOver()){
-			return 1;
+		if(state.haveAWinner()){
+			if (max) return -1;
+			else return 1;
 		}
-		if (depth <= 0){
+		if (state.isDraw())
+			return 0;
+		if (depth <= 0 || counter > 200000){
 			return evaluateState(state,max);
 		}
 		Move best = null;
@@ -36,9 +39,13 @@ public class RecursiveAI extends BaseAI{
 			BoardState newState = state.deepCopy();
 			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
 			newState.pickPiece(m.getPieceToGiveOpponent());
-			if(newState.isGameOver()){
-				return 0;
+			if(newState.haveAWinner()){
+
+				if (max) return 1;
+				else return -1;
 			}
+			if (state.isDraw())
+				return 0;
 			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),!max,depth-1);
 			
 			if (max){
@@ -74,7 +81,7 @@ public class RecursiveAI extends BaseAI{
 			}
 			//System.out.println(score);
 		}
-		System.out.println("Counter " + counter );
+		//System.out.println("Counter " + counter );
 		counter = 0;
 		return best;
 	}
