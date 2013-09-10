@@ -8,6 +8,8 @@ import board.Move;
 import board.Piece;
 
 public class RandomAI extends BaseAI {
+	
+	final String name = "RandomAI";
 
 	public RandomAI(boolean verboseOutput) {
 		super(verboseOutput);
@@ -46,6 +48,11 @@ public class RandomAI extends BaseAI {
 		printMessage(b.isEmpty(x, y)+ "");
 		printMessage(BaseAI.class.getName() + ": Piece " + place.getName() + " was placed at (" + x + "," + y + "). Chose " + give.getName() + " for the opponent.");
 		return new Move(place,give,x,y);
+	}
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.name;
 	}
 
 }

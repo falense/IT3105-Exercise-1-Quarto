@@ -8,6 +8,7 @@ import board.Piece;
 
 public class AlphaBetaAI extends BaseAI {
 
+	final String name = "AlphaBetaAI";
 	int maxDepth = 2;
 	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
@@ -104,6 +105,13 @@ public class AlphaBetaAI extends BaseAI {
 		System.out.println("Counter " + counter );
 		counter = 0;
 		return best;
+	}
+
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.name;
 	}
 	
 

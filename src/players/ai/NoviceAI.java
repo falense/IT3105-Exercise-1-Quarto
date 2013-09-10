@@ -10,9 +10,15 @@ import board.Piece;
 
 public class NoviceAI extends BaseAI {
 	
+	final String name = "NoviceAI";
+	
 	public NoviceAI(boolean verboseOutput) {
 		super(verboseOutput);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 
 	public Move getNextMove(BoardState b, Piece place) {
@@ -48,7 +54,7 @@ public class NoviceAI extends BaseAI {
 		if (goodMoves.isEmpty()){
 			myMove = myMoves.get(r.nextInt(myMoves.size()));
 		} else {
-			//Collections.shuffle(goodMoves);
+			Collections.shuffle(goodMoves);
 			myMove = goodMoves.get(r.nextInt(goodMoves.size()));
 		}
 		
