@@ -3,7 +3,8 @@ import java.util.ArrayList;
 
 
 public class BoardState {
-
+	private boolean debug = false;
+	
 	private Piece[][] board = new Piece[4][4];
 	private ArrayList<Piece> remainingPieces;
 	private Piece currentPiece = null;
@@ -202,7 +203,7 @@ public class BoardState {
 	
 	
 	void printError(String error){
-		
+		if (debug)
 		System.err.println(BoardState.class.getName()+ ": " + error);
 	}
 	//should probably be rewritten to a void and handle exceptions elsewhere.
