@@ -1,8 +1,12 @@
+import java.util.ArrayList;
+import java.util.Random;
+
 import players.BasePlayer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import board.BoardState;
 import board.Move;
+import board.Piece;
 
 
 public class GM implements Runnable {
@@ -23,11 +27,11 @@ public class GM implements Runnable {
 		state = new BoardState();
 		if (g != null)  g.updateBoard(state);
 		if (p1 == null)
-			this.p1 = new RandomAI();
+			this.p1 = new RandomAI(verboseOutput);
 		else
 			this.p1 = p1;
 		if (p2 == null)
-			this.p2 = new NoviceAI();
+			this.p2 = new NoviceAI(verboseOutput);
 		else
 			this.p2 = p2;
 	}
@@ -48,33 +52,38 @@ public class GM implements Runnable {
 	}
 	@Override
 	public void run(){
+
+		ArrayList<Piece> p = state.getRemainingPieces();
+		Random rand = new Random(System.currentTimeMillis());
+		Piece randomPiece = p.get(rand.nextInt(16));
+				
 		Move p1move  = new Move(null,null,-1,-1);
-		Move p2move = new Move(null,null,-1,-1);
+		Move p2move = new Move(null,randomPiece,-1,-1);
 		boolean r  = false;
-
-		printMessage("************* PLAYER 1 TURN *************");
-		p1move = p1.getNextMove(state, null);
-		printMessage(state.toString());
-		r = state.pickPiece(p1move.pieceToPlace);
-		if (!r){
-			printError(" Player 1 picked an invalid piece to place in first round.");
-			return;
-		}
-		r = state.placePiece(p1move.pieceToPlace, p1move.x,p1move.y);
-		if (!r){
-			printError(" Player 1 placed an invalid piece to place in first round.");
-			return;
-		}
-		r = state.pickPiece(p1move.pieceToGiveOpponent);
-		if (!r){
-			printError(" Player 1 picked an invalid piece for the opponent first round.");
-			return;
-		}
-		if (g != null) g.updateBoard(state);
-
-		printMessage("************* END OF PLAYER 1 TURN *************");
+		
 		
 		while (!state.isGameOver()){
+			printMessage("************* PLAYER 1 TURN *************");
+			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
+			printMessage(state.toString());
+			r = state.placePiece(p1move.pieceToPlace, p1move.x,p1move.y);
+			if (!r){
+				printError(" Player 1s placing of the piece was invalid.");
+				return;
+			}
+			r = state.pickPiece(p1move.pieceToGiveOpponent);
+			if (!r){
+				printError(" Player 1 picked an invalid piece for the opponent.");
+				return;
+			}
+			if (g != null) g.updateBoard(state);
+			printMessage("************* END OF PLAYER 1 TURN *************");
+			
+			if (state.isGameOver()){
+				printMessage(p1.getClass().getName()+" won!");
+				winner = 1;
+				break;
+			}
 			sleep(delay);
 			printMessage("************* PLAYER 2 TURN *************");
 			p2move = p2.getNextMove(state, p1move.pieceToGiveOpponent);
@@ -100,27 +109,6 @@ public class GM implements Runnable {
 
 
 			sleep(delay);
-			printMessage("************* PLAYER 1 TURN *************");
-			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
-			printMessage(state.toString());
-			r = state.placePiece(p1move.pieceToPlace, p1move.x,p1move.y);
-			if (!r){
-				printError(" Player 1s placing of the piece was invalid.");
-				return;
-			}
-			r = state.pickPiece(p1move.pieceToGiveOpponent);
-			if (!r){
-				printError(" Player 1 picked an invalid piece for the opponent.");
-				return;
-			}
-			if (g != null) g.updateBoard(state);
-			printMessage("************* END OF PLAYER 1 TURN *************");
-			
-			if (state.isGameOver()){
-				printMessage(p1.getClass().getName()+" won!");
-				winner = 1;
-				break;
-			}
 		}
 		if (winner == -1) winner = 0;
 		if (g != null) g.cleanup();

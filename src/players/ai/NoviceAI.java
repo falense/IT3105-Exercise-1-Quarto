@@ -9,6 +9,11 @@ import board.Move;
 import board.Piece;
 
 public class NoviceAI extends BaseAI {
+	
+	public NoviceAI(boolean verboseOutput) {
+		super(verboseOutput);
+		// TODO Auto-generated constructor stub
+	}
 
 	public Move getNextMove(BoardState b, Piece place) {
 		// TODO Auto-generated method stub
@@ -21,7 +26,7 @@ public class NoviceAI extends BaseAI {
 			place = remaining.get(r.nextInt(remaining.size()));
 			remaining.remove(place);
 			*/
-			RandomAI help = new RandomAI();
+			RandomAI help = new RandomAI(verboseOutput);
 			return help.getNextMove(b, place);
 		}
 		
@@ -35,8 +40,8 @@ public class NoviceAI extends BaseAI {
 			nextBoard.simulatePlacement(move.getPieceToPlace(), move.getX(), move.getY());
 			
 				if (nextBoard.isGameOver()){
-					System.out.println("Novice AI: Placing piece " +move.pieceToPlace.getName() +" in slot " +move.getX() + " " + move.getY() );
-					System.out.println("Novice AI: Giving opponent piece: " +move.getPieceToGiveOpponent().getName());
+					printMessage("Novice AI: Placing piece " +move.pieceToPlace.getName() +" in slot " +move.getX() + " " + move.getY() );
+					printMessage("Novice AI: Giving opponent piece: " +move.getPieceToGiveOpponent().getName());
 					
 					return move;
 				} else {
@@ -58,8 +63,8 @@ public class NoviceAI extends BaseAI {
 		}
 		
 		
-		System.out.println("Novice AI: Placing piece " +myMove.pieceToPlace.getName() +" in slot " +myMove.getX() + " " + myMove.getY() );
-		System.out.println("Novice AI: Giving opponent piece: " +myMove.getPieceToGiveOpponent().getName());
+		printMessage("Novice AI: Placing piece " +myMove.pieceToPlace.getName() +" in slot " +myMove.getX() + " " + myMove.getY() );
+		printMessage("Novice AI: Giving opponent piece: " +myMove.getPieceToGiveOpponent().getName());
 		
 		return myMove;
 		

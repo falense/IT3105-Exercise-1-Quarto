@@ -1,5 +1,10 @@
 package board;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+
+import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 
 
 public class BoardState {
@@ -215,7 +220,7 @@ public class BoardState {
 		} else if (!isEmpty(x,y)) {	//making sure slot is empty
 			printError("Slot not empty when placing piece");
 			return false;
-		} else if (!currentPiece.equals(piece))	{		//making sure the chosen piece is being used
+		} else if (currentPiece != null && !currentPiece.equals(piece) )	{		//making sure the chosen piece is being used
 			printError("Player tried to use a different piece than the one supplied");
 			return false;
 		} else {
@@ -225,7 +230,6 @@ public class BoardState {
 				
 				return false;
 			}
-			else System.out.println(piece);
 			board[x][y] = piece;
 			return true;
 		}
@@ -278,6 +282,37 @@ public class BoardState {
 	public BoardState deepCopy(){
 		BoardState r = new BoardState(this);
 		return r;
+		
+	}
+	public String toHash(){
+		StringBuilder ss = new StringBuilder();
+		for (int i = 0; i < 4; i++){
+			for (int j = 0; j < 4; j++){
+				if (!isEmpty(i, j))
+				ss.append(board[i][j].getName() + " ");
+				else 
+				ss.append("null ");
+			}
+		}
+		if (currentPiece == null){
+			ss.append("null ");
+		}
+		else
+			ss.append(currentPiece.getName());
+		MessageDigest messageDigest = null;
+		try {
+			messageDigest = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		messageDigest.reset();
+		messageDigest.update(ss.toString().getBytes(Charset.forName("UTF8")));
+		final byte[] resultByte = messageDigest.digest();
+		final String result = new String(HexBin.encode(resultByte));
+		return result;
+		
+		
 		
 	}
 	/* not working yet

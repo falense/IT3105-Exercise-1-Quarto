@@ -7,8 +7,15 @@ import board.Move;
 import board.Piece;
 
 public class AlphaBetaAI extends BaseAI {
-	
+
 	int maxDepth = 4;
+	public AlphaBetaAI(boolean verboseOutput, int maxDepth) {
+		super(verboseOutput);
+		this.maxDepth = maxDepth;
+		// TODO Auto-generated constructor stub
+	}
+
+
 	private double evaluateState(BoardState state){
 		return 0;	
 	}

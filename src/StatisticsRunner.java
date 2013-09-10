@@ -1,24 +1,27 @@
 import java.util.ArrayList;
 
+import players.BasePlayer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 
 
 public class StatisticsRunner {
-	public static void main(String[] args)
-    {
-		int numMatches = 10;
-
+	BasePlayer p1, p2;
+	int numMatches;
+	public StatisticsRunner(BasePlayer p1, BasePlayer p2, int numMatches){
+		this.p1 = p1;
+		this.p2 = p2;
+		this.numMatches = numMatches;
+	}
+	public void run(){
 		ArrayList<GM> gameMasters = new ArrayList<GM>();
 		ArrayList<Thread> threads = new ArrayList<Thread>();
-		RandomAI rAI = new RandomAI();
-		NoviceAI nAI = new NoviceAI();
 		for (int i = 0; i < numMatches; i++){
-			System.out.println("Starting first");
-			GM g = new GM(true,false,0,rAI,nAI);
+			GM g = new GM(false,false,0,p1,p2);
 			Thread t = new Thread(g, "Quarto " + i);
 			t.start();
-			
+			gameMasters.add(g);
+			threads.add(t);
 		}
 
 		int results[] = new int[3];
@@ -38,5 +41,13 @@ public class StatisticsRunner {
 		System.out.println("Player 1 won: " + results[1]);
 		System.out.println("Player 2 won: " + results[2]);
 		System.out.println("Draws: " + results[0] );
+		
+	}
+	public static void main(String[] args)
+    {
+		StatisticsRunner s = new StatisticsRunner(new NoviceAI(false), new RandomAI(false), 100);
+		s.run();
+
+		
 	}
 }
