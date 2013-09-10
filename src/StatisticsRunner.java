@@ -42,17 +42,17 @@ public class StatisticsRunner {
 			int index = gameMasters.get(i).winner;
 			results[index]++;
 		}
-		System.out.println(numMatches + " was played, the results are:");
+		System.out.println(numMatches + " games was played, the results are:");
 		if (!reverse){
-			System.out.println("Player 1 won: " + results[1]);
-			System.out.println("Player 2 won: " + results[2]);
+			System.out.println(p1.getName() + " won: " + results[1]);
+			System.out.println(p2.getName() + " won: " + results[2]);
 		}
 		else{
-			System.out.println("Player 1 won: " + results[2]);
-			System.out.println("Player 2 won: " + results[1]);
+			System.out.println(p1.getName() + " won: " + results[2]);
+			System.out.println(p2.getName() + " won: " + results[1]);
 			
 		}
-		System.out.println("Draws: " + results[0] );
+		System.out.println("Draws: " + results[0] + "\n" );
 
 	}
 	public void run(){
@@ -61,7 +61,7 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s = new StatisticsRunner( new NoviceAI(false),new RecursiveAI(false,2), 100);
+		StatisticsRunner s = new StatisticsRunner( new RecursiveAI(false,2), new NoviceAI(false),100);
 		s.run();
 
 		

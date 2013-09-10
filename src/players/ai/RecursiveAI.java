@@ -9,12 +9,18 @@ import board.Piece;
 
 public class RecursiveAI extends BaseAI{
 
-
+	final String name = "RecursiveAI";
 	int maxDepth = 2;
+	NoviceAI randomizer;
 	public RecursiveAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
 		this.maxDepth = maxDepth;
+		randomizer = new NoviceAI(verboseOutput);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public String getName(){
+		return this.name;
 	}
 
 
@@ -67,6 +73,14 @@ public class RecursiveAI extends BaseAI{
 	int counter = 0;
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
+		
+		//randomized novice move first x moves.
+		//int x = 3;
+		if(state.getRemainingPieces().size()>=12){
+			return randomizer.getNextMove(state, place);
+		}
+		
+		
 		// TODO Auto-generated method stub
 		Move best = null;
 		double bestScore = 0;

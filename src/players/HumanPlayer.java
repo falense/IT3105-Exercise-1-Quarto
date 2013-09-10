@@ -13,6 +13,8 @@ import board.StaticPieces;
 
 
 public class HumanPlayer implements BasePlayer{
+	
+	String name = "HumanPlayer";
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
 		
@@ -107,6 +109,12 @@ public class HumanPlayer implements BasePlayer{
 		//return new Move(StaticPieces.RLCH,StaticPieces.RLSH,0,0);
 		
 		return new Move(place,give,x,y);
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return name;
 	}
 
 }

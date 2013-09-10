@@ -6,4 +6,5 @@ import board.Piece;
 
 public interface BasePlayer {
 	public Move getNextMove(BoardState b, Piece p);
+	public String getName();
 }

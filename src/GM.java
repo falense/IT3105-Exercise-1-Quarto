@@ -81,8 +81,16 @@ public class GM implements Runnable {
 			printMessage("************* END OF PLAYER 1 TURN *************");
 			
 			if (state.isGameOver()){
-				printMessage(p1.getClass().getName()+" won!");
-				winner = 1;
+				
+				if (state.haveAWinner()){
+					winner = 1;
+					printMessage(p1.getClass().getName()+" won!");
+				} else	{
+					winner = 0;
+					printMessage("Game was a draw. (After first player");
+				}
+	
+					
 				break;
 			}
 			sleep(delay);
