@@ -81,6 +81,15 @@ public class Piece {
 		return feature;
 	}
 	
+	public boolean isEqual(Piece other){
+		boolean sameFeature = true;
+		for (int i = 0; i < 4; i++){
+				sameFeature = sameFeature && this.feature[i]==other.feature[i];
+		}
+		return sameFeature;
+	}
+	
+	
 	
 
 }

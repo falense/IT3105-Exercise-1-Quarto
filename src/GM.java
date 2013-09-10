@@ -133,7 +133,7 @@ public class GM implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			/*
 			System.out.println("Starting second");
 			g = new GM(true);
 			t = new Thread(g, "Quarto 1");
@@ -143,7 +143,7 @@ public class GM implements Runnable {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 
 		}
 	}
