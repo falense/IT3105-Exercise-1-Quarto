@@ -19,83 +19,63 @@ public class RecursiveAI extends BaseAI{
 
 
 	private double evaluateState(BoardState state, boolean max){
-		if (state.isGameOver()){
-			if (max){
-				return -1;
-			}
-			else
-				return 1;
-		}
+		
 		return 0;	
 	}
-	private double searchAlphaBeta(BoardState state, Piece place,boolean max,int depth){
+	private double searchAlphaBeta(BoardState state, final Piece place,final boolean max,final int depth){
+		counter ++;
 		if(state.isGameOver()){
-			if (max) return -1;
-			else return 1;
+			return 1;
 		}
-		if (depth == 0){
+		if (depth <= 0){
 			return evaluateState(state,max);
 		}
-		ArrayList<Piece> remaining = state.getRemainingPieces();
 		Move best = null;
 		double bestScore = 0;
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 4; j++){
-				for (int g = 0; g < remaining.size(); g++){
-					BoardState newState = state.deepCopy();
-					if (!newState.isEmpty(i, j)) continue;
-					newState.placePiece(place, i,j);
-					Piece give = remaining.get(g);
-					double score = searchAlphaBeta(newState,give,!max,depth-1);
-					
-					if (max){
-						if (best == null || score > bestScore){
-							bestScore = score;
-							best = new Move(place,give,i,j);
-						}
-					}
-					else{
-						if (best == null || score < bestScore){
-							bestScore = score;
-							best = new Move(place,give,i,j);
-						}
-					}
+		for (Move m : BoardState.getAllMoves(state, place)){
+			BoardState newState = state.deepCopy();
+			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
+			newState.pickPiece(m.getPieceToGiveOpponent());
+			if(newState.isGameOver()){
+				return 0;
+			}
+			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),!max,depth-1);
+			
+			if (max){
+				if (best == null || score > bestScore){
+					bestScore = score;
+					best = m;
+				}
+			}
+			else{
+				if (best == null || score < bestScore){
+					bestScore = score;
+					best = m;
 				}
 			}
 		}
-		return 0;
+		return bestScore;
 	}
 	
-	
+	int counter = 0;
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
 		// TODO Auto-generated method stub
-
-		ArrayList<Piece> remaining = state.getRemainingPieces();
-
 		Move best = null;
 		double bestScore = 0;
-		for (int i = 0; i < 4; i++){
-			for (int j = 0; j < 4; j++){
-				for (int g = 0; g < remaining.size(); g++){
-					BoardState newState = state.deepCopy();
-					Piece give = remaining.get(g);
-
-					if (!newState.isEmpty(i, j)) continue;
-					newState.placePiece(place, i,j);
-					
-					double score = searchAlphaBeta(newState,give,false,maxDepth);
-					
-					
-					if (best == null || score > bestScore){
-						bestScore = score;
-						best = new Move(place,give,i,j);
-					}
-				
-				}
-				
+		for (Move m : BoardState.getAllMoves(state, place)){
+			BoardState newState = state.deepCopy();
+			newState.placePiece(place, m.getX(),m.getY());
+			newState.pickPiece(m.getPieceToGiveOpponent());
+			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),false,maxDepth-1);
+			if (best == null || score > bestScore){
+				bestScore = score;
+				best = m;
 			}
+			//System.out.println(score);
 		}
+		System.out.println("Counter " + counter );
+		counter = 0;
 		return best;
 	}
 	

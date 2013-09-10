@@ -46,7 +46,7 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s = new StatisticsRunner(new RecursiveAI(false,1), new NoviceAI(false), 100);
+		StatisticsRunner s = new StatisticsRunner(new RecursiveAI(false,2), new NoviceAI(false), 10);
 		s.run();
 
 		
