@@ -4,13 +4,13 @@ import board.BoardState;
 import board.Move;
 import board.Piece;
 
-public class AlphaBetaAI extends BaseAI {
+public class AlphaBetaAI2 extends BaseAI {
 
-	final String name = AlphaBetaAI.class.getName();
+	final String name = AlphaBetaAI2.class.getName();
 	int maxDepth;
 
 	NoviceAI randomizer;
-	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
+	public  AlphaBetaAI2(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
 		this.maxDepth = maxDepth;
 		randomizer = new NoviceAI(verboseOutput);
@@ -69,7 +69,7 @@ public class AlphaBetaAI extends BaseAI {
 				r += 0.1*0.1;
 				break;
 			case 2:
-				r += 0.1*0.4;
+				r += 0.1*0.2;
 				break;
 			case 3:
 				r += 0.1;
@@ -176,7 +176,7 @@ public class AlphaBetaAI extends BaseAI {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return this.name + " maxDepth: " + maxDepth;
+		return this.name;
 	}
 	
 
