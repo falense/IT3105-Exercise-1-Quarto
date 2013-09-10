@@ -167,7 +167,7 @@ public class BoardState {
 	
 	//checks winning conditions or a draw (all pieces used)
 	public boolean isGameOver(){
-		if ( remainingPieces.isEmpty() ){
+		if ( getOpenSlots().isEmpty() ){
 			return true;
 		}
 		Piece[][] checkList = getRowsAndColumns();
@@ -180,6 +180,11 @@ public class BoardState {
 		}
 		return false;
 	}
+	
+	public boolean isDraw(){
+		return getOpenSlots().isEmpty();
+	}
+	
 	
 	//check if a row of pieces has atleast one feature in common
 	public boolean compareRow(Piece[] row){
