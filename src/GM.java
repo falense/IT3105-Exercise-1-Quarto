@@ -3,7 +3,7 @@ import java.util.Random;
 
 import players.BasePlayer;
 import players.ai.AlphaBetaAI;
-import players.ai.AlphaBetaTrainer;
+//import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.RecursiveAI;
@@ -140,7 +140,7 @@ public class GM implements Runnable {
 			
 			else 
 				t = false;
-			
+			/*
 			for (BoardState s : sequence){
 				int e;
 				if (t){
@@ -156,7 +156,7 @@ public class GM implements Runnable {
 				
 				AlphaBetaTrainer.learning.put(key,e);
 				
-			}
+			}*/
 		}
 		
 		
@@ -165,16 +165,6 @@ public class GM implements Runnable {
 	public static void main(String[] args)
     {
 
-		while(true){
-			GM g = new GM(true,false,0,new AlphaBetaAI(false,3),new RecursiveAI(false,2));
-			Thread t = new Thread(g, "Quarto ");
-			t.start();
-			try {
-				t.join();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+
 	}
 }

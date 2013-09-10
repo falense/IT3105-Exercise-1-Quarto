@@ -61,7 +61,7 @@ public class StatisticsRunner {
 		doTest(false);
 		doTest(true);
 
-		System.out.println("Learning table: " + AlphaBetaTrainer.learning.size());
+		//System.out.println("Learning table: " + AlphaBetaTrainer.learning.size());
 	}
 	public static void main(String[] args)
     {

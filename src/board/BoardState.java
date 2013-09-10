@@ -88,6 +88,10 @@ public class BoardState {
 			remainingPieces.add(old.remainingPieces.get(i));
 		}
 	}
+	
+	public int getTurnNumber(){
+		return 16-remainingPieces.size();
+	}
 
 	public Piece getPiece(int x, int y){
 		return board[x][y];
@@ -267,6 +271,12 @@ public class BoardState {
 		simulatePlacement(piece,  x,  y);
 		this.remainingPieces.remove(piece);
 	}
+	
+	public void simMove(Move move){
+		simulateRemovePiece(move.getPieceToGiveOpponent());
+		simulateUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
+	}
+
 	
 	public void simulateRemovePiece(Piece piece){
 		this.remainingPieces.remove(piece);
