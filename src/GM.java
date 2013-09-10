@@ -3,7 +3,7 @@ import java.util.Random;
 
 import players.BasePlayer;
 import players.ai.AlphaBetaAI;
-import players.ai.AlphaBetaTrainer;
+//import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.RecursiveAI;
@@ -140,7 +140,7 @@ public class GM implements Runnable {
 			
 			else 
 				t = false;
-			
+			/*
 			for (BoardState s : sequence){
 				int e;
 				if (t){
@@ -156,7 +156,7 @@ public class GM implements Runnable {
 				
 				AlphaBetaTrainer.learning.put(key,e);
 				
-			}
+			}*/
 		}
 		
 		

@@ -88,6 +88,10 @@ public class BoardState {
 			remainingPieces.add(old.remainingPieces.get(i));
 		}
 	}
+	
+	public int getTurnNumber(){
+		return 16-remainingPieces.size();
+	}
 
 	public Piece getPiece(int x, int y){
 		return board[x][y];

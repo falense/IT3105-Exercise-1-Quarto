@@ -1,6 +1,8 @@
-package players.ai;
 /*
+package players.ai;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 import board.BoardState;
@@ -8,8 +10,10 @@ import board.Move;
 import board.Piece;
 
 public class CopyOfAlphaBetaAI extends BaseAI {
+	
+	private ArrayList<BoardState> haveVisited = new ArrayList<BoardState>();
 
-	final String name = "AlphaBetaAI";
+	final String name = "CopyOfAlphaBetaAI";
 	int maxDepth = 2;
 	public  CopyOfAlphaBetaAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
@@ -19,72 +23,26 @@ public class CopyOfAlphaBetaAI extends BaseAI {
 
 
 	private double evaluateState(BoardState state, boolean max){
-		
-		return 0;	
-	}
-	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
-		counter ++;
-
-		//System.out.println(alpha + " " + beta);
-		if(state.haveAWinner()){
-			if (max) return -1;
-			else return 1;
-		}
-		if (state.isDraw())
-			return 0;
-		if (depth <= 0){
-			return evaluateState(state,max);
-		}
-		if (max){
-			alpha = -Double.MAX_VALUE;
-		}
-		else{
-			beta = Double.MAX_VALUE;
-		}
-		Move best = null;
-		double bestScore = 0;
-		for (Move m : BoardState.getAllMoves(state, place)){
-			BoardState newState = state.deepCopy();
-			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
-			newState.pickPiece(m.getPieceToGiveOpponent());
-			if(newState.haveAWinner()){
-
-				if (max) return 1;
-				else return -1;
-			}
-			if (state.isDraw())
-				return 0;
-			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),alpha,beta,!max,depth-1);
+		if (state.haveAWinner()){
+			if (max)
+				return Double.MAX_VALUE;
+			else
+				return Double.MIN_VALUE;
 			
-			if (max){
-				if (best == null || score > bestScore){
-					bestScore = score;
-					best = m;
-					alpha = score;
-					if(beta < score){
-						//System.out.println("Cutting search, beta: " + beta + " score: " + score);
-						return score;
-					}
-				}
-			}
-			else{
-				if (best == null || score < bestScore){
-					bestScore = score;
-					best = m;
-					beta = score;
-					if (alpha > score){
-						//System.out.println("Cutting search, alpha: " + alpha + " score: " + score);
-						return score;
-					}
-				}
-			}
+		} else if (state.isDraw()){
+			return 0;
+		} else {
+			return 0;
 		}
-		return bestScore;
+		
 	}
 	
 		
 		  public Move getNextMove(BoardState state, Piece place) {
 	          //System.out.println("Starting MINIMAX");
+			  
+			  //if (!haveVisited.isEmpty())
+				//  haveVisited.clear();
 			  
 	          Move bestMove;
 	          double bestValue;
@@ -99,11 +57,11 @@ public class CopyOfAlphaBetaAI extends BaseAI {
 	                  Move nextMove = (Move)li.next();
 	                  tempBoard.simMove(nextMove);
 	                  
-	                  double newBest;
+	                  //double newBest;
 	                  double maxVal;
 	                  
 	                  //System.out.println("Top level: Test Action");
-	                  maxVal = maxValue(tempBoard, 0, );
+	                  maxVal = maxValue(tempBoard, maxDepth, nextMove);
 	                  //System.out.println("Top level: recieved max of " + maxVal);
 	                  if(maxVal > bestValue) {
 	                          bestValue = maxVal;
@@ -114,35 +72,92 @@ public class CopyOfAlphaBetaAI extends BaseAI {
 	          return bestMove;
 	  }
 		  
-		  public double maxValue (BoardState state, int depth, Piece place) {
+		  private double maxValue(BoardState state,Piece place, int depth, double alpha, double beta, boolean max) {
+
+		        if (state.isGameOver() || depth == 0) {
+		            return evaluateState(state,max);
+		        }
+		        if (depth == 0) {
+		            return evaluateState(state, max);
+		        }
+		        double v = Double.MIN_VALUE;
+		        List<Move> successors = BoardState.getAllMoves(state, place);
+		        for (Move move : successors) {
+		            double minimumValueAmongSuccessors = minValue(move, depth - 1, alpha, beta, "MAX");
+		            if (minimumValueAmongSuccessors > v) {
+		                v = minimumValueAmongSuccessors;
+		            }
+		            if (v >= beta) {
+		                return v;
+		            }
+		            alpha = Math.max(alpha, v);
+		        }
+		        return v;
+		    }
+		  
+		  public double maxValue (BoardState state, int depth, Move move) {
+			  	//int initialTurn = state.getTurnNumber();
 			    double maxSoFar = Double.NEGATIVE_INFINITY;
 			    ListIterator li;
-			    Move move;
+			    Move nextMove;
+			    //System.out.println(move.pieceToPlace.getName());
 			    BoardState child;
 			    double childValue;
-			    if (state.isGameOver() || visit.getPath().size() > nodeInfo.getDepthLimit()) {
+			    if (state.isGameOver() || depth <= 0 ) {
 			        return evaluateState(state, true); //Eval goes here.
 			    }
 			    else {
-			      li = state.getAllMoves(state, place).listIterator();
+			      li = BoardState.getAllMoves(state, move.getPieceToGiveOpponent()).listIterator();
 			      double maxValue = Double.NEGATIVE_INFINITY;
-			      int count = 0;
+			      
 			      while (li.hasNext()) {
 			          //System.out.println("Max: Testing Action " + count);
-			          arc = (Action)li.next();
-			          child = (Node)visit.clone();
-			          child.update(arc);
-			          if(!visited.contains(child)) {
-			                  childValue = minValue(child, depth+1);
+			          nextMove = (Move)li.next();
+			          child = state.deepCopy();
+			          child.simMove(nextMove);
+			          
+			          //if(!haveVisited.contains(child)) {
+			                  childValue = minValue(child, depth-1, nextMove);
 			                  if(childValue > maxSoFar) maxSoFar = childValue;
 			                  //System.out.println("Max: got child value: " + childValue);
-			                  visited.add(child);
-			          }
-			          count++;
+			                  //haveVisited.add(child);
+			          //}
 			      }
 			      return maxSoFar;
 			    }
-			  }		  
+			  }
+
+		  public double minValue (BoardState state, int depth, Move move) {
+			    double minSoFar = Double.POSITIVE_INFINITY;
+			    ListIterator li;
+			    Move nextMove;
+			    BoardState child;
+			    double childValue;
+			    if (state.isGameOver() || depth <= 0 ) {
+			        return evaluateState(state, false); //Eval goes here.
+			    }
+			    else {
+			    	li = BoardState.getAllMoves(state, move.getPieceToGiveOpponent()).listIterator();
+			    	
+			      while (li.hasNext()) {
+			          //System.out.println("        Min: Testing Action " + count);
+			          nextMove = (Move)li.next();
+			          child = state.deepCopy();
+			          child.simMove(nextMove);
+			          
+			          if(!haveVisited.contains(child)) {
+			                  childValue = maxValue(child, depth-1, nextMove);
+			                  if(minSoFar > childValue) minSoFar = childValue;
+			                  haveVisited.add(child);
+			          }
+			      }
+			      return minSoFar;
+			    }
+
+
+
+
+			  }
 	
 
 

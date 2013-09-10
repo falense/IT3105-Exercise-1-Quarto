@@ -13,7 +13,7 @@ public class AlphaBetaAI extends BaseAI {
 	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
 		this.maxDepth = maxDepth;
-		randomizer = new NoviceAI(verboseOutput);
+		randomizer = new NoviceAI(verboseOutput);	
 		// TODO Auto-generated constructor stub
 	}
 
@@ -81,6 +81,24 @@ public class AlphaBetaAI extends BaseAI {
 		else
 			return -r;
 	}
+	
+	private double evaluateState1(BoardState state){
+		Piece[][] checkList = state.getRowsAndColumns();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return 0;
+	}
+	
 	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
 		counter ++;
 
