@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import players.BasePlayer;
 import players.ai.AlphaBetaAI;
 import players.ai.AlphaBetaAI2;
-import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 

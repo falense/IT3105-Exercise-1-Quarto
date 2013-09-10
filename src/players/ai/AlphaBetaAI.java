@@ -4,37 +4,19 @@ import board.BoardState;
 import board.Move;
 import board.Piece;
 import evaluation.Evaluator;
-import evaluation.FirstEva;
+import evaluation.CloseToQuarto;
 
-public class AlphaBetaAI extends BaseAI {
+public class AlphaBetaAI extends BaseRecursiveAI {
 
 	final String name = AlphaBetaAI.class.getName();
-	int maxDepth = 2;
 	private Evaluator eval;
 
-	NoviceAI randomizer;
 	public  AlphaBetaAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
-		this.maxDepth = maxDepth;
-		randomizer = new NoviceAI(verboseOutput);
-		eval = new FirstEva();
-		// TODO Auto-generated constructor stub
+		eval = new CloseToQuarto();
 	}
 
 
-	/*private double evaluateState(BoardState state, boolean max){
-		String key = state.toHash();
-		if (AlphaBetaTrainer.learning.containsKey(key)) {
-			int d = (int) AlphaBetaTrainer.learning.get(key);
-			System.out.println("Successfull lookup" + d);
-			if (max)
-				return d;
-			else
-				return -d;
-		}
-		return 0;	
-	}*/
-	
 	
 		
 	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
@@ -131,8 +113,7 @@ public class AlphaBetaAI extends BaseAI {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return this.name + " maxDepth: " + maxDepth;
+		return this.name + "(" + maxDepth + ")";
 	}
 	
 

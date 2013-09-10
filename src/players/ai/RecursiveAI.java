@@ -7,22 +7,17 @@ import board.Move;
 import board.Piece;
 
 
-public class RecursiveAI extends BaseAI{
+public class RecursiveAI extends BaseRecursiveAI{
 
-	final String name = "RecursiveAI";
-	int maxDepth = 2;
-	NoviceAI randomizer;
+	final String name =  RecursiveAI.class.getName();
+	
 	public RecursiveAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput);
-		this.maxDepth = maxDepth;
-		randomizer = new NoviceAI(verboseOutput);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getName(){
-		return this.name;
+		return this.name + "(" + maxDepth + ")";
 	}
-
 
 	private double evaluateState(BoardState state, boolean max){
 		

@@ -68,14 +68,14 @@ public class GM implements Runnable {
 		
 		while (!state.isGameOver()){
 			printMessage("************* PLAYER 1 TURN *************");
-			p1move = p1.getNextMove(state, p2move.pieceToGiveOpponent);
+			p1move = p1.getNextMove(state, p2move.getPieceToGiveOpponent());
 			printMessage(state.toString());
-			r = state.placePiece(p1move.pieceToPlace, p1move.x,p1move.y);
+			r = state.placePiece(p1move.getPieceToPlace(), p1move.getX(),p1move.getY());
 			if (!r){
 				printError(" Player 1s placing of the piece was invalid.");
 				return;
 			}
-			r = state.pickPiece(p1move.pieceToGiveOpponent);
+			r = state.pickPiece(p1move.getPieceToGiveOpponent());
 			if (!r){
 				printError(" Player 1 picked an invalid piece for the opponent.");
 				return;
@@ -99,13 +99,13 @@ public class GM implements Runnable {
 			}
 			sleep(delay);
 			printMessage("************* PLAYER 2 TURN *************");
-			p2move = p2.getNextMove(state, p1move.pieceToGiveOpponent);
-			r = state.placePiece(p2move.pieceToPlace, p2move.x,p2move.y);
+			p2move = p2.getNextMove(state, p1move.getPieceToGiveOpponent());
+			r = state.placePiece(p2move.getPieceToPlace(), p2move.getX(),p2move.getY());
 			if (!r){
 				printError(" Player 2s placing of the piece was invalid.");
 				return;
 			}
-			r = state.pickPiece(p2move.pieceToGiveOpponent);
+			r = state.pickPiece(p2move.getPieceToGiveOpponent());
 			if (!r){
 				printError(" Player 2 picked an invalid piece for the opponent.");
 				return;
@@ -131,33 +131,6 @@ public class GM implements Runnable {
 			sleep(delay);
 		}
 		if (winner == -1) winner = 0;
-		
-		
-		boolean t;
-		if (winner != 0){
-			if (winner == 1)
-				t = true;
-			
-			else 
-				t = false;
-			/*
-			for (BoardState s : sequence){
-				int e;
-				if (t){
-					e = 1;
-				}
-				else
-					e = -1;
-				String key = s.toHash();
-				if (AlphaBetaTrainer.learning.containsKey(key)){
-					int g = (int) AlphaBetaTrainer.learning.get(key);
-					e = g + e;
-				}
-				
-				AlphaBetaTrainer.learning.put(key,e);
-				
-			}*/
-		}
 		
 		
 		if (g != null) g.cleanup();

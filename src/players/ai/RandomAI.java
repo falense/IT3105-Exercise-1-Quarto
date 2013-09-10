@@ -9,14 +9,10 @@ import board.Piece;
 
 public class RandomAI extends BaseAI {
 	
-	final String name = "RandomAI";
+	final String name = RandomAI.class.getName();
 
 	public RandomAI(boolean verboseOutput) {
 		super(verboseOutput);
-		// TODO Auto-generated constructor stub
-	}
-	protected void printMessage(String msg){
-		super.printMessage(msg);
 	}
 
 	@Override
@@ -51,7 +47,6 @@ public class RandomAI extends BaseAI {
 	}
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return this.name;
 	}
 
