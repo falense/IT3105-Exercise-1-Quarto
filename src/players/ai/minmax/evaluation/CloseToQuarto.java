@@ -12,19 +12,20 @@ public class CloseToQuarto extends BaseEvaluator {
 		for (int i = 0 ; i < 10 ; i++){
 			int t = super.rowSameFeatureCount(checkList[i]);
 			switch (t){
-			case 0:
-				break;
-			case 1:
-				r += 0.1*0.1;
-				break;
-			case 2:
-				r += 0.1*0.4;
-				break;
-			case 3:
-				r += 0.1;
-				break;
+				case 0:
+					break;
+				case 1:
+					r += 0.1*0.1;
+					break;
+				case 2:
+					r += 0.1*0.3;
+					break;
+				case 3:
+					r += 0.1;
+					break;
 			}
 		}
+		if (r > 1.0) r = 1.0;
 		if (max)
 			return r;
 		else

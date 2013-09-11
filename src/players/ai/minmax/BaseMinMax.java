@@ -75,7 +75,7 @@ public abstract class BaseMinMax extends BaseRecursiveAI {
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
 		
-		if(state.getRemainingPieces().size()>=12){
+		if(state.getRemainingPieces().size()>=16){
 			return randomizer.getNextMove(state, place);
 		}
 		if (state.getRemainingPieces().size() == 0){
