@@ -5,6 +5,7 @@ import players.ai.MinMaxAI;
 import players.ai.MinMaxAI2;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
+import players.ai.RecursiveAI;
 
 
 public class StatisticsRunner {
@@ -15,7 +16,7 @@ public class StatisticsRunner {
 		this.p2 = p2;
 		this.numMatches = numMatches;
 	}
-	public void doTest(boolean reverse){
+	public int [] simulate(boolean reverse){
 		ArrayList<GM> gameMasters = new ArrayList<GM>();
 		ArrayList<Thread> threads = new ArrayList<Thread>();
 		for (int i = 0; i < numMatches; i++){
@@ -33,7 +34,7 @@ public class StatisticsRunner {
 		int results[] = new int[3];
 		for (int i = 0; i < 3; i++) results[i] = 0;
 		for (int i = 0; i < numMatches; i++){
-			
+			//System.out.println("Complete " + ((double)i / (double)numMatches) + "%");
 			try {
 				threads.get(i).join();
 			} catch (InterruptedException e) {
@@ -54,11 +55,12 @@ public class StatisticsRunner {
 			
 		}
 		System.out.println("Draws: " + results[0] + "\n" );
+		return results;
 
 	}
 	public void run(){
-		doTest(false);
-		doTest(true);
+		int []r = simulate(false);
+		int []s = simulate(true);
 
 		//System.out.println("Learning table: " + AlphaBetaTrainer.learning.size());
 	}

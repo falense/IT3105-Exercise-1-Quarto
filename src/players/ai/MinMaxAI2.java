@@ -3,13 +3,13 @@ package players.ai;
 import board.BoardState;
 import board.Move;
 import board.Piece;
-import evaluation.Evaluator;
+import evaluation.BaseEvaluator;
 import evaluation.CloseToQuarto;
 
 public class MinMaxAI2 extends BaseRecursiveAI {
 
 	final String name = MinMaxAI2.class.getName();
-	private Evaluator eval;
+	private BaseEvaluator eval;
 
 	public  MinMaxAI2(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput,maxDepth);
@@ -23,7 +23,7 @@ public class MinMaxAI2 extends BaseRecursiveAI {
 		counter ++;
 
 		//System.out.println(alpha + " " + beta);
-		if(state.haveAWinner()){
+		if(state.isQuarto()){
 			if (max) return -1;
 			else return 1;
 		}
@@ -44,7 +44,7 @@ public class MinMaxAI2 extends BaseRecursiveAI {
 			BoardState newState = state.deepCopy();
 			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
 			newState.pickPiece(m.getPieceToGiveOpponent());
-			if(newState.haveAWinner()){
+			if(newState.isQuarto()){
 
 				if (max) return 1;
 				else return -1;

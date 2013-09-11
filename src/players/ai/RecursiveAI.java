@@ -25,7 +25,7 @@ public class RecursiveAI extends BaseRecursiveAI{
 	}
 	private double searchAlphaBeta(BoardState state, final Piece place,final boolean max,final int depth){
 		counter ++;
-		if(state.haveAWinner()){
+		if(state.isQuarto()){
 			if (max) return -1;
 			else return 1;
 		}
@@ -40,8 +40,7 @@ public class RecursiveAI extends BaseRecursiveAI{
 			BoardState newState = state.deepCopy();
 			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
 			newState.pickPiece(m.getPieceToGiveOpponent());
-			if(newState.haveAWinner()){
-
+			if(newState.isQuarto()){
 				if (max) return 1;
 				else return -1;
 			}
@@ -74,7 +73,11 @@ public class RecursiveAI extends BaseRecursiveAI{
 		if(state.getRemainingPieces().size()>=12){
 			return randomizer.getNextMove(state, place);
 		}
-		
+
+		if (state.getRemainingPieces().size() == 0){
+			for (int [] coord : state.getOpenSlots())
+			return new Move(place,null,coord[0],coord[1]);
+		}
 		
 		// TODO Auto-generated method stub
 		Move best = null;

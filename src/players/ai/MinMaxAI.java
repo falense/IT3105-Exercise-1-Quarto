@@ -3,13 +3,13 @@ package players.ai;
 import board.BoardState;
 import board.Move;
 import board.Piece;
-import evaluation.Evaluator;
+import evaluation.BaseEvaluator;
 import evaluation.CloseToQuarto;
 
 public class MinMaxAI extends BaseRecursiveAI {
 
 	final String name = MinMaxAI.class.getName();
-	private Evaluator eval;
+	private BaseEvaluator eval;
 
 	public  MinMaxAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput,maxDepth);
@@ -23,7 +23,7 @@ public class MinMaxAI extends BaseRecursiveAI {
 		counter ++;
 
 		//System.out.println(alpha + " " + beta);
-		if(state.haveAWinner()){
+		if(state.isQuarto()){
 			if (max) return -1;
 			else return 1;
 		}
@@ -44,7 +44,7 @@ public class MinMaxAI extends BaseRecursiveAI {
 			BoardState newState = state.deepCopy();
 			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
 			newState.pickPiece(m.getPieceToGiveOpponent());
-			if(newState.haveAWinner()){
+			if(newState.isQuarto()){
 
 				if (max) return 1;
 				else return -1;
@@ -86,7 +86,10 @@ public class MinMaxAI extends BaseRecursiveAI {
 		if(state.getRemainingPieces().size()>=12){
 			return randomizer.getNextMove(state, place);
 		}
-		
+		if (state.getRemainingPieces().size() == 0){
+			for (int [] coord : state.getOpenSlots())
+			return new Move(place,null,coord[0],coord[1]);
+		}
 		// TODO Auto-generated method stub
 		Move best = null;
 		double bestScore = 0;
@@ -105,9 +108,23 @@ public class MinMaxAI extends BaseRecursiveAI {
 			}
 			//System.out.println(score);
 		}
-		//System.out.println("Counter " + counter );
+		int branchingFactor = state.getRemainingPieces().size();
+		double totalCounter = getBranches(branchingFactor);
+		//System.out.println("Counter " + counter + " of " + (int)totalCounter + "(" + ((double)counter/totalCounter) + ")" );
+	//	if (totalCounter < counter){
+		//	System.out.println(branchingFactor + " " + maxDepth);
+	//}
 		counter = 0;
 		return best;
+	}
+	private double getBranches(double branchingFactor){
+		double r = 1;
+		for (int i = 0; i < maxDepth+1;i++){
+			r = r*branchingFactor*(branchingFactor+1);
+			branchingFactor--;
+		}
+		
+		return r;
 	}
 
 

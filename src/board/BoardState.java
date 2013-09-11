@@ -49,30 +49,6 @@ public class BoardState {
 		remainingPieces.add(StaticPieces.BSSN);
 		
 		
-/*		//all true
-		remainingPieces.add(new Piece(true, true, true, true));
-		//3x true
-		remainingPieces.add(new Piece(true, true, true, false));
-		remainingPieces.add(new Piece(true, true, false, true));
-		remainingPieces.add(new Piece(true, false, true, true));
-		remainingPieces.add(new Piece(false, true, true, true));
-		// 2x 2x
-		remainingPieces.add(new Piece(true, true, false, false));
-		remainingPieces.add(new Piece(true, false, false, true));
-		remainingPieces.add(new Piece(false, false, true, true));
-		remainingPieces.add(new Piece(false, true, true, false));	
-		remainingPieces.add(new Piece(true, false, true, false));
-		remainingPieces.add(new Piece(false, true, false, true));
-		//3x false
-		remainingPieces.add(new Piece(true, false, false, false));
-		remainingPieces.add(new Piece(false, false, false, true));
-		remainingPieces.add(new Piece(false, false, true, false));
-		remainingPieces.add(new Piece(false, true, false, false));
-		// all false
-		remainingPieces.add(new Piece(false, false, false, false));
-		//done (i hope)
-*/		
-		
 	}
 	
 	public BoardState(BoardState old) {
@@ -127,22 +103,6 @@ public class BoardState {
 		return returnList;
 	}
 	
-	/* not needed (i think)
-    public ArrayList<Move> getAllMoves() {
-        ArrayList<Move> moves = new ArrayList<Move>();;
-        if(currentPiece==null) {
-                for(Piece p : remainingPieces)
-                        moves.add(new Move(null, p, -1, -1));
-        } else {
-                for(int x = 0; x < board.length; x++)
-                        for(int y = 0; y < board[x].length; y++)
-                                if(board[y][x] == null)
-                                        for(Piece p : remainingPieces)
-                                                	moves.add(new Move(currentPiece, p, x, y));
-        }
-                return moves;
-    }
-    */
     
     public static ArrayList<Move> getAllMoves(BoardState b, Piece myPiece) {
         ArrayList<Move> moves = new ArrayList<Move>();;
@@ -175,17 +135,17 @@ public class BoardState {
 			return true;
 		}
 		
-		if (haveAWinner())
+		if (isQuarto())
 			return true;
 		
 		return false;
 	}
 	
 	public boolean isDraw(){
-		return getOpenSlots().isEmpty() && !haveAWinner();
+		return getOpenSlots().isEmpty() && !isQuarto();
 	}
 	
-	public boolean haveAWinner(){
+	public boolean isQuarto(){
 		Piece[][] checkList = getRowsAndColumns();
 		
 		for (int i = 0 ; i < 10 ; i++){
@@ -255,7 +215,7 @@ public class BoardState {
 	public boolean isWinnablePiece(Piece p){	
 		for (int[] coord : this.getOpenSlots()){
 			BoardState testBoard = this.deepCopy();
-			testBoard.simulatePlacement(p, coord[0], coord[1]);
+			testBoard.forcePlace(p, coord[0], coord[1]);
 			if (testBoard.isGameOver()){
 				return true;
 			}
@@ -263,28 +223,28 @@ public class BoardState {
 		return false;
 	}
 	
-	public void simulatePlacement(Piece piece, int x, int y){
+	public void forcePlace(Piece piece, int x, int y){
 				board[x][y] = piece;
 	}
 	
-	public void simulateUsePiece(Piece piece, int x, int y){
-		simulatePlacement(piece,  x,  y);
+	public void forceUsePiece(Piece piece, int x, int y){
+		forcePlace(piece,  x,  y);
 		this.remainingPieces.remove(piece);
 	}
 	
-	public void simMove(Move move){
-		simulateRemovePiece(move.getPieceToGiveOpponent());
-		simulateUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
+	public void forceMove(Move move){
+		forceRemovePiece(move.getPieceToGiveOpponent());
+		forceUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
 	}
 
 	
-	public void simulateRemovePiece(Piece piece){
+	public void forceRemovePiece(Piece piece){
 		this.remainingPieces.remove(piece);
 	}
 	
 	public boolean pickPiece(Piece piece){
 		if (remainingPieces.isEmpty()) {
-			return false;
+			return true;
 		}
 		if (remainingPieces.contains(piece)){
 			currentPiece = piece;
@@ -347,16 +307,6 @@ public class BoardState {
 		
 		
 	}
-	/* not working yet
-	public BoardState simulateMove(Move move){
-		BoardState simBoard = this.deepCopy();
-		simBoard.placePiece(move.getPieceToPlace(), move.getX(), move.getY());
-		if (simBoard.pickPiece(move.getPieceToGiveOpponent())){
-			return simBoard;
-		} else
-			return this;
-	}
-	*/
 	
 
 }

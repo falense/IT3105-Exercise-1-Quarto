@@ -60,6 +60,7 @@ public class GM implements Runnable {
 		ArrayList<Piece> p = state.getRemainingPieces();
 		Random rand = new Random(System.currentTimeMillis());
 		Piece randomPiece = p.get(0);//rand.nextInt(16));
+		state.pickPiece(randomPiece);
 		ArrayList<BoardState> sequence = new ArrayList<BoardState>();
 				
 		Move p1move  = new Move(null,null,-1,-1);
@@ -85,7 +86,7 @@ public class GM implements Runnable {
 			
 			if (state.isGameOver()){
 				
-				if (state.haveAWinner()){
+				if (state.isQuarto()){
 					winner = 1;
 					printMessage(p1.getClass().getName()+" won!");
 				} else	{
@@ -131,11 +132,11 @@ public class GM implements Runnable {
 		if (winner == -1) winner = 0;
 		
 		
-		if (g != null) g.cleanup();
+		//if (g != null ) g.cleanup();
 	}
 	public static void main(String[] args)
     {
-		GM g = new GM(true,true,500,new MinMaxAI(false, 4),new RandomAI(false));
+		GM g = new GM(true,true,1000,new MinMaxAI(false, 5),new HumanPlayer());
 		g.run();
 	}
 }

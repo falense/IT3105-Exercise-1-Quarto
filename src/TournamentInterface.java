@@ -88,11 +88,11 @@ public class TournamentInterface {
 		String[] tempString;
 		tempString = boardUpdate.split("\\s+");	
 		//Change this if we remove BoardUpdate:
-		board.simulateUsePiece(new Piece(tempString[1]), Integer.parseInt(tempString[3]), Integer.parseInt(tempString[2]));
+		board.forceUsePiece(new Piece(tempString[1]), Integer.parseInt(tempString[3]), Integer.parseInt(tempString[2]));
 	}
 	
 	private Move generateMove(Piece piece){
-		board.simulateRemovePiece(piece);
+		board.forceRemovePiece(piece);
 		return selectedAI.getNextMove(board, piece);
 	}
 	

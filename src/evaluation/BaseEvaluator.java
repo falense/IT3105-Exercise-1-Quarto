@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import board.BoardState;
 import board.Piece;
 
-public class BaseEvaluator {
+public abstract class BaseEvaluator {
 	
 	public BaseEvaluator(){
 		
 	}
+	public abstract double evaluate(BoardState board, boolean max);
 	
 	protected int rowSameFeatureCount(Piece[] row){
 		int features[] = new int[4];

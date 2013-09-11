@@ -21,6 +21,12 @@ public class NoviceAI extends BaseAI {
 	}
 
 	public Move getNextMove(BoardState b, Piece place) {
+
+		if (b.getRemainingPieces().size() == 0){
+			for (int [] coord : b.getOpenSlots())
+			return new Move(place,null,coord[0],coord[1]);
+		}
+		
 		ArrayList<Piece> remaining = b.getRemainingPieces();	
 		Random r = new Random(System.currentTimeMillis());
 		

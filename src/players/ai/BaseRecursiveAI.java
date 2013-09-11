@@ -1,8 +1,5 @@
 package players.ai;
 
-import board.BoardState;
-import board.Move;
-import board.Piece;
 
 public abstract class BaseRecursiveAI extends BaseAI{
 

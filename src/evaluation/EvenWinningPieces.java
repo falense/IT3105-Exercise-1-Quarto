@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import board.BoardState;
 import board.Piece;
 
-public class EvenWinningPieces extends BaseEvaluator implements Evaluator{
+public class EvenWinningPieces extends BaseEvaluator{
 	
 	double r = 0;
 

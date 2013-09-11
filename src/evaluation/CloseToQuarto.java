@@ -3,7 +3,7 @@ package evaluation;
 import board.BoardState;
 import board.Piece;
 
-public class CloseToQuarto extends BaseEvaluator implements Evaluator {
+public class CloseToQuarto extends BaseEvaluator {
 
 	@Override
 	public double evaluate(BoardState board, boolean max) {

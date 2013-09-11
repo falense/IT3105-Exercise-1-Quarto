@@ -1,6 +1,5 @@
 package players;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import board.BoardState;
 import board.Move;
 import board.Piece;
-import board.StaticPieces;
 
 
 public class HumanPlayer implements BasePlayer{
