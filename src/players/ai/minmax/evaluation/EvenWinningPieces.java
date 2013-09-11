@@ -1,4 +1,4 @@
-package evaluation;
+package players.ai.minmax.evaluation;
 
 import java.util.ArrayList;
 

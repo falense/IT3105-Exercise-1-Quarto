@@ -17,7 +17,6 @@ public class RandomAI extends BaseAI {
 
 	@Override
 	public Move getNextMove(BoardState b, Piece place) {
-		// TODO Auto-generated method stub
 		ArrayList<Piece> remaining = b.getRemainingPieces();
 		
 		Random r = new Random(System.currentTimeMillis());
@@ -27,6 +26,12 @@ public class RandomAI extends BaseAI {
 			place = remaining.get(r.nextInt(remaining.size()));
 			remaining.remove(place);
 		}
+		//If there is no more pieces this is the last move and there is no choice but one...
+		if (b.getRemainingPieces().size() == 0){
+			for (int [] coord : b.getOpenSlots())
+			return new Move(place,null,coord[0],coord[1]);
+		}
+		
 
 		printMessage(BaseAI.class.getName() + " Placing the piece");
 		int x = r.nextInt(4);

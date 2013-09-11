@@ -1,4 +1,4 @@
-package evaluation;
+package players.ai.minmax.evaluation;
 
 import board.BoardState;
 import board.Piece;

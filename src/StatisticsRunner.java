@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 import players.BasePlayer;
-import players.ai.MinMaxAI;
-import players.ai.MinMaxAI2;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.RecursiveAI;
+import players.ai.minmax.MinMaxAI;
+import players.ai.minmax.MinMaxAI2;
 
 
 public class StatisticsRunner {
@@ -61,14 +61,11 @@ public class StatisticsRunner {
 	public void run(){
 		int []r = simulate(false);
 		int []s = simulate(true);
-
-		//System.out.println("Learning table: " + AlphaBetaTrainer.learning.size());
+		
 	}
 	public static void main(String[] args)
     {
-	//	StatisticsRunner s = new StatisticsRunner( new RandomAI(false),new RandomAI(false), 10000);
-		//for (int i = 0; i < 100; i++)s.run();
-		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new NoviceAI(false), 200);
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new RandomAI(false), 100);
 		s2.run();
 		
 		

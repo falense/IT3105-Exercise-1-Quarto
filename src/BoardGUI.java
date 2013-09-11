@@ -18,7 +18,7 @@ import board.Piece;
 import board.StaticPieces;
 
 
-public class GUI {
+public class BoardGUI {
 	private JFrame frame;
 	private JPanel boardPanel;
 	private JPanel remainingPanel;
@@ -27,7 +27,7 @@ public class GUI {
 		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}
 
-	public GUI(){
+	public BoardGUI(){
 		createWindow();
 	}
 	private void createWindow(){

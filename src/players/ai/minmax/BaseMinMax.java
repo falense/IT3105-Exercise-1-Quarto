@@ -1,24 +1,17 @@
-package players.ai;
+package players.ai.minmax;
 
+import players.ai.BaseRecursiveAI;
 import board.BoardState;
 import board.Move;
 import board.Piece;
-import evaluation.BaseEvaluator;
-import evaluation.CloseToQuarto;
 
-public class MinMaxAI extends BaseRecursiveAI {
+public abstract class BaseMinMax extends BaseRecursiveAI {
 
-	final String name = MinMaxAI.class.getName();
-	private BaseEvaluator eval;
-
-	public  MinMaxAI(boolean verboseOutput, int maxDepth) {
-		super(verboseOutput,maxDepth);
-		eval = new CloseToQuarto();
+	public BaseMinMax(boolean verboseOutput, int maxDepth) {
+		super(verboseOutput, maxDepth);
+		// TODO Auto-generated constructor stub
 	}
 
-
-	
-		
 	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
 		counter ++;
 
@@ -79,7 +72,6 @@ public class MinMaxAI extends BaseRecursiveAI {
 		return bestScore;
 	}
 	
-	int counter = 0;
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
 		
@@ -127,11 +119,5 @@ public class MinMaxAI extends BaseRecursiveAI {
 		return r;
 	}
 
-
-	@Override
-	public String getName() {
-		return this.name + "(" + maxDepth + ")";
-	}
-	
 
 }

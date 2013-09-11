@@ -23,7 +23,7 @@ public class RecursiveAI extends BaseRecursiveAI{
 		
 		return 0;	
 	}
-	private double searchAlphaBeta(BoardState state, final Piece place,final boolean max,final int depth){
+	private double searchRecursive(BoardState state, final Piece place,final boolean max,final int depth){
 		counter ++;
 		if(state.isQuarto()){
 			if (max) return -1;
@@ -46,7 +46,7 @@ public class RecursiveAI extends BaseRecursiveAI{
 			}
 			if (state.isDraw())
 				return 0;
-			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),!max,depth-1);
+			double score = searchRecursive(newState,m.getPieceToGiveOpponent(),!max,depth-1);
 			
 			if (max){
 				if (best == null || score > bestScore){
@@ -64,7 +64,6 @@ public class RecursiveAI extends BaseRecursiveAI{
 		return bestScore;
 	}
 	
-	int counter = 0;
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
 		
@@ -73,20 +72,19 @@ public class RecursiveAI extends BaseRecursiveAI{
 		if(state.getRemainingPieces().size()>=12){
 			return randomizer.getNextMove(state, place);
 		}
-
+		//If there is no more pieces this is the last move and there is no choice but one...
 		if (state.getRemainingPieces().size() == 0){
 			for (int [] coord : state.getOpenSlots())
 			return new Move(place,null,coord[0],coord[1]);
 		}
 		
-		// TODO Auto-generated method stub
 		Move best = null;
 		double bestScore = 0;
 		for (Move m : BoardState.getAllMoves(state, place)){
 			BoardState newState = state.deepCopy();
 			newState.placePiece(place, m.getX(),m.getY());
 			newState.pickPiece(m.getPieceToGiveOpponent());
-			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),false,maxDepth-1);
+			double score = searchRecursive(newState,m.getPieceToGiveOpponent(),false,maxDepth-1);
 			if (best == null || score > bestScore){
 				bestScore = score;
 				best = m;

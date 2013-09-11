@@ -3,11 +3,11 @@ import java.util.Random;
 
 import players.BasePlayer;
 import players.HumanPlayer;
-import players.ai.MinMaxAI;
 //import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.RecursiveAI;
+import players.ai.minmax.MinMaxAI;
 import board.BoardState;
 import board.Move;
 import board.Piece;
@@ -17,7 +17,7 @@ public class GM implements Runnable {
 	private boolean verboseOutput;
 	private long delay;
 	private BoardState state;
-	private GUI g;
+	private BoardGUI g;
 	private BasePlayer p1,p2;
 	
 	public int winner = -1;
@@ -25,7 +25,7 @@ public class GM implements Runnable {
 		this.verboseOutput = verboseOutput;
 		this.delay = delay;
 		if (guiEnabled)
-			g = new GUI();
+			g = new BoardGUI();
 		else
 			g = null;
 		state = new BoardState();
