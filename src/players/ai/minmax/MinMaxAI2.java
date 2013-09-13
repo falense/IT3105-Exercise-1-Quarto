@@ -2,15 +2,11 @@ package players.ai.minmax;
 
 import players.ai.minmax.evaluation.BaseEvaluator;
 import players.ai.minmax.evaluation.CloseToQuarto;
-import players.ai.minmax.evaluation.EvenWinningPieces;
-import board.BoardState;
-import board.Move;
-import board.Piece;
+import players.ai.minmax.evaluation.ConstantEval;
 
 public class MinMaxAI2 extends BaseMinMax {
 
 	final String name = MinMaxAI2.class.getName();
-	private BaseEvaluator eval;
 
 	@Override
 	public String getName() {
@@ -19,9 +15,12 @@ public class MinMaxAI2 extends BaseMinMax {
 	
 	public  MinMaxAI2(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput,maxDepth);
-		eval = new EvenWinningPieces();
+		eval = new ConstantEval();
 	}
 
+
+
+	
 
 
 

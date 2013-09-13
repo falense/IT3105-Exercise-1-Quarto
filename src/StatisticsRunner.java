@@ -11,6 +11,7 @@ import players.ai.minmax.MinMaxAI2;
 public class StatisticsRunner {
 	BasePlayer p1, p2;
 	int numMatches;
+	int batchSize = 4;
 	public StatisticsRunner(BasePlayer p1, BasePlayer p2, int numMatches){
 		this.p1 = p1;
 		this.p2 = p2;
@@ -61,7 +62,7 @@ public class StatisticsRunner {
 	public int[] doGames(BasePlayer p1, BasePlayer p2, int numMatches){
 		ArrayList<GM> gameMasters = new ArrayList<GM>();
 		ArrayList<Thread> threads = new ArrayList<Thread>();
-		for (int i = 0; i < numMatches; i++){
+		for (int i = 0; i < batchSize; i++){
 			GM g = new GM(false,false,0,p1,p2);
 			Thread t = new Thread(g, "Quarto " + i);
 			t.start();
@@ -71,7 +72,7 @@ public class StatisticsRunner {
 
 		int results[] = new int[3];
 		for (int i = 0; i < 3; i++) results[i] = 0;
-		for (int i = 0; i < numMatches; i++){
+		for (int i = 0; i < batchSize; i++){
 			try {
 				threads.get(i).join();
 			} catch (InterruptedException e) {
@@ -84,7 +85,7 @@ public class StatisticsRunner {
 
 	}
 	public void run(){
-		int batchesOfMatches = numMatches/4;
+		int batchesOfMatches = numMatches/batchSize;
 		int []totalScore = new int[3];
 		for (int j = 0; j < 3; j++){
 			totalScore[j] += 0;
@@ -107,7 +108,7 @@ public class StatisticsRunner {
 				totalScore[1] += r[2];
 			}
 		}
-		System.out.println((double) Math.floor(2.5*numMatches) + " games was played, the results are:");
+		System.out.println(numMatches + " games was played, the results are:");
 
 		System.out.println(p1.getName() + " won: " + totalScore[1]);
 		System.out.println(p2.getName() + " won: " + totalScore[2]);
@@ -115,7 +116,7 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new NoviceAI(false), 4);
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new MinMaxAI2(false,2), 100);
 		s2.run();
 		
 		

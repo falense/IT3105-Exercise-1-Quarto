@@ -13,7 +13,7 @@ public class MinMaxAI extends BaseMinMax {
 
 	public  MinMaxAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput,maxDepth);
-		eval = new EvenWinningPieces();
+		eval = new CloseToQuarto();
 	}
 
 	@Override
