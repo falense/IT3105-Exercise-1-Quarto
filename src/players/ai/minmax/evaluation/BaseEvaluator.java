@@ -40,6 +40,33 @@ public abstract class BaseEvaluator {
 		return max;
 	}
 	
+	protected ArrayList<Piece> findRowCompleters(BoardState board){
+		ArrayList<Piece> pieceList = board.getRemainingPieces();
+		ArrayList<Piece> outList = new ArrayList<Piece>();
+		ArrayList<Piece> testList = new ArrayList<Piece>();
+		
+		Piece[][] checkList = board.getRowsAndColumns();
+		
+		for (int i = 0 ; i < checkList.length ; i++){
+			int t = rowSameFeatureCount(checkList[i]);
+			if (t==3){
+				for (int j = 1 ; j < 4 ; j++){
+					if (checkList[i][j]!=null)
+						testList.add(checkList[i][j]);
+				}
+			}
+		}
+	}
+	
+	protected int getSameFeatureNumber(Piece p1, Piece p2){
+		for (int i = 0 ; i < 4 ; i++){
+			if (true==p1.getFeatures()[i]==p1.getFeatures()[i])
+				return i;
+			
+		}
+		return 4;
+	}
+	
 	protected ArrayList<Piece> findWinners(BoardState board){
 		ArrayList<Piece> pieceList = board.getRemainingPieces();
 		ArrayList<Piece> outList = new ArrayList<Piece>();

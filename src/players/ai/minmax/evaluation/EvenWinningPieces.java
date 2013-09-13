@@ -23,7 +23,7 @@ public class EvenWinningPieces extends BaseEvaluator{
 			
 			//If even number of winning pieces are left:
 			if (dif%2==0){ 
-				r = 0.5;
+				r = 0.7;
 			}
 		}
 		
