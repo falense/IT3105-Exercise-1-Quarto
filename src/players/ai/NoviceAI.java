@@ -21,17 +21,21 @@ public class NoviceAI extends BaseAI {
 	}
 
 	public Move getNextMove(BoardState b, Piece place) {
+		
+		ArrayList<Piece> remaining = b.getRemainingPieces();
+		remaining.remove(place);//just in case
 
 		if (b.getRemainingPieces().size() == 0){
 			for (int [] coord : b.getOpenSlots())
 			return new Move(place,null,coord[0],coord[1]);
 		}
 		
-		ArrayList<Piece> remaining = b.getRemainingPieces();	
+			
 		Random r = new Random(System.currentTimeMillis());
 		
 		ArrayList<Move> myMoves = b.getAllMoves(b, place);
 		ArrayList<Move> goodMoves = new ArrayList<Move>();
+		
 		
 		
 		//checking for winning moves:
@@ -65,6 +69,8 @@ public class NoviceAI extends BaseAI {
 		
 		printMessage("Novice AI: Placing piece " +myMove.getPieceToPlace().getName() +" in slot " +myMove.getX() + " " + myMove.getY() );
 		printMessage("Novice AI: Giving opponent piece: " +myMove.getPieceToGiveOpponent().getName());
+		System.out.println("Novice AI: Placing piece " +myMove.getPieceToPlace().getName() +" in slot " +myMove.getX() + " " + myMove.getY() );
+		System.out.println("Novice AI: Giving opponent piece: " +myMove.getPieceToGiveOpponent().getName());
 		
 		return myMove;
 		

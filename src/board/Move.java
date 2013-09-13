@@ -28,5 +28,17 @@ public class Move {
 		return y;
 	}
 	
+	public String moveToString(){
+		
+		String sMove = "";
+		sMove.concat("Move ");
+		sMove.concat(Integer.toString(y));
+		sMove.concat(" ");
+		sMove.concat(Integer.toString(x));
+		sMove.concat(" ");
+		sMove.concat(pieceToGiveOpponent.toString());
+		return sMove;
+	}
+	
 	
 }

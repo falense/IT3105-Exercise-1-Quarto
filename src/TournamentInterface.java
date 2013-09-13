@@ -1,13 +1,18 @@
 
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
 import players.BasePlayer;
+import players.ai.CopyOfRandomAI;
+import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.minmax.MinMaxAI;
 import board.BoardState;
@@ -25,13 +30,18 @@ public class TournamentInterface {
 	private int iWin = 0;
 	private int youWin = 0;
 	private int draws = 0;
-	private boolean isRunning = true;
 	private BoardState board = new BoardState();
 	//private Piece myPiece;
-	BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
-	Socket clientSocket;
-	DataOutputStream outToServer; 
-	BufferedReader inFromServer;
+	private BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
+	private Socket clientSocket;
+	private DataOutputStream outToServer; 
+	private BufferedReader inFromServer;
+	private OutputStream outputStream;
+	private String backUpString;
+	
+	//testing new writer
+	PrintWriter printWriter;
+	BufferedWriter writer;
 	
 	
 	
@@ -50,29 +60,35 @@ public class TournamentInterface {
                                + "the connection to: GameHost.");
             System.exit(1);
         }
-		
-		
-		
+		//e1
+		//System.out.println("Constructor");	
 	}
 
 	
 	
 	
 	public void run() throws IOException{
+		//e2
+		
 		String innCom;
 		while ((innCom = inFromServer.readLine()) != null){
+			System.out.println("Data from server: " + innCom);
 			serverCom(innCom);
 		}
 	}
 	
 	public void startTest() throws IOException{
-  
+		//e3
+		System.out.println("init.");
 	  inFromUser = new BufferedReader( new InputStreamReader(System.in));
 	  clientSocket = new Socket("127.0.0.1", 4455);   
-	  outToServer = new DataOutputStream(clientSocket.getOutputStream());   
 	  inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	  outToServer = new DataOutputStream(clientSocket.getOutputStream());   
 	  
-	  
+	  //testing new writer.
+	  this.outputStream = clientSocket.getOutputStream();
+	  this.printWriter = new PrintWriter(outputStream);
+	  this.writer = new BufferedWriter(printWriter);
 	  //inFromUser.readLine();   
 	  //outToServer.writeBytes("");   
 	  //inFromServer.readLine();   
@@ -103,6 +119,7 @@ public class TournamentInterface {
 	 */
 	
 	private void serverCom(String inString) throws IOException{
+		//System.out.println("ServerCom Method:" + inString);
 		switch (inString.charAt(0)) {
 			case 'P':
 				setPlayerNumber(inString);
@@ -110,11 +127,16 @@ public class TournamentInterface {
 			case 'B':
 				updateBoard(inString);
 				break;
-			case 'T':	    
-				  outToServer.writeBytes(returnMove(inString));   
+			case 'T':
+				  backUpString = inString;
+				  String testy2 = returnMove(inString);
+				  System.out.println("Sending move to server: " + testy2);
+				  //server doesnt reciece this one.
+				  //outToServer.writeBytes(testy2);    
+				  writeMessage(testy2);
 				break;
 			case 'I':
-				//Invalid piece, not sure what to do...
+				writeMessage(returnMove(backUpString));
 				break;
 			case 'R':
 				board = new BoardState();
@@ -140,6 +162,13 @@ public class TournamentInterface {
 		}
 	}
 	
+	public void writeMessage(String s) throws IOException{	
+		writer.write(s);
+		writer.newLine();
+		writer.flush();
+	}
+	
+	//this needs some work
 	private void updateWinners(String s){
 		String[] tempString;
 		tempString = s.split(" ");
@@ -155,42 +184,58 @@ public class TournamentInterface {
 	
 	private void updateBoard(String boardUpdate){
 		//BoardUpdate [piece] [row (0-indexed)] [column (0-indexed)]
+		System.out.println("Updating Board with move: "+boardUpdate);
 		String[] tempString;
 		tempString = boardUpdate.split(" ");
 		//Change this if we remove BoardUpdate:
 		board.forceUsePiece(new Piece(tempString[1]), Integer.parseInt(tempString[3]), Integer.parseInt(tempString[2]));
+		board.printRemainingPieces();
 	}
 	
 	private Move generateMove(Piece piece){
-		board.forceRemovePiece(piece);
-		return selectedAI.getNextMove(board, piece);
+		
+		Move move = selectedAI.getNextMove(this.board.deepCopy(), piece);
+		
+		return move;
 	}
 	
 	//When a client has to do a turn, it receives:
 	//Turn [piece chosen by opponent]
 	private String returnMove(String inData){
-
 		String[] tempString;
 		tempString = inData.split(" ");
 		Piece myPiece = new Piece(tempString[1]);
-		return moveToString(generateMove(myPiece));
+		board.forceRemovePiece(myPiece);
+		//ok until here.
+		String testy = moveToString(generateMove(myPiece));
+		System.out.println(testy);
+		return testy;
 	}
 	
 	//Move [placed piece at row (0-indexed)] [placed piece at column (0-indexed)] [piece chosen for opponent]	
 	private String moveToString(Move move){
-		String sMove = "";
+		
+		String sMove = "Move "+Integer.toString(move.getY())+" "+Integer.toString(move.getX())+
+				" "+ move.getPieceToGiveOpponent().getName();
+		/*
 		sMove.concat("Move ");
 		sMove.concat(Integer.toString(move.getY()));
 		sMove.concat(" ");
 		sMove.concat(Integer.toString(move.getX()));
 		sMove.concat(" ");
 		sMove.concat(move.getPieceToGiveOpponent().toString());
+		*/
 		return sMove;
+	}
+	
+	private String getPlayer(){
+		return this.selectedAI.getName();
 	}
 
 	public static void main(String[] args)
     {
-		TournamentInterface t = new TournamentInterface(new RandomAI(false));
+		TournamentInterface t = new TournamentInterface(new CopyOfRandomAI(false));
+		System.out.println(t.getPlayer());
 		try {
 			t.run();
 		} catch (IOException e) {

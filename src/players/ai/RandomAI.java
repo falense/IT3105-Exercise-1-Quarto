@@ -18,6 +18,7 @@ public class RandomAI extends BaseAI {
 	@Override
 	public Move getNextMove(BoardState b, Piece place) {
 		ArrayList<Piece> remaining = b.getRemainingPieces();
+		remaining.remove(place);
 		
 		Random r = new Random(System.currentTimeMillis());
 		

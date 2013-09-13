@@ -260,6 +260,13 @@ public class BoardState {
 		return remList;
 	}
 	
+	public void printRemainingPieces(){
+		//think a shallow copy is sufficient here
+		for (Piece piece : remainingPieces)
+			System.out.println(piece.getName());
+		
+	}
+	
 	public Piece[][] getBoard(){
             Piece[][] boardCopy = new Piece[board.length][board[0].length];
             for(int i = 0; i < board.length; i++) {
