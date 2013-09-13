@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,9 +22,12 @@ public class GM implements Runnable {
 	private BoardState state;
 	private BoardGUI g;
 	private BasePlayer p1,p2;
+	static BufferedReader br;
+
 	
 	public int winner = -1;
 	public GM(boolean guiEnabled,boolean verboseOutput,long delay,BasePlayer p1, BasePlayer p2){
+		
 		this.verboseOutput = verboseOutput;
 		this.delay = delay;
 		if (guiEnabled)
@@ -53,6 +59,50 @@ public class GM implements Runnable {
 	}
 	private void printMessage(String msg){
 		if (verboseOutput) System.out.println(msg);
+	}
+	
+	private static void printMenu(int number){
+		
+		
+		System.out.println("Select Player " +number+":");
+		System.out.println("1: Human");
+		System.out.println("2: Random AI");
+		System.out.println("3: Novice AI");
+		System.out.println("4: MinMax AI");
+		System.out.println("Enter choice:");
+		
+
+	}
+	
+	private static BasePlayer findPlayer(String in){
+		
+
+		int temp = Integer.parseInt(in);
+		switch (temp){
+		case 1:
+			return new HumanPlayer();
+		case 2:
+			return new RandomAI(false);
+		case 3:
+			return new NoviceAI(false);
+		case 4:
+			System.out.println("Depth for search: 1-5");
+			System.out.println("Enter depth:");
+			String sIn;
+			try {	
+				sIn = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				sIn = "";
+			}
+			
+			//need exception handling
+			return new MinMaxAI(false,Integer.parseInt(sIn));
+			
+		default:
+			return new NoviceAI(false);
+		}
 	}
 	@Override
 	public void run(){
@@ -136,7 +186,57 @@ public class GM implements Runnable {
 	}
 	public static void main(String[] args)
     {
-		GM g = new GM(true,true,1000,new MinMaxAI(false, 5),new HumanPlayer());
-		g.run();
+		while(true){
+		
+			BasePlayer player1;
+			BasePlayer player2;
+			String temp;
+			br = new BufferedReader(new InputStreamReader(System.in));
+		
+			printMenu(1);
+			try {	
+				temp = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				temp = "3";
+			}
+			player1 = findPlayer(temp);
+		
+			printMenu(2);
+		
+			try {	
+				temp = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				temp = "3";
+			}
+		
+			player2 = findPlayer(temp);
+
+
+		
+		
+			GM g = new GM(true,true,1000,player1,player2);
+			g.run();
+			System.out.println("Do you want to play again?");
+			System.out.println("1: Yes");
+			System.out.println("2: No");
+			
+			try {	
+				temp = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				temp = "2";
+			}
+			if (Integer.parseInt(temp)!=1){
+				System.out.println("Exiting game, thanks for playing");
+				System.exit(0);				
+			}
+			
+		
+		}
 	}
 }
