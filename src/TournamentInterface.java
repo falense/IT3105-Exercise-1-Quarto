@@ -1,9 +1,18 @@
 
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
+
 import players.BasePlayer;
+import players.ai.minmax.MinMaxAI;
 import board.BoardState;
 import board.Move;
 import board.Piece;
+
+
 
 
 
@@ -14,7 +23,56 @@ public class TournamentInterface {
 	private int iWin = 0;
 	private int youWin = 0;
 	private int draws = 0;
+	private boolean isRunning = true;
+	private BoardState board = new BoardState();
 	//private Piece myPiece;
+	BufferedReader inFromUser = new BufferedReader( new InputStreamReader(System.in));
+	Socket clientSocket;
+	DataOutputStream outToServer; 
+	BufferedReader inFromServer;
+	
+	
+	
+	
+
+	public TournamentInterface(BasePlayer player) {
+		setAI(player);
+		
+		try {
+			startTest();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+
+	
+	
+	
+	public void run() throws IOException{
+		while (isRunning){
+			serverCom(inFromServer.readLine());
+		}
+	}
+	
+	public void startTest() throws IOException{
+  
+	  inFromUser = new BufferedReader( new InputStreamReader(System.in));
+	  clientSocket = new Socket("GameServer", 4455);   
+	  outToServer = new DataOutputStream(clientSocket.getOutputStream());   
+	  inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+	  
+	  
+	  //inFromUser.readLine();   
+	  //outToServer.writeBytes("");   
+	  //inFromServer.readLine();   
+	  
+	  
+
+	}
 	
 	public void setAI(BasePlayer ai){
 		selectedAI = ai;
@@ -22,11 +80,11 @@ public class TournamentInterface {
 	
 	private void setPlayerNumber(String s){
 		String[] tempString;
-		tempString = s.split("\\s+");
+		tempString = s.split(" ");
 		playerNumber = tempString[1];
 	}
 	
-	BoardState board = new BoardState();
+	
 	
 	/*
 	 * Player ['one'/'two']
@@ -37,7 +95,7 @@ public class TournamentInterface {
 	 * Winner ['one' or 'two']
 	 */
 	
-	private void serverCom(String inString){
+	private void serverCom(String inString) throws IOException{
 		switch (inString.charAt(0)) {
 			case 'P':
 				setPlayerNumber(inString);
@@ -45,8 +103,8 @@ public class TournamentInterface {
 			case 'B':
 				updateBoard(inString);
 				break;
-			case 'T':
-				returnMove(inString);
+			case 'T':	    
+				  outToServer.writeBytes(returnMove(inString));   
 				break;
 			case 'I':
 				//Invalid piece, not sure what to do...
@@ -64,6 +122,7 @@ public class TournamentInterface {
 				System.out.println("Our AI won "+iWin+" times");
 				System.out.println("Their AI won "+youWin+" times");
 				System.out.println("We drew "+draws+" times");
+				clientSocket.close();
 			default:
 				//some exceptions probably
 				break;
@@ -72,7 +131,7 @@ public class TournamentInterface {
 	
 	private void updateWinners(String s){
 		String[] tempString;
-		tempString = s.split("\\s+");
+		tempString = s.split(" ");
 		if (tempString[1]==playerNumber){
 			iWin++;
 		} else if (tempString[1].charAt(0)=='D' || tempString[1].charAt(0)=='d'){
@@ -86,7 +145,7 @@ public class TournamentInterface {
 	private void updateBoard(String boardUpdate){
 		//BoardUpdate [piece] [row (0-indexed)] [column (0-indexed)]
 		String[] tempString;
-		tempString = boardUpdate.split("\\s+");	
+		tempString = boardUpdate.split(" ");
 		//Change this if we remove BoardUpdate:
 		board.forceUsePiece(new Piece(tempString[1]), Integer.parseInt(tempString[3]), Integer.parseInt(tempString[2]));
 	}
@@ -101,7 +160,7 @@ public class TournamentInterface {
 	private String returnMove(String inData){
 
 		String[] tempString;
-		tempString = inData.split("\\s+");
+		tempString = inData.split(" ");
 		Piece myPiece = new Piece(tempString[1]);
 		return moveToString(generateMove(myPiece));
 	}
