@@ -25,7 +25,7 @@ public class CloseToQuarto extends BaseEvaluator {
 					break;
 			}
 		}
-		if (r > 1.0) r = 1.0;
+		if (r >= 1.0) r = 0.99;
 		if (max)
 			return r;
 		else

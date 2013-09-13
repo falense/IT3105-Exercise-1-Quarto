@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import players.BasePlayer;
 import players.ai.minmax.MinMaxAI;
@@ -40,10 +41,14 @@ public class TournamentInterface {
 		
 		try {
 			startTest();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} catch (UnknownHostException e) {
+            System.err.println("Don't know about host: GameHost.");
+            System.exit(1);
+        } catch (IOException e) {
+            System.err.println("Couldn't get I/O for "
+                               + "the connection to: GameHost.");
+            System.exit(1);
+        }
 		
 		
 		
@@ -53,15 +58,16 @@ public class TournamentInterface {
 	
 	
 	public void run() throws IOException{
-		while (isRunning){
-			serverCom(inFromServer.readLine());
+		String innCom;
+		while ((innCom = inFromServer.readLine()) != null){
+			serverCom(innCom);
 		}
 	}
 	
 	public void startTest() throws IOException{
   
 	  inFromUser = new BufferedReader( new InputStreamReader(System.in));
-	  clientSocket = new Socket("GameServer", 4455);   
+	  clientSocket = new Socket("GameHost", 4455);   
 	  outToServer = new DataOutputStream(clientSocket.getOutputStream());   
 	  inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	  
@@ -122,7 +128,11 @@ public class TournamentInterface {
 				System.out.println("Our AI won "+iWin+" times");
 				System.out.println("Their AI won "+youWin+" times");
 				System.out.println("We drew "+draws+" times");
+				inFromUser.close();
 				clientSocket.close();
+   			    outToServer.close();
+				inFromServer.close();
+				
 			default:
 				//some exceptions probably
 				break;
