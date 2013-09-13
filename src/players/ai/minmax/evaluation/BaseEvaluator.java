@@ -56,6 +56,7 @@ public abstract class BaseEvaluator {
 				}
 			}
 		}
+		return outList;
 	}
 	
 	protected int getSameFeatureNumber(Piece p1, Piece p2){

@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import players.BasePlayer;
+import players.ai.RandomAI;
 import players.ai.minmax.MinMaxAI;
 import board.BoardState;
 import board.Move;
@@ -67,7 +68,7 @@ public class TournamentInterface {
 	public void startTest() throws IOException{
   
 	  inFromUser = new BufferedReader( new InputStreamReader(System.in));
-	  clientSocket = new Socket("GameHost", 4455);   
+	  clientSocket = new Socket("127.0.0.1", 4455);   
 	  outToServer = new DataOutputStream(clientSocket.getOutputStream());   
 	  inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	  
@@ -186,7 +187,17 @@ public class TournamentInterface {
 		sMove.concat(move.getPieceToGiveOpponent().toString());
 		return sMove;
 	}
-	
+
+	public static void main(String[] args)
+    {
+		TournamentInterface t = new TournamentInterface(new RandomAI(false));
+		try {
+			t.run();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 	
 	
 	
