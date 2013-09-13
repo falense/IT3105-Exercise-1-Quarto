@@ -107,7 +107,7 @@ public class StatisticsRunner {
 				totalScore[1] += r[2];
 			}
 		}
-		System.out.println(numMatches + " games was played, the results are:");
+		System.out.println((double) Math.floor(2.5*numMatches) + " games was played, the results are:");
 
 		System.out.println(p1.getName() + " won: " + totalScore[1]);
 		System.out.println(p2.getName() + " won: " + totalScore[2]);
@@ -115,7 +115,7 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new NoviceAI(false), 100);
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new NoviceAI(false), 20);
 		s2.run();
 		
 		

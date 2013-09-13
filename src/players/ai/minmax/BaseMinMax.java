@@ -6,11 +6,13 @@ import board.Move;
 import board.Piece;
 
 public abstract class BaseMinMax extends BaseRecursiveAI {
+	
 
 	public BaseMinMax(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput, maxDepth);
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
 		counter ++;
