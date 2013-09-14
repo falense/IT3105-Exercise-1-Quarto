@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import players.BasePlayer;
+import players.HumanPlayer;
 import players.ai.CopyOfRandomAI;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
@@ -38,6 +39,8 @@ public class TournamentInterface {
 	private BufferedReader inFromServer;
 	private OutputStream outputStream;
 	private String backUpString;
+	private static BufferedReader br;
+	private static BasePlayer player;
 	
 	//testing new writer
 	PrintWriter printWriter;
@@ -72,14 +75,14 @@ public class TournamentInterface {
 		
 		String innCom;
 		while ((innCom = inFromServer.readLine()) != null){
-			System.out.println(innCom);
+			//System.out.println(innCom);
 			serverCom(innCom);
 		}
 	}
 	
 	public void startTest() throws IOException{
 		//e3
-		System.out.println("init.");
+		//System.out.println("init.");
 	  inFromUser = new BufferedReader( new InputStreamReader(System.in));
 	  clientSocket = new Socket("127.0.0.1", 4455);   
 	  inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -131,7 +134,7 @@ public class TournamentInterface {
 			case 'T':
 				  backUpString = inString;
 				  String testy2 = returnMove(inString);
-				  System.out.println("Sending move to server: " + testy2);
+				  //System.out.println("Sending move to server: " + testy2);
 				  //server doesnt reciece this one.
 				  //outToServer.writeBytes(testy2);    
 				  writeMessage(testy2);
@@ -149,7 +152,7 @@ public class TournamentInterface {
 			case 'G':
 				//printresults or saveresults
 				//disconnect the socket connection and shut down. 
-				System.out.println("Our AI won "+iWin+" times");
+				System.out.println("\n\nOur AI won "+iWin+" times");
 				System.out.println("Their AI won "+youWin+" times");
 				System.out.println("We drew "+draws+" times");
 				inFromUser.close();
@@ -207,7 +210,7 @@ public class TournamentInterface {
 		tempString = inData.split(" ");
 		//ok until here.
 		String testy = moveToString(generateMove(tempString[1]));
-		System.out.println(testy);
+		//System.out.println(testy);
 		return testy;
 	}
 	
@@ -230,14 +233,59 @@ public class TournamentInterface {
 	private String getPlayer(){
 		return this.selectedAI.getName();
 	}
+	
+	public static BasePlayer findPlayer(String in){
+		
+
+		int temp = Integer.parseInt(in);
+		switch (temp){
+		case 1:
+			return new RandomAI(false);
+		case 2:
+			return new NoviceAI(false);
+		case 3:
+			System.out.println("Depth for search: 1-5");
+			System.out.println("Enter depth:");
+			String sIn;
+			try {	
+				sIn = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				sIn = "";
+			}
+			
+			//need exception handling
+			return new MinMaxAI(false,Integer.parseInt(sIn));
+			
+		default:
+			return new NoviceAI(false);
+		}
+	}
 
 	public static void main(String[] args)
     {
-		TournamentInterface t = new TournamentInterface(new MinMaxAI(false,2));
+		
+		br = new BufferedReader(new InputStreamReader(System.in));
+		
+		GM.printTournamentMenu();
+		String temp;
+		try {	
+			temp = br.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			temp = "3";
+		}
+		player = findPlayer(temp);
+		
+		
+		TournamentInterface t = new TournamentInterface(player);
 		System.out.println(t.getPlayer());
 		try {
 			t.run();
 		} catch (IOException e) {
+			System.exit(0);
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

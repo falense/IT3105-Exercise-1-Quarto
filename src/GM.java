@@ -61,7 +61,7 @@ public class GM implements Runnable {
 		if (verboseOutput) System.out.println(msg);
 	}
 	
-	private static void printMenu(int number){
+	public static void printMenu(int number){
 		
 		
 		System.out.println("Select Player " +number+":");
@@ -74,7 +74,20 @@ public class GM implements Runnable {
 
 	}
 	
-	private static BasePlayer findPlayer(String in){
+	public static void printTournamentMenu(){
+		
+		
+		System.out.println("Select Player:");
+		System.out.println("1: Random AI");
+		System.out.println("2: Novice AI");
+		System.out.println("3: MinMax AI");
+		System.out.println("Enter choice:");
+		
+
+	}
+	
+	
+	public static BasePlayer findPlayer(String in){
 		
 
 		int temp = Integer.parseInt(in);
