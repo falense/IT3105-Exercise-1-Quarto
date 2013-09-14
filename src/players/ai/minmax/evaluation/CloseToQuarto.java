@@ -25,6 +25,8 @@ public class CloseToQuarto extends BaseEvaluator {
 					break;
 			}
 		}
+		
+		r = r + (super.valueOfPositions(board)/160);
 		if (r >= 1.0) r = 0.99;
 		if (max)
 			return r;

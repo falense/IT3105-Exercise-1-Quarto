@@ -7,6 +7,8 @@ import board.Piece;
 
 public abstract class BaseEvaluator {
 	
+	int[][] valueOfPositions = { { 3, 2, 2, 3 }, { 2, 3, 3, 2 }, { 2, 3, 3, 2 }, { 3, 2, 2, 3 } };
+	
 	public BaseEvaluator(){
 		
 	}
@@ -80,6 +82,19 @@ public abstract class BaseEvaluator {
 		
 		return outList;
 		
+	}
+	
+	//Adds points if positions that are a part of many winning rows are open. (Should it be taken?)
+	protected double valueOfPositions(BoardState b){
+		int points = 0;
+        for(int x = 0; x <4; x++){
+            for(int y =0; y < 4; y++){
+                if(b.isEmpty(x, y)){
+                	points += valueOfPositions[x][y];
+                }
+            }
+        }
+        return points;
 	}
 
 }
