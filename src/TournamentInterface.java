@@ -72,7 +72,7 @@ public class TournamentInterface {
 		
 		String innCom;
 		while ((innCom = inFromServer.readLine()) != null){
-			System.out.println("Data from server: " + innCom);
+			System.out.println(innCom);
 			serverCom(innCom);
 		}
 	}
@@ -105,6 +105,7 @@ public class TournamentInterface {
 		String[] tempString;
 		tempString = s.split(" ");
 		playerNumber = tempString[1];
+		System.out.println(playerNumber);
 	}
 	
 	
@@ -172,7 +173,7 @@ public class TournamentInterface {
 	private void updateWinners(String s){
 		String[] tempString;
 		tempString = s.split(" ");
-		if (tempString[1]==playerNumber){
+		if (tempString[1].equals(playerNumber)){
 			iWin++;
 		} else if (tempString[1].charAt(0)=='D' || tempString[1].charAt(0)=='d'){
 			draws++;
@@ -184,17 +185,17 @@ public class TournamentInterface {
 	
 	private void updateBoard(String boardUpdate){
 		//BoardUpdate [piece] [row (0-indexed)] [column (0-indexed)]
-		System.out.println("Updating Board with move: "+boardUpdate);
 		String[] tempString;
 		tempString = boardUpdate.split(" ");
 		//Change this if we remove BoardUpdate:
 		board.forceUsePiece(new Piece(tempString[1]), Integer.parseInt(tempString[3]), Integer.parseInt(tempString[2]));
-		board.printRemainingPieces();
+		
 	}
 	
-	private Move generateMove(Piece piece){
-		
-		Move move = selectedAI.getNextMove(this.board.deepCopy(), piece);
+	private Move generateMove(String s){
+		Piece myPiece = board.getPiece(s);
+		board.forceRemovePiece(myPiece);
+		Move move = selectedAI.getNextMove(this.board.deepCopy(), myPiece);
 		
 		return move;
 	}
@@ -204,10 +205,8 @@ public class TournamentInterface {
 	private String returnMove(String inData){
 		String[] tempString;
 		tempString = inData.split(" ");
-		Piece myPiece = new Piece(tempString[1]);
-		board.forceRemovePiece(myPiece);
 		//ok until here.
-		String testy = moveToString(generateMove(myPiece));
+		String testy = moveToString(generateMove(tempString[1]));
 		System.out.println(testy);
 		return testy;
 	}
@@ -234,7 +233,7 @@ public class TournamentInterface {
 
 	public static void main(String[] args)
     {
-		TournamentInterface t = new TournamentInterface(new CopyOfRandomAI(false));
+		TournamentInterface t = new TournamentInterface(new MinMaxAI(false,2));
 		System.out.println(t.getPlayer());
 		try {
 			t.run();

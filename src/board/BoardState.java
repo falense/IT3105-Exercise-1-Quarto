@@ -86,10 +86,10 @@ public class BoardState {
 		//
 		for (int x = 0 ; x < 4 ; x++){
 			for (int y = 0 ; y < 4 ; y++){
-				//Cols
+				//Cols (nedover)
 				returnList[x][y] = board[y][x];
 				
-				//Rows:
+				//Rows: (bortover)
 				returnList[4+x][y] = board[x][y];
 				
 				
@@ -228,8 +228,8 @@ public class BoardState {
 	}
 	
 	public void forceUsePiece(Piece piece, int x, int y){
-		forcePlace(piece,  x,  y);
-		this.remainingPieces.remove(piece);
+		forcePlace(piece,  x,  y);	
+		this.remainingPieces.remove(getPiece(piece.getName()));
 	}
 	
 	public void forceMove(Move move){
@@ -239,7 +239,10 @@ public class BoardState {
 
 	
 	public void forceRemovePiece(Piece piece){
-		this.remainingPieces.remove(piece);
+		if(!remainingPieces.isEmpty()){
+			//System.out.println("Removing piece: "+piece.getName());
+			this.remainingPieces.remove(piece);
+		}
 	}
 	
 	public boolean pickPiece(Piece piece){
@@ -258,6 +261,15 @@ public class BoardState {
 		//think a shallow copy is sufficient here
 		ArrayList<Piece> remList = new ArrayList<Piece>(remainingPieces);	
 		return remList;
+	}
+	
+	public Piece getPiece(String s){
+		for (Piece piece : remainingPieces){
+			if (piece.getName().equals(s))
+				return piece;
+			
+		}
+		return null;
 	}
 	
 	public void printRemainingPieces(){
