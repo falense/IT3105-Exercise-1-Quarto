@@ -6,6 +6,7 @@ import players.ai.RecursiveAI;
 import players.ai.minmax.evaluation.BaseEvaluator;
 import players.ai.minmax.evaluation.CloseToQuarto;
 import players.ai.minmax.evaluation.EvenWinningPieces;
+import players.ai.solving_quarto.StateTransfomers;
 import board.BoardState;
 import board.Move;
 import board.Piece;
@@ -28,10 +29,15 @@ public class MemoMinMaxAI extends RecursiveAI {
 	int WIN = 1000;
 	int LOSS = -1000;
 	int DRAW = 0;
+	StateTransfomers canon = new StateTransfomers();
+	
 
 	private int searchAlphaBeta(BoardState state, final Piece place,int alpha, int beta,final boolean max,final int depth){
 		counter ++;
-		
+		String key = recallState(state, max);
+		if (key != null){
+			return memo.get(key);
+		}
 		if (state.isDraw())
 			return DRAW;
 		if (depth <= 0)
@@ -56,19 +62,25 @@ public class MemoMinMaxAI extends RecursiveAI {
 				if (score >= alpha){
 					alpha = score;
 					if( alpha >= beta)
-						return score;
+						break;
 				}
 			}
 			else{
 				if (score <= beta){
 					beta = score;
 					if (alpha >= beta)
-						return score;
+						break;
 				}
 			}
 		}
-		if (max) return alpha;
-		else return beta;
+		if (max){
+			rememberState(state, max, alpha);
+			return alpha;
+		}
+		else{
+			rememberState(state, max, beta);
+			return beta;
+		}
 	}
 	
 	@Override
@@ -97,17 +109,38 @@ public class MemoMinMaxAI extends RecursiveAI {
 			}
 		}
 		counter = 0;
+		resetMemo();
 		return best;
 	}
 
 	private void resetMemo(){
 		memo.clear();
 	}
-	private BoardState recallState(BoardState state){
+	private String recallState(BoardState state, boolean max){
+		BoardState canonState = canon.canonicalize(state);
+		String key = makeKey(canonState,max);
+		String r = null;
+		if(memo.containsKey(key)){
+			r = key;
+			System.out.println("I REMEMBER THIS!");
+		}
+		return r;
+	}
+	private String makeKey(BoardState state, boolean max){
+		
+		return state.toStringHash() + " " + max;
 		
 	}
 	private void rememberState(BoardState state,boolean max, int value){
-		
+
+		BoardState canonState = canon.canonicalize(state);
+		String key = makeKey(canonState,max);
+		if (memo.containsKey(key)){
+			System.out.println("Key already exists");
+		}
+		else{
+			memo.put(key, value);
+		}
 	}
 	
 		

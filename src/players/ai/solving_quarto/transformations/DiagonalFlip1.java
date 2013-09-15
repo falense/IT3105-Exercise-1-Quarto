@@ -7,7 +7,7 @@ public class DiagonalFlip1 extends Transformation {
 	@Override
 	public BoardState transform(BoardState s) {
 		// TODO Auto-generated method stub
-		return null;
+		return s;
 	}
 
 }

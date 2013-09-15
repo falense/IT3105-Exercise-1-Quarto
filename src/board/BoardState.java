@@ -301,7 +301,7 @@ public class BoardState {
 		return r;
 		
 	}
-	public String toHash(){
+	public String toStringHash(){
 		StringBuilder ss = new StringBuilder();
 		for (int i = 0; i < 4; i++){
 			for (int j = 0; j < 4; j++){
@@ -316,18 +316,7 @@ public class BoardState {
 		}
 		else
 			ss.append(currentPiece.getName());
-		MessageDigest messageDigest = null;
-		try {
-			messageDigest = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		messageDigest.reset();
-		messageDigest.update(ss.toString().getBytes(Charset.forName("UTF8")));
-		final byte[] resultByte = messageDigest.digest();
-		final String result = new String(HexBin.encode(resultByte));
-		return result;
+		return ss.toString();
 		
 		
 		
@@ -346,6 +335,10 @@ public class BoardState {
 		}
 	
 		
+	}
+	
+	public Piece[][] getRawBoard(){
+		return board;
 	}
 	
 
