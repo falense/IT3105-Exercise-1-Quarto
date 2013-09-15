@@ -67,10 +67,8 @@ public class NoviceAI extends BaseAI {
 		}
 		
 		
-		//printMessage("Novice AI: Placing piece " +myMove.getPieceToPlace().getName() +" in slot " +myMove.getX() + " " + myMove.getY() );
-		//printMessage("Novice AI: Giving opponent piece: " +myMove.getPieceToGiveOpponent().getName());
-		//System.out.println("Novice AI: Placing piece " +myMove.getPieceToPlace().getName() +" in slot " +myMove.getX() + " " + myMove.getY() );
-		//System.out.println("Novice AI: Giving opponent piece: " +myMove.getPieceToGiveOpponent().getName());
+		printMessage("Novice AI: Placing piece " +myMove.getPieceToPlace().getName() +" in slot " +myMove.getX() + " " + myMove.getY() );
+		printMessage("Novice AI: Giving opponent piece: " +myMove.getPieceToGiveOpponent().getName());
 		
 		return myMove;
 		
