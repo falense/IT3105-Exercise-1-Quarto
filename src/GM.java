@@ -133,7 +133,7 @@ public class GM implements Runnable {
 		
 		while (!state.isGameOver()){
 			printMessage("************* PLAYER 1 TURN *************");
-			p1move = p1.getNextMove(state, p2move.getPieceToGiveOpponent());
+			p1move = p1.getNextMove(state.deepCopy(), p2move.getPieceToGiveOpponent());
 			r = state.placePiece(p1move.getPieceToPlace(), p1move.getX(),p1move.getY());
 			if (!r){
 				printError(" Player 1s placing of the piece was invalid.");
@@ -162,7 +162,7 @@ public class GM implements Runnable {
 			}
 			sleep(delay);
 			printMessage("************* PLAYER 2 TURN *************");
-			p2move = p2.getNextMove(state, p1move.getPieceToGiveOpponent());
+			p2move = p2.getNextMove(state.deepCopy(), p1move.getPieceToGiveOpponent());
 			r = state.placePiece(p2move.getPieceToPlace(), p2move.getX(),p2move.getY());
 			if (!r){
 				printError(" Player 2s placing of the piece was invalid.");

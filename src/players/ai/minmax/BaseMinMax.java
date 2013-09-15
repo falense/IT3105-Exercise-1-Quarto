@@ -12,113 +12,81 @@ public abstract class BaseMinMax extends BaseRecursiveAI {
 		super(verboseOutput, maxDepth);
 		// TODO Auto-generated constructor stub
 	}
-	
+	int MAX_VALUE = 1000000;
+	int MIN_VALUE = -1000000;
+	int WIN = 1000;
+	int LOSS = -1000;
+	int DRAW = 0;
 
-	private double searchAlphaBeta(BoardState state, final Piece place,double alpha, double beta,final boolean max,final int depth){
+	private int searchAlphaBeta(BoardState state, final Piece place,int alpha, int beta,final boolean max,final int depth){
 		counter ++;
-
-		//System.out.println(alpha + " " + beta);
-		if(state.isQuarto()){
-			if (max) return -1;
-			else return 1;
-		}
+		
 		if (state.isDraw())
-			return 0;
-		if (depth <= 0){
-			return eval.evaluate(state,max);
-		}
-		if (max){
-			alpha = -Double.MAX_VALUE;
-		}
-		else{
-			beta = Double.MAX_VALUE;
-		}
-		Move best = null;
-		double bestScore = 0;
+			return DRAW;
+		if (depth <= 0)
+			return (int)(eval.evaluate(state,max)*1000);
+		
+		if (max)
+			alpha = MIN_VALUE;
+		else
+			beta = MAX_VALUE;
 		for (Move m : BoardState.getAllMoves(state, place)){
 			BoardState newState = state.deepCopy();
-			newState.placePiece(m.getPieceToPlace(), m.getX(),m.getY());
-			newState.pickPiece(m.getPieceToGiveOpponent());
+			newState.forceMove(m);
 			if(newState.isQuarto()){
-
-				if (max) return 1;
-				else return -1;
+				if (max) return WIN;
+				else return LOSS;
 			}
 			if (state.isDraw())
-				return 0;
-			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),alpha,beta,!max,depth-1);
+				return DRAW;
+			int score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),alpha,beta,!max,depth-1);
 			
 			if (max){
-				if (best == null || score > bestScore){
-					bestScore = score;
-					best = m;
+				if (score >= alpha){
 					alpha = score;
-					if(beta < score){
-						//System.out.println("Cutting search, beta: " + beta + " score: " + score);
+					if( alpha >= beta)
 						return score;
-					}
 				}
 			}
 			else{
-				if (best == null || score < bestScore){
-					bestScore = score;
-					best = m;
+				if (score <= beta){
 					beta = score;
-					if (alpha > score){
-						//System.out.println("Cutting search, alpha: " + alpha + " score: " + score);
+					if (alpha >= beta)
 						return score;
-					}
 				}
 			}
 		}
-		return bestScore;
+		if (max) return alpha;
+		else return beta;
 	}
 	
 	@Override
 	public Move getNextMove(BoardState state, Piece place) {
-		
-		if(state.getRemainingPieces().size()>=13){
+		int t = 12 + maxDepth;
+		if (t > 15) t = 15;
+		if(state.getRemainingPieces().size()>(12+maxDepth)){
 			return randomizer.getNextMove(state, place);
 		}
 		if (state.getRemainingPieces().size() == 0){
 			for (int [] coord : state.getOpenSlots())
 			return new Move(place,null,coord[0],coord[1]);
 		}
-		// TODO Auto-generated method stub
 		Move best = null;
-		double bestScore = 0;
-
-		double alpha = -Double.MAX_VALUE;
-		double beta = Double.MAX_VALUE;
+		int alpha = MIN_VALUE;
+		int beta = MAX_VALUE;
 		for (Move m : BoardState.getAllMoves(state, place)){
 			BoardState newState = state.deepCopy();
-			newState.placePiece(place, m.getX(),m.getY());
-			newState.pickPiece(m.getPieceToGiveOpponent());
-			double score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),alpha,beta,false,maxDepth-1);
-			if (best == null || score > bestScore){
-				bestScore = score;
+			newState.forceMove(m);
+			if (newState.isQuarto()) return m;
+			
+			int score = searchAlphaBeta(newState,m.getPieceToGiveOpponent(),alpha,beta,false,maxDepth-1);
+			if (score > alpha){
+				alpha = score;
 				best = m;
-				alpha = bestScore;
 			}
-			//System.out.println(score);
 		}
-		int branchingFactor = state.getRemainingPieces().size();
-		double totalCounter = getBranches(branchingFactor);
-		//System.out.println("Counter " + counter + " of " + (int)totalCounter + "(" + ((double)counter/totalCounter) + ")" );
-	//	if (totalCounter < counter){
-		//	System.out.println(branchingFactor + " " + maxDepth);
-	//}
 		counter = 0;
 		return best;
-	}
-	private double getBranches(double branchingFactor){
-		double r = 1;
-		for (int i = 0; i < maxDepth+1;i++){
-			r = r*branchingFactor*(branchingFactor+1);
-			branchingFactor--;
-		}
-		
-		return r;
 	}
 
 

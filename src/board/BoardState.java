@@ -105,13 +105,20 @@ public class BoardState {
 	
     
     public static ArrayList<Move> getAllMoves(BoardState b, Piece myPiece) {
-        ArrayList<Move> moves = new ArrayList<Move>();;
-                for(int x = 0; x < 4 ; x++)
-                        for(int y = 0; y < 4; y++)
-                                if(b.isEmpty(x, y))
-                                        for(Piece p : b.getRemainingPieces())
-                                                	moves.add(new Move(myPiece, p, x, y));  
-                return moves;
+        ArrayList<Move> moves = new ArrayList<Move>();
+    	//Special case for last move when all pieces are taken but there is still the move to place the last piece on the board
+    	if (b.getRemainingPieces().size() == 0){
+    		for (int [] coord : b.getOpenSlots()){
+
+            	moves.add(new Move(myPiece,null, coord[0], coord[1]));  
+    		}
+    	}
+    	else{
+    		for (int [] coord : b.getOpenSlots())
+                for(Piece p : b.getRemainingPieces())
+                    moves.add(new Move(myPiece, p, coord[0], coord[1]));  
+    	}
+        return moves;
     }
 	
     
@@ -119,8 +126,8 @@ public class BoardState {
 		 ArrayList<int[]> openSlots = new ArrayList<int[]>();
 	        for (int i = 0; i < 4; i++) {
 	            for (int j = 0; j < 4; j++) {
-	                if (isEmpty(j, i)) {
-	                    int[] coords = { j, i };
+	                if (isEmpty(i, j)) {
+	                    int[] coords = { i, j };
 	                    openSlots.add(coords);
 	                }
 	            }
@@ -244,7 +251,6 @@ public class BoardState {
 			this.remainingPieces.remove(piece);
 		}
 	}
-	
 	public boolean pickPiece(Piece piece){
 		if (remainingPieces.isEmpty()) {
 			return true;
@@ -324,6 +330,21 @@ public class BoardState {
 		return result;
 		
 		
+		
+	}
+	public void printBoard(){
+		for (int i = 0; i < 4; i++){
+
+			for (int j = 0; j < 4; j++)
+				if (isEmpty(i,j)){
+					System.out.print("null ");
+				}
+				else{
+				System.out.print(board[i][j].name + " ");
+				}
+			System.out.println();
+		}
+	
 		
 	}
 	
