@@ -1,7 +1,7 @@
 package players.ai.solving_quarto.transformations;
 
-import players.ai.solving_quarto.State;
+import board.BoardState;
 
 public abstract class Transformation {
-	public abstract State transform(State s);
+	public abstract BoardState transform(BoardState s);
 }

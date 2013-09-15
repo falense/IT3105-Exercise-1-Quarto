@@ -6,28 +6,28 @@ import board.Piece;
 public class CloseToQuarto extends BaseEvaluator {
 
 	@Override
-	public double evaluate(BoardState board, boolean max) {
+	public int evaluate(BoardState board, boolean max) {
 		Piece[][] checkList = board.getRowsAndColumns();
-		double r = 0;
+		int r = 0;
 		for (int i = 0 ; i < 10 ; i++){
 			int t = super.rowSameFeatureCount(checkList[i]);
 			switch (t){
 				case 0:
 					break;
 				case 1:
-					r += 0.1*0.1;
+					r += 0;
 					break;
 				case 2:
-					r += 0.1*0.3;
+					r += 50;
 					break;
 				case 3:
-					r += 0.1;
+					r += 500;
 					break;
 			}
 		}
 		
-		r = r + (super.valueOfPositions(board)/160);
-		if (r >= 1.0) r = 0.99;
+		//r = r + (super.valueOfPositions(board)/160);
+		if (r >= 1000) r = 999;
 		if (max)
 			return r;
 		else

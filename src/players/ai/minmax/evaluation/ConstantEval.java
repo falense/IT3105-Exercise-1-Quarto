@@ -6,7 +6,7 @@ import board.Piece;
 public class ConstantEval extends BaseEvaluator {
 
 	@Override
-	public double evaluate(BoardState board, boolean max) {
+	public int evaluate(BoardState board, boolean max) {
 
 			return 0;
 	

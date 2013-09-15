@@ -12,7 +12,7 @@ public abstract class BaseEvaluator {
 	public BaseEvaluator(){
 		
 	}
-	public abstract double evaluate(BoardState board, boolean max);
+	public abstract int evaluate(BoardState board, boolean max);
 	
 	protected int rowSameFeatureCount(Piece[] row){
 		int features[] = new int[4];

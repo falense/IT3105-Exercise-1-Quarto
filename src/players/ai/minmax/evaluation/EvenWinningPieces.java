@@ -7,12 +7,12 @@ import board.Piece;
 
 public class EvenWinningPieces extends BaseEvaluator{
 	
-	double r = 0;
+	int r = 0;
 
 	@Override
 	
 	//this is waaayyy to slow
-	public double evaluate(BoardState board, boolean max) {
+	public int evaluate(BoardState board, boolean max) {
 		
 		
 		r = 0;
@@ -23,7 +23,7 @@ public class EvenWinningPieces extends BaseEvaluator{
 			
 			//If even number of winning pieces are left:
 			if (dif%2==0){ 
-				r = 0.7;
+				r = 700;
 			}
 		}
 		

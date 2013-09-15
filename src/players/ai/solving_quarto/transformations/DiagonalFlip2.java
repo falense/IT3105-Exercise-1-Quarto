@@ -2,7 +2,7 @@ package players.ai.solving_quarto.transformations;
 
 import board.BoardState;
 
-public class Rotate270  extends Transformation{
+public class DiagonalFlip2 extends Transformation {
 
 	@Override
 	public BoardState transform(BoardState s) {

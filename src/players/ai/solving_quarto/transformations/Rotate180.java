@@ -1,11 +1,11 @@
 package players.ai.solving_quarto.transformations;
 
-import players.ai.solving_quarto.State;
+import board.BoardState;
 
 public class Rotate180 extends Transformation {
 
 	@Override
-	public State transform(State s) {
+	public BoardState transform(BoardState s) {
 		// TODO Auto-generated method stub
 		return null;
 	}

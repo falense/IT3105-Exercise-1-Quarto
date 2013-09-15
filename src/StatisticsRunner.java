@@ -50,7 +50,7 @@ public class StatisticsRunner {
 			totalScore[j] += 0;
 		}
 		for (int i = 0; i < batchesOfMatches+1; i++){
-			System.out.println("Complete " + (((double)matchCount*100)/((double)numMatches)) + "%");
+			System.out.println("Complete " + Math.round((((double)matchCount*100)/((double)numMatches))) + "%");
 			int []r;
 			int matchesToPlay = min(batchSize,numMatches-matchCount);
 			if (i%2 == 0){
@@ -70,9 +70,9 @@ public class StatisticsRunner {
 		}
 		System.out.println(matchCount + " games was played, the results are:");
 
-		System.out.println(p1.getName() + " won: " + totalScore[1]);
-		System.out.println(p2.getName() + " won: " + totalScore[2]);
-		System.out.println("Draws: " + totalScore[0] + "\n" );
+		System.out.println(p1.getName() + " won: " + totalScore[1] + " (" + Math.round((double)(totalScore[1]*100)/matchCount) + "%)");
+		System.out.println(p2.getName() + " won: " + totalScore[2] + " (" + Math.round((double)(totalScore[2]*100)/matchCount) + "%)");
+		System.out.println("Draws: " + totalScore[0] + " (" + Math.round((double)(totalScore[0]*100)/matchCount) + "%)");
 	}
 	private int min(int x, int y) {
 		// TODO Auto-generated method stub
@@ -81,7 +81,7 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,1),new RandomAI(false), 99);
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new MinMaxAI2(false,2), 1000);
 		s2.run();
 	}
 }
