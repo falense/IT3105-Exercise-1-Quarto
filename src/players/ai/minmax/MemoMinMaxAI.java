@@ -14,7 +14,7 @@ import board.Piece;
 public class MemoMinMaxAI extends RecursiveAI {
 
 	final String name = MemoMinMaxAI.class.getName();
-	HashMap<String, Integer> memo = new HashMap<>();
+	HashMap<String, Integer> memo = new HashMap<String,Integer>();
 	public  MemoMinMaxAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput,maxDepth);
 		eval = new CloseToQuarto();
@@ -36,12 +36,18 @@ public class MemoMinMaxAI extends RecursiveAI {
 		counter ++;
 		String key = recallState(state, max);
 		if (key != null){
-			return memo.get(key);
+				if ( memo.get(key) == null){
+					System.out.println("Memo get was null");
+					return DRAW;
+				}
+				else{
+					return memo.get(key);
+				}
 		}
 		if (state.isDraw())
 			return DRAW;
 		if (depth <= 0)
-			return (int)(eval.evaluate(state,max)*1000);
+			return eval.evaluate(state,max);
 		
 		if (max)
 			alpha = MIN_VALUE;
@@ -114,15 +120,16 @@ public class MemoMinMaxAI extends RecursiveAI {
 	}
 
 	private void resetMemo(){
-		memo.clear();
+		memo = new HashMap<String,Integer>();
 	}
 	private String recallState(BoardState state, boolean max){
 		BoardState canonState = canon.canonicalize(state);
 		String key = makeKey(canonState,max);
 		String r = null;
 		if(memo.containsKey(key)){
-			r = key;
-			System.out.println("I REMEMBER THIS!");
+			if (memo.get(key) != null)
+				r = key;
+			//System.out.println("I REMEMBER THIS!");
 		}
 		return r;
 	}
@@ -138,8 +145,14 @@ public class MemoMinMaxAI extends RecursiveAI {
 		if (memo.containsKey(key)){
 			System.out.println("Key already exists");
 		}
-		else{
-			memo.put(key, value);
+		Integer i = value;
+		memo.put(key, i);
+		memo.put(key, i);
+		memo.put(key, i);
+		memo.put(key, i);
+		if (memo.get(key) == null){
+			System.out.println("Somewhere something went terribly wrong");
+			System.out.println(key + " " + value);
 		}
 	}
 	

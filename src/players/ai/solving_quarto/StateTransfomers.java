@@ -21,7 +21,7 @@ public class StateTransfomers {
 	
 	
 	
-	private Transformation transforms[] = {HFLIP,VFLIP,DFLIP1,DFLIP2,R180,R270,R90};
+	private Transformation transforms[] = {HFLIP,VFLIP};//,DFLIP1,DFLIP2,R180,R270,R90};
 	public BoardState canonicalize(BoardState state){
 		BoardState best = null;
 		int bestScore = 0;

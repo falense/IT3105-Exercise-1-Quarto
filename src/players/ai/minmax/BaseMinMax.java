@@ -24,7 +24,7 @@ public abstract class BaseMinMax extends BaseRecursiveAI {
 		if (state.isDraw())
 			return DRAW;
 		if (depth <= 0)
-			return (int)(eval.evaluate(state,max)*1000);
+			return eval.evaluate(state,max);
 		
 		if (max)
 			alpha = MIN_VALUE;

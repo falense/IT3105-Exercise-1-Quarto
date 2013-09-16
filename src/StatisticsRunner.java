@@ -1,9 +1,11 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import players.BasePlayer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.RecursiveAI;
+import players.ai.minmax.MemoMinMaxAI;
 import players.ai.minmax.MinMaxAI;
 import players.ai.minmax.MinMaxAI2;
 
@@ -81,7 +83,8 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new MinMaxAI2(false,2), 1000);
+		HashMap<String, Integer > t = new HashMap<String,Integer>();
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new MemoMinMaxAI(false,3), 200);
 		s2.run();
 	}
 }
