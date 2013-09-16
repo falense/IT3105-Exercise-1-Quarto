@@ -103,6 +103,7 @@ public abstract class BaseEvaluator {
 	private int rateRow(Piece[] row, ArrayList<Piece> remaining) {
 		int rowSize = 0;
 		int numberOfMatches = 0;
+		int matchingPieces = 0;
 		int[] featuresRows = { 0, 0, 0, 0, 0, 0, 0, 0 };
 		int[] featuresRemPieces = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -156,8 +157,13 @@ public abstract class BaseEvaluator {
 		}
 
 		for (int i = 0; i < featuresRemPieces.length; i++) {
-				if (rowSize == featuresRows[i])
+			
+				if (rowSize == 3 && featuresRows[i] == 3 && featuresRemPieces[i] == remaining.size()){
+					return 0;
+				} else if (rowSize == featuresRows[i]){
 				numberOfMatches++;
+				matchingPieces += featuresRemPieces[i];
+				}
 		}
 
 		if (rowSize == 0)
@@ -168,21 +174,33 @@ public abstract class BaseEvaluator {
 
 		} else if (rowSize == 2) {
 			if (numberOfMatches == 1)
-				return 10;
+				//return 10;
+				return 10+matchingPieces;
+				//return matchingPieces;
 			else if (numberOfMatches == 2)
-				return 20;
+				//return 20;
+				return 20+2*matchingPieces;
+				//return 4*matchingPieces;
 			else if (numberOfMatches == 3)
-				return 30;
+				//return 30;
+				return 30+4*matchingPieces;
+				//return 8*matchingPieces;
 			else
 				return -1;
 		} else if (rowSize == 3) {
 			//here we can/much tweak values
 			if (numberOfMatches == 1)
-				return 50;
+				//return 50;
+				return 50+matchingPieces;
+				//return 10*matchingPieces;
 			else if (numberOfMatches == 2)
-				return 100;
+				//return 100;
+				return 100+2*matchingPieces;
+				//return 20*matchingPieces;
 			else if (numberOfMatches == 3)
-				return 200;
+				//return 200;
+				return 200+4*matchingPieces;
+				//return 40*matchingPieces;
 			else
 				return 0;
 		} else

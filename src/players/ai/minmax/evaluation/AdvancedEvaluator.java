@@ -14,7 +14,10 @@ public class AdvancedEvaluator extends BaseEvaluator {
 		int r = super.getBoardValue(board);
 		r = r + 4*(super.valueOfPositions(board));
 		
-		if (r >= 1000) r = 999;
+		if (r >= 1000){
+			r = 999;
+			System.out.println("r too high");
+		}
 		
 		if (max){
 			//System.out.println(r);
