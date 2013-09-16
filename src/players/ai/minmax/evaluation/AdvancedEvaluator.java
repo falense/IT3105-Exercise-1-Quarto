@@ -16,7 +16,7 @@ public class AdvancedEvaluator extends BaseEvaluator {
 		
 		if (r >= 1000){
 			r = 999;
-			System.out.println("r too high");
+			//System.out.println("r too high");
 		}
 		
 		if (max){

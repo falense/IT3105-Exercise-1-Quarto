@@ -165,6 +165,9 @@ public abstract class BaseEvaluator {
 				matchingPieces += featuresRemPieces[i];
 				}
 		}
+		
+		if (rowSize==4 && numberOfMatches == 1 )
+			return 1000;
 
 		if (rowSize == 0)
 			return 0;
@@ -191,16 +194,12 @@ public abstract class BaseEvaluator {
 			//here we can/much tweak values
 			if (numberOfMatches == 1)
 				//return 50;
-				return 50+matchingPieces;
+				return 100+2*matchingPieces;
 				//return 10*matchingPieces;
 			else if (numberOfMatches == 2)
 				//return 100;
-				return 100+2*matchingPieces;
-				//return 20*matchingPieces;
-			else if (numberOfMatches == 3)
-				//return 200;
 				return 200+4*matchingPieces;
-				//return 40*matchingPieces;
+				//return 20*matchingPieces;
 			else
 				return 0;
 		} else

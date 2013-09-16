@@ -83,7 +83,7 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new MinMaxAI2(false,2), 200);
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new MinMaxAI(false,4), 20);
 		s2.run();
 	}
 }
