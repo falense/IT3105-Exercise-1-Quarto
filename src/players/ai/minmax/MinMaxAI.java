@@ -1,5 +1,6 @@
 package players.ai.minmax;
 
+import players.ai.minmax.evaluation.AdvancedEvaluator;
 import players.ai.minmax.evaluation.BaseEvaluator;
 import players.ai.minmax.evaluation.CloseToQuarto;
 import players.ai.minmax.evaluation.EvenWinningPieces;
@@ -13,7 +14,7 @@ public class MinMaxAI extends BaseMinMax {
 
 	public  MinMaxAI(boolean verboseOutput, int maxDepth) {
 		super(verboseOutput,maxDepth);
-		eval = new CloseToQuarto();
+		eval = new AdvancedEvaluator();
 	}
 
 	@Override
