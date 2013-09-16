@@ -83,7 +83,6 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		HashMap<String, Integer > t = new HashMap<String,Integer>();
 		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,2),new MemoMinMaxAI(false,3), 200);
 		s2.run();
 	}
