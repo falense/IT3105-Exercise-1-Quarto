@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 import players.BasePlayer;
+import players.ai.NoviceAI;
 import players.ai.minmax.MinMaxAI;
 
 
@@ -77,7 +78,9 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
-		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new MinMaxAI(false,2), 10);
+
+		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new NoviceAI(false), 10);
+
 		s2.run();
 	}
 }

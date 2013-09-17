@@ -150,7 +150,11 @@ public class TournamentInterface {
 				writeMessage(returnMove(backUpString));
 				break;
 			case 'R':
-				newRound = true;
+				String[] tempString;
+				tempString = inString.split(" ");
+				if(tempString[2].equals(playerNumber))
+					newRound = true;
+				
 				board = new BoardState();
 				
 				break;
