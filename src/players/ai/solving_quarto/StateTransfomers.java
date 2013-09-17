@@ -1,9 +1,6 @@
 package players.ai.solving_quarto;
 
 import players.ai.solving_quarto.transformations.HorisontalFlip;
-import players.ai.solving_quarto.transformations.Rotate180;
-import players.ai.solving_quarto.transformations.Rotate270;
-import players.ai.solving_quarto.transformations.Rotate90;
 import players.ai.solving_quarto.transformations.Transformation;
 import players.ai.solving_quarto.transformations.VerticalFlip;
 import board.BoardState;
@@ -12,11 +9,11 @@ public class StateTransfomers {
 
 	private Transformation HFLIP = new HorisontalFlip();
 	private Transformation VFLIP = new VerticalFlip();
-	private Transformation DFLIP1 = new VerticalFlip();
+	/*private Transformation DFLIP1 = new VerticalFlip();
 	private Transformation DFLIP2 = new VerticalFlip();
 	private Transformation R180 = new Rotate180();
 	private Transformation R270 = new Rotate270();
-	private Transformation R90 = new Rotate90();
+	private Transformation R90 = new Rotate90();*/
 	
 	
 	

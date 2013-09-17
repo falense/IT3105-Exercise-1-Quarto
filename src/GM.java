@@ -2,14 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Random;
 
 import players.BasePlayer;
 import players.HumanPlayer;
 //import players.ai.AlphaBetaTrainer;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
-import players.ai.RecursiveAI;
 import players.ai.minmax.MinMaxAI;
 import board.BoardState;
 import board.Move;
@@ -121,10 +119,8 @@ public class GM implements Runnable {
 	public void run(){
 
 		ArrayList<Piece> p = state.getRemainingPieces();
-		Random rand = new Random(System.currentTimeMillis());
-		Piece randomPiece = p.get(0);//rand.nextInt(16));
+		Piece randomPiece = p.get(0);
 		state.pickPiece(randomPiece);
-		ArrayList<BoardState> sequence = new ArrayList<BoardState>();
 				
 		Move p1move  = new Move(null,null,-1,-1);
 		Move p2move = new Move(null,randomPiece,-1,-1);

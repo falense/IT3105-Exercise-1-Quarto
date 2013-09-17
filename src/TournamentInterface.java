@@ -11,8 +11,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import players.BasePlayer;
-import players.HumanPlayer;
-import players.ai.CopyOfRandomAI;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.minmax.MinMaxAI;

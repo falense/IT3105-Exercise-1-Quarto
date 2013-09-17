@@ -1,4 +1,3 @@
-import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
@@ -7,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,14 +13,11 @@ import javax.swing.JPanel;
 
 import board.BoardState;
 import board.Piece;
-import board.StaticPieces;
 
 
 public class BoardGUI {
 	private JFrame frame;
 	private JPanel boardPanel;
-	private JPanel remainingPanel;
-	private JPanel currentStatus;
 	public void cleanup(){
 		frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 	}

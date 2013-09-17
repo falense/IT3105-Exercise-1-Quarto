@@ -1,7 +1,5 @@
 package players.ai.minmax;
 
-import players.ai.minmax.evaluation.BaseEvaluator;
-import players.ai.minmax.evaluation.CloseToQuarto;
 //import players.ai.minmax.evaluation.ConstantEval;
 import players.ai.minmax.evaluation.ConstantEval;
 

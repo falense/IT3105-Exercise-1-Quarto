@@ -1,7 +1,6 @@
 package players.ai.minmax.evaluation;
 
 import board.BoardState;
-import board.Piece;
 
 public class ConstantEval extends BaseEvaluator {
 

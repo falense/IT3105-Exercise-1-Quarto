@@ -1,7 +1,5 @@
 package players.ai;
 
-import java.util.ArrayList;
-
 import board.BoardState;
 import board.Move;
 import board.Piece;

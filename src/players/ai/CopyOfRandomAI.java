@@ -2,7 +2,6 @@ package players.ai;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 import board.BoardState;
 import board.Move;
@@ -20,17 +19,11 @@ public class CopyOfRandomAI extends BaseAI {
 	public Move getNextMove(BoardState b, Piece place) {
 		b.forceRemovePiece(place);
 		
-		Random r = new Random(System.currentTimeMillis());
-		
-		
 		ArrayList<Move> myMoves = BoardState.getAllMoves(b, place);
 		
 		Collections.shuffle(myMoves);
 		
 		return myMoves.get(0);
-		
-		
-
 	}
 	@Override
 	public String getName() {
