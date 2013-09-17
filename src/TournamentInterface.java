@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Random;
 
 import players.BasePlayer;
 import players.ai.NoviceAI;
@@ -38,6 +40,8 @@ public class TournamentInterface {
 	private String backUpString;
 	private static BufferedReader br;
 	private static BasePlayer player;
+	private boolean newRound = false;
+	Random r = new Random(System.currentTimeMillis());
 	
 	//testing new writer
 	PrintWriter printWriter;
@@ -72,7 +76,7 @@ public class TournamentInterface {
 		
 		String innCom;
 		while ((innCom = inFromServer.readLine()) != null){
-			//System.out.println(innCom);
+			System.out.println(innCom);
 			serverCom(innCom);
 		}
 	}
@@ -130,16 +134,23 @@ public class TournamentInterface {
 				break;
 			case 'T':
 				  backUpString = inString;
-				  String testy2 = returnMove(inString);
-				  //System.out.println("Sending move to server: " + testy2);
-				  //server doesnt reciece this one.
-				  //outToServer.writeBytes(testy2);    
-				  writeMessage(testy2);
+				  if(newRound){
+					  String sMove = "Move 0 0 " +returnJustPiece() ;
+					  writeMessage(sMove);
+					  newRound = false;
+				  } else {
+					  String testy2 = returnMove(inString);
+					  //System.out.println("Sending move to server: " + testy2);
+					  //server doesnt reciece this one.
+					  //outToServer.writeBytes(testy2);    
+					  writeMessage(testy2);
+				  }
 				break;
 			case 'I':
 				writeMessage(returnMove(backUpString));
 				break;
 			case 'R':
+				newRound = true;
 				board = new BoardState();
 				
 				break;
@@ -198,6 +209,12 @@ public class TournamentInterface {
 		Move move = selectedAI.getNextMove(this.board.deepCopy(), myPiece);
 		
 		return move;
+	}
+	
+	private String returnJustPiece(){
+		ArrayList<Piece> remaining = board.getRemainingPieces();
+		Piece place = remaining.get(r.nextInt(remaining.size()));
+		return place.getName();
 	}
 	
 	//When a client has to do a turn, it receives:

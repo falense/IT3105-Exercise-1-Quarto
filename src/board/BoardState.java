@@ -230,13 +230,18 @@ public class BoardState {
 	}
 	
 	public void forceUsePiece(Piece piece, int x, int y){
-		forcePlace(piece,  x,  y);	
-		this.remainingPieces.remove(getPiece(piece.getName()));
+		forcePlace(piece,  x,  y);
+		String name = piece.getName();
+		Piece tempPiece = getPiece(name);
+		this.remainingPieces.remove(tempPiece);
 	}
 	
 	public void forceMove(Move move){
 		forceRemovePiece(move.getPieceToGiveOpponent());
-		forceUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
+		if (move.getPieceToPlace()==null){
+			forceUsePiece(null,move.getX(),move.getY());	
+		}	else
+			forceUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
 	}
 
 	public void forceRemovePiece(Piece piece){
