@@ -1,13 +1,8 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import players.BasePlayer;
 import players.ai.NoviceAI;
-import players.ai.RandomAI;
-import players.ai.RecursiveAI;
-import players.ai.minmax.MemoMinMaxAI;
 import players.ai.minmax.MinMaxAI;
-import players.ai.minmax.MinMaxAI2;
 
 
 public class StatisticsRunner {
@@ -83,7 +78,9 @@ public class StatisticsRunner {
 	}
 	public static void main(String[] args)
     {
+
 		StatisticsRunner s2 = new StatisticsRunner( new MinMaxAI(false,3),new NoviceAI(false), 10);
+
 		s2.run();
 	}
 }

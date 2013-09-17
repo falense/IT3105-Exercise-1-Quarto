@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import players.BasePlayer;
-import players.HumanPlayer;
-import players.ai.CopyOfRandomAI;
 import players.ai.NoviceAI;
 import players.ai.RandomAI;
 import players.ai.minmax.MinMaxAI;
@@ -27,7 +25,6 @@ import board.Piece;
 
 
 public class TournamentInterface {
-	
 	private BasePlayer selectedAI;
 	private String playerNumber;
 	private int iWin = 0;
@@ -79,7 +76,7 @@ public class TournamentInterface {
 		
 		String innCom;
 		while ((innCom = inFromServer.readLine()) != null){
-			System.out.println(innCom);
+			//System.out.println(innCom);
 			serverCom(innCom);
 		}
 	}

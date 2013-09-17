@@ -3,9 +3,7 @@ package players.ai.minmax;
 import java.util.HashMap;
 
 import players.ai.RecursiveAI;
-import players.ai.minmax.evaluation.BaseEvaluator;
 import players.ai.minmax.evaluation.CloseToQuarto;
-import players.ai.minmax.evaluation.EvenWinningPieces;
 import players.ai.solving_quarto.StateTransfomers;
 import board.BoardState;
 import board.Move;

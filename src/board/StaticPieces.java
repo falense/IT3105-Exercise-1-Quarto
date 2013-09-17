@@ -1,6 +1,5 @@
 package board;
 
-import java.util.List;
 
 public final class StaticPieces {
 	public static final Piece RLSN = new Piece("RLSN");

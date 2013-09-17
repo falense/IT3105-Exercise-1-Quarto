@@ -1,12 +1,6 @@
 package players.ai.minmax;
 
 import players.ai.minmax.evaluation.AdvancedEvaluator;
-import players.ai.minmax.evaluation.BaseEvaluator;
-import players.ai.minmax.evaluation.CloseToQuarto;
-import players.ai.minmax.evaluation.EvenWinningPieces;
-import board.BoardState;
-import board.Move;
-import board.Piece;
 
 public class MinMaxAI extends BaseMinMax {
 

@@ -1,10 +1,5 @@
 package board;
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 
 
 public class BoardState {
@@ -249,7 +244,6 @@ public class BoardState {
 			forceUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
 	}
 
-	
 	public void forceRemovePiece(Piece piece){
 		if(!remainingPieces.isEmpty()){
 			//System.out.println("Removing piece: "+piece.getName());

@@ -33,7 +33,7 @@ public class NoviceAI extends BaseAI {
 			
 		Random r = new Random(System.currentTimeMillis());
 		
-		ArrayList<Move> myMoves = b.getAllMoves(b, place);
+		ArrayList<Move> myMoves = BoardState.getAllMoves(b, place);
 		ArrayList<Move> goodMoves = new ArrayList<Move>();
 		
 		

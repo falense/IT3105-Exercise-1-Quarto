@@ -1,9 +1,6 @@
 package players.ai.minmax.evaluation;
 
-import java.util.ArrayList;
-
 import board.BoardState;
-import board.Piece;
 
 public class AdvancedEvaluator extends BaseEvaluator {
 
