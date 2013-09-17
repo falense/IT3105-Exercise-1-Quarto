@@ -239,7 +239,6 @@ public class BoardState {
 		forceUsePiece(move.getPieceToPlace(),move.getX(),move.getY());	
 	}
 
-	
 	public void forceRemovePiece(Piece piece){
 		if(!remainingPieces.isEmpty()){
 			//System.out.println("Removing piece: "+piece.getName());

@@ -23,7 +23,6 @@ import board.Piece;
 
 
 public class TournamentInterface {
-	
 	private BasePlayer selectedAI;
 	private String playerNumber;
 	private int iWin = 0;
