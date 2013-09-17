@@ -76,7 +76,7 @@ public class TournamentInterface {
 		
 		String innCom;
 		while ((innCom = inFromServer.readLine()) != null){
-			System.out.println(innCom);
+			//System.out.println(innCom);
 			serverCom(innCom);
 		}
 	}
@@ -85,7 +85,7 @@ public class TournamentInterface {
 		//e3
 		//System.out.println("init.");
 	  inFromUser = new BufferedReader( new InputStreamReader(System.in));
-	  clientSocket = new Socket("127.0.0.1", 4455);   
+	  clientSocket = new Socket("127.0.0.1", 4455);   //new Socket("127.0.0.1", 4455);   
 	  inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 	  outToServer = new DataOutputStream(clientSocket.getOutputStream());   
 	  
