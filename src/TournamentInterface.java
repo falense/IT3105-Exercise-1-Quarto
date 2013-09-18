@@ -236,8 +236,15 @@ public class TournamentInterface {
 	//Move [placed piece at row (0-indexed)] [placed piece at column (0-indexed)] [piece chosen for opponent]	
 	private String moveToString(Move move){
 		
-		String sMove = "Move "+Integer.toString(move.getY())+" "+Integer.toString(move.getX())+
+		String sMove;
+		
+		if (move.getPieceToGiveOpponent()==null){
+			sMove = "Move "+Integer.toString(move.getY())+" "+Integer.toString(move.getX())+
+					" null";
+		} else {
+		sMove = "Move "+Integer.toString(move.getY())+" "+Integer.toString(move.getX())+
 				" "+ move.getPieceToGiveOpponent().getName();
+		}
 		/*
 		sMove.concat("Move ");
 		sMove.concat(Integer.toString(move.getY()));
