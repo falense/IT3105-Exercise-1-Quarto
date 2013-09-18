@@ -160,6 +160,7 @@ public class TournamentInterface {
 				break;
 			case 'W':
 				updateWinners(inString);
+				System.out.println("Our success : " + Math.round((double) 100 *iWin) /(iWin+youWin+draws) + " %");
 				break;
 			case 'G':
 				//printresults or saveresults
