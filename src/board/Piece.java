@@ -60,11 +60,11 @@ public class Piece {
 		BufferedImage pict = null;
 		try {
 			pict = ImageIO.read(new File("./Resources/" + filename));
+			return new ImageIcon(pict);
 		} catch (IOException e) {
 			e.printStackTrace();
-			pict = null;
+			return  null;
 		}
-		return new ImageIcon(pict);
 	}
 	
 	//unused so far
